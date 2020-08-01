@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Header, Left, Title, Tab, Tabs, TabHeading, Text, Right, Button, Icon } from 'native-base';
 import { View, TouchableOpacity } from 'react-native';
 import { Tooltip } from 'react-native-elements';
+import Categories from '../Categories/Categories/';
 
 const Home = () => {
     const tooltipRef = React.createRef();
@@ -25,13 +26,13 @@ const Home = () => {
                                 <View>
                                     <TouchableOpacity
                                         style={{ marginVertical: 5 }}
-                                        onPress={() => { this.tooltipRef.current.toggleTooltip(); }}
+                                        onPress={() => tooltipRef.current.toggleTooltip()}
                                     >
                                         <Text>My Account</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         style={{ marginVertical: 5 }}
-                                        onPress={() => { this.tooltipRef.current.toggleTooltip(); }}
+                                        onPress={() => tooltipRef.current.toggleTooltip()}
                                     >
                                         <Text>Settings</Text>
                                     </TouchableOpacity>
@@ -53,6 +54,7 @@ const Home = () => {
                         <Text> Categories</Text>
                     </TabHeading>
                 }>
+                    <Categories />
                 </Tab>
                 <Tab heading={
                     <TabHeading>
