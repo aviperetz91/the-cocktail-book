@@ -4,7 +4,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 import Categories from '../Categories/Categories/';
 
-const Home = () => {
+const Home = props => {
     const tooltipRef = React.createRef();
 
     return (
@@ -54,7 +54,7 @@ const Home = () => {
                         <Text> Categories</Text>
                     </TabHeading>
                 }>
-                    <Categories />
+                    <Categories navigation={props.navigation}/>
                 </Tab>
                 <Tab heading={
                     <TabHeading>

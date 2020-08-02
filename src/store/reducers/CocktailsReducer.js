@@ -1,4 +1,4 @@
-import { SET_CATEGORIES } from '../actions/CocktailsActions';
+import { SET_CATEGORIES, SET_CATEGORY_COCKTAILS } from '../actions/CocktailsActions';
 
 const initialState = {
     categories: [],
@@ -12,6 +12,12 @@ const CocktailsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories: categories
+            }
+        case SET_CATEGORY_COCKTAILS: 
+            const cocktails = action.cocktails;
+            return {
+                ...state,
+                cocktails: cocktails
             }
         default:
             return state

@@ -26,13 +26,12 @@ const Categories = props => {
         return (
             <ScrollView>
                 {categories.map((category, index) => {
-                    console.log(category)
                     return (
                         <CategoryItem
                             key={index}
                             title={category}
                             image={categoriesImages[index]}
-                            onSelect={() => console.log(`${category} selected!`)}
+                            onSelect={() => props.navigation.navigate("CategoryCocktails", { title: category })}                        
                         />
                     )
                 })}
