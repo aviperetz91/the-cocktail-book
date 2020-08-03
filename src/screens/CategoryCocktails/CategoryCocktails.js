@@ -9,6 +9,7 @@ const CategoryCocktails = props => {
 
     const categoryTitle = props.route.params.title;
     const categoryCocktails = useSelector(state => state.cocktails.cocktails)
+    const navigation = props.navigation;
 
     const dispatch = useDispatch();
 
@@ -27,7 +28,7 @@ const CategoryCocktails = props => {
             <Fragment>
                 <Header>
                     <Left>
-                        <Button transparent onPress={() => props.navigation.goBack()}>
+                        <Button transparent onPress={() => navigation.goBack()}>
                             <Icon name='arrow-back' />
                         </Button>
                     </Left>
@@ -44,13 +45,16 @@ const CategoryCocktails = props => {
                         <CocktailBox
                             title={cocktail.item.strDrink}
                             image={cocktail.item.strDrinkThumb}
-                            onSelect={() => console.log(`${cocktail.item.strDrink} Selected!`)}
+                            onSelect={() => navigation.navigate('CocktailDetails', {
+                                id: cocktail.item.idDrink,
+                                name: cocktail.item.strDrink
+                            })}
                         />
                     )}
                 />
             </Fragment>
         )
-    }
+    } 
 }
 
 

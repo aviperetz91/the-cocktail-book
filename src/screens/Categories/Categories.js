@@ -8,6 +8,7 @@ import CategoryItem from '../../components/CategoryItem/CategoryItem';
 
 const Categories = props => {
 
+    const navigation = props.navigation;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const Categories = props => {
                             key={index}
                             title={category}
                             image={categoriesImages[index]}
-                            onSelect={() => props.navigation.navigate("CategoryCocktails", { title: category })}                        
+                            onSelect={() => navigation.navigate("CategoryCocktails", { title: category })}                        
                         />
                     )
                 })}
