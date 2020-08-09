@@ -3,6 +3,7 @@ import { Container, Header, Left, Title, Tab, Tabs, TabHeading, Text, Right, But
 import { View, TouchableOpacity } from 'react-native';
 import { Tooltip } from 'react-native-elements';
 import Categories from '../Categories/Categories/';
+import Filters from '../Filters/Filters';
 
 const Home = props => {
     const tooltipRef = React.createRef();
@@ -62,13 +63,14 @@ const Home = props => {
                         <Text> Filters</Text>
                     </TabHeading>
                 }>
+                     <Filters navigation={props.navigation}/>
                 </Tab>
                 <Tab heading={
                     <TabHeading>
                         <Icon type={'FontAwesome'} name={'star'} color={"white"} style={{ fontSize: 18 }} />
                         <Text> Favorites</Text>
                     </TabHeading>
-                }>
+                }>                   
                 </Tab>
             </Tabs>
         </Container>

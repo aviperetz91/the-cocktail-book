@@ -61,9 +61,6 @@ const CocktailDetails = props => {
                         </DarkenImg>
                     </ImageBackground>
                     <View style={styles.container}>
-                        <View header style={styles.subTitleContainer}>
-                            <Text style={styles.subTitle}>Ingredients</Text>
-                        </View>
                         <List>{ingredientAndMeasure}</List>
                         <View header style={styles.subTitleContainer}>
                             <Text style={styles.subTitle}>Instructions</Text>

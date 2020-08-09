@@ -1,9 +1,20 @@
-import { SET_CATEGORIES, SET_CATEGORY_COCKTAILS, SET_COCKTAIL_DETAILS } from '../actions/CocktailsActions';
+import { 
+    SET_CATEGORIES, 
+    SET_CATEGORY_COCKTAILS, 
+    SET_COCKTAIL_DETAILS,
+    SET_INGREDIENT_LIST,
+    SET_GLASS_LIST,
+    SET_ALCOHOLIC_LIST 
+} from '../actions/CocktailsActions';
 
 const initialState = {
     categories: [],
     cocktails: [],
-    selectedCocktail: {}
+    selectedCocktail: {},
+
+    ingredientList: [],
+    glassList: [],
+    alcoholicList: []
 }
 
 const CocktailsReducer = (state = initialState, action) => {
@@ -19,13 +30,28 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 cocktails: action.cocktails
             }
-        case SET_COCKTAIL_DETAILS: 
+        case SET_COCKTAIL_DETAILS:
             const ingredientList = makeIngredientsArray(action.selectedCocktail);
             const measureList = makeMeasureArray(action.selectedCocktail);
             const upgradeSelectedCocktail = extendCocktailObject(action.selectedCocktail, ingredientList, measureList);
             return {
                 ...state,
                 selectedCocktail: upgradeSelectedCocktail
+            }
+        case SET_INGREDIENT_LIST:
+            return {
+                ...state,
+                ingredientList: action.ingredientList
+            }
+        case SET_GLASS_LIST:
+            return {
+                ...state,
+                glassList: action.glassList
+            }
+        case SET_ALCOHOLIC_LIST:
+            return {
+                ...state,
+                alcoholicList: action.alcoholicList
             }
         default:
             return state
