@@ -4,12 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Header, Left, Body, Right, Button, Title, Icon, Spinner } from 'native-base';
 import { getCategoryCocktails } from '../../store/actions/CocktailsActions';
 import CocktailBox from '../../components/CocktailBox/CocktailBox';
+import Colors from '../../constants/Colors';
 
 const CategoryCocktails = props => {
 
+    const navigation = props.navigation;
     const categoryTitle = props.route.params.title;
     const categoryCocktails = useSelector(state => state.cocktails.cocktails)
-    const navigation = props.navigation;
 
     const dispatch = useDispatch();
 
@@ -20,13 +21,13 @@ const CategoryCocktails = props => {
     if (categoryCocktails.length == 0) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Spinner color={'blue'} />
+                <Spinner color={Colors.darkPrimary} />
             </View>
         )
     } else {
         return (
             <Fragment>
-                <Header>
+                <Header style={{ backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
                     <Left>
                         <Button transparent onPress={() => navigation.goBack()}>
                             <Icon name='arrow-back' />

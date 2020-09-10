@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ScrollView } from 'react-native';
 import styles from './style';
@@ -8,16 +8,10 @@ import Accordion from '../../components/Accordion/Accordion';
 
 const Filters = props => {
 
-    const navigation = props.navigation;
-
     const ingredientList = useSelector(state => state.cocktails.ingredientList);
     const glassList = useSelector(state => state.cocktails.glassList);
     const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
     const FilterdCocktails = useSelector(state => state.cocktails.cocktails);
-
-    const [ingredientFilter, setIngredientFilter] = useState(false);
-    const [glassFilter, setGlassFilter] = useState(false);
-    const [alcoholicFilter, setAlcoholicFilter] = useState(false);
 
     const dispatch = useDispatch();
     
@@ -30,9 +24,9 @@ const Filters = props => {
 
     return (
         <ScrollView contentContainerStyle={styles.screen}>
-            <Accordion title={'Filter By Ingredient'} list={ingredientList} type={'i'}/>
-            <Accordion title={'Filter By Glass'} list={glassList} type={'g'}/>
-            <Accordion title={'Filter By Alcoholic'} list={alcoholicList} type={'a'}/>
+            <Accordion title={'Filter By Ingredient'} list={ingredientList} itemStr={'strIngredient1'}/>
+            <Accordion title={'Filter By Glass'} list={glassList} itemStr={'strGlass'}/>
+            <Accordion title={'Filter By Alcoholic'} list={alcoholicList} itemStr={'strAlcoholic'}/>
         </ScrollView>
     );
 };

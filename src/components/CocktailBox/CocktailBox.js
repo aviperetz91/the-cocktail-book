@@ -13,7 +13,7 @@ const CocktailBox = props => {
             </View>
             <View style={styles.titleContainer}>
                 <Text style={styles.title}>
-                    {props.title.length > 18 ? `${props.title.substring(0, 18)}...` : `${props.title}`}
+                    {props.title.length > 17 ? `${props.title.substring(0, 17)}...` : `${props.title}`}
                 </Text>
             </View>
         </TouchableOpacity>

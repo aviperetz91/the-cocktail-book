@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({ 
     screen: {
-        marginTop: 35,
+        paddingTop: 25,
         alignItems: 'center'
     }
 })

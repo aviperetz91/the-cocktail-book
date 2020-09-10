@@ -6,6 +6,7 @@ import { getCocktailById } from '../../store/actions/CocktailsActions';
 import styles from './style';
 import { IMAGES_URL } from '@env';
 import DarkenImg from '../../components/DarkenImg/DarkenImg';
+import Colors from '../../constants/Colors';
 
 const CocktailDetails = props => {
 
@@ -36,11 +37,11 @@ const CocktailDetails = props => {
             );
         })
         return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor: 'white'}}>
                 <ScrollView>
                     <ImageBackground style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }}>
                         <DarkenImg>
-                            <Header style={styles.header}>
+                            <Header style={styles.header} androidStatusBarColor={'black'}>
                                 <Left>
                                     <Button transparent onPress={() => navigation.goBack()}>
                                         <Icon name='arrow-back' />
@@ -75,7 +76,7 @@ const CocktailDetails = props => {
     } else {
         return (
             <View style={styles.spinnerContainer}>
-                <Spinner color={'blue'} />
+                <Spinner color={Colors.darkPrimary} />
             </View>
         )
     }
