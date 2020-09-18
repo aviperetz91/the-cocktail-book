@@ -1,24 +1,25 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../constants/Colors'
 
 const styles = StyleSheet.create({ 
     accordion: {
-                
+        
     },
     accordionHeader: {
-        width: 350,        
+        width: 350,                
         padding: 15,
         borderRadius: 4,
-        backgroundColor: '#e4e4e4',
+        backgroundColor: '#eee',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 6
+        marginTop: 10
     },
     accordionHeaderText: {
         fontSize: 18,
     },
     accordionBody: {
-        maxHeight: 350,
+        height: 300,
         backgroundColor: '#f4f4f4',
         paddingHorizontal: 15
     },

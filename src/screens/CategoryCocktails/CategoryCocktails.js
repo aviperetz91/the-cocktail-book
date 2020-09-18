@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { View, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header, Left, Body, Right, Button, Title, Icon, Spinner } from 'native-base';
-import { getCategoryCocktails } from '../../store/actions/CocktailsActions';
+import { getCategoryCocktails, clearData } from '../../store/actions/CocktailsActions';
 import CocktailBox from '../../components/CocktailBox/CocktailBox';
 import Colors from '../../constants/Colors';
 
@@ -10,7 +10,7 @@ const CategoryCocktails = props => {
 
     const navigation = props.navigation;
     const categoryTitle = props.route.params.title;
-    const categoryCocktails = useSelector(state => state.cocktails.cocktails)
+    const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
 
     const dispatch = useDispatch();
 
@@ -29,7 +29,13 @@ const CategoryCocktails = props => {
             <Fragment>
                 <Header style={{ backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
                     <Left>
-                        <Button transparent onPress={() => navigation.goBack()}>
+                        <Button 
+                            transparent 
+                            onPress={() => { 
+                                dispatch(clearData('categoryCocktails')); 
+                                navigation.goBack()
+                            }}
+                        >
                             <Icon name='arrow-back' />
                         </Button>
                     </Left>

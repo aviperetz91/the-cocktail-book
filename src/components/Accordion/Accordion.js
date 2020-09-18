@@ -6,29 +6,28 @@ import styles from './style';
 import Colors from '../../constants/Colors';
 
 const Accordion = props => {
-    const { itemStr, list } = props;
+    const { list } = props;
 
     const [isPressed, setIsPressed] = useState(false);
     const [checkedList, setCheckedList] = useState([]);    
 
-    const updateCheckedList = (strItem) => {
-        const isFound = checkedList.some(el => el === strItem);
+    const updateCheckedList = (item) => {
+        const isFound = checkedList.some(el => el === item);
         let updated;
         if (isFound) {
-            updated = checkedList.filter(el => el !== strItem)
+            updated = checkedList.filter(el => el !== item)
         } else {
-            updated = [...checkedList, strItem]
+            updated = [...checkedList, item]
         }
         setCheckedList(updated)
-        console.log(checkedList)
     }
-
+    
     return (
-        <ScrollView style={styles.accordion}>
+        <View style={styles.accordion}>
             <TouchableWithoutFeedback onPress={() => setIsPressed(!isPressed)}>
-                <View style={styles.accordionHeader}>
+                <View style={ styles.accordionHeader}>
                     <Text style={styles.accordionHeaderText}>{props.title}</Text>
-                    <Icon type={'font-awesome'} name={isPressed ? 'chevron-up' : 'chevron-down'} size={16} />
+                    <Icon type={'font-awesome'} name={isPressed ? 'chevron-up' : 'chevron-down'} size={12} />
                 </View>
             </TouchableWithoutFeedback>
             {isPressed ?
@@ -39,10 +38,11 @@ const Accordion = props => {
                             data={list}
                             renderItem={({ item }) => (
                                 <CheckBox
-                                    onPress={() => updateCheckedList(item[itemStr])}
+                                    onPress={() => updateCheckedList(item)}
                                     containerStyle={styles.checkboxContainer}                                 
-                                    title={item[itemStr]}
-                                    checked={checkedList.some(el => el === item[itemStr])}
+                                    title={item}
+                                    checkedColor={Colors.darkPrimary}
+                                    checked={checkedList.some(el => el === item)}
                                 />
                             )}
                         />
@@ -51,7 +51,7 @@ const Accordion = props => {
                     }
                 </View> 
             : null }              
-        </ScrollView>
+        </View>
     );
 };
 

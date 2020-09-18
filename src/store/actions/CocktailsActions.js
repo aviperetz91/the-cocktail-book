@@ -1,13 +1,24 @@
 import axios from 'axios';
 import { API_URL } from '@env';
 
+export const SET_ALL_COCKTAILS = 'SET_ALL_COCKTAILS';
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_CATEGORY_COCKTAILS = 'SET_COCKTAILS';
 export const SET_COCKTAIL_DETAILS = 'SET_COCKTAIL_DETAILS';
-
 export const SET_INGREDIENT_LIST = 'SET_INGREDIENT_LIST';
 export const SET_GLASS_LIST = 'SET_GLASS_LIST';
 export const SET_ALCOHOLIC_LIST = 'SET_ALCOHOLIC_LIST';
+export const CLEAR_DATA = 'CLEAR_DATA';
+
+export const getAllCocktails = () => {
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    return async dispatch => {
+        letters.forEach(async letter => {
+            const response = await axios.get(`${API_URL}/search.php?f=${letter}`)
+            dispatch({ type: SET_ALL_COCKTAILS, cocktails: response.data.drinks })
+        })
+    }
+}
 
 export const getCategories = () => {
     return async dispatch => {
@@ -19,7 +30,7 @@ export const getCategories = () => {
 export const getCategoryCocktails = category => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/filter.php?c=${category}`)
-        dispatch({ type: SET_CATEGORY_COCKTAILS, cocktails: response.data.drinks })
+        dispatch({ type: SET_CATEGORY_COCKTAILS, categoryCocktails: response.data.drinks })
     }
 }
 
@@ -50,4 +61,8 @@ export const getAlcoholicList = () => {
         const response = await axios.get(`${API_URL}/list.php?a=list`)
         dispatch({ type: SET_ALCOHOLIC_LIST, alcoholicList: response.data.drinks })
     }
+}
+
+export const clearData = (variable) => {
+    return { type: CLEAR_DATA, variable }
 }

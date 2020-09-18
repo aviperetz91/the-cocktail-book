@@ -1,17 +1,19 @@
 import { 
+    SET_ALL_COCKTAILS,
     SET_CATEGORIES, 
     SET_CATEGORY_COCKTAILS, 
     SET_COCKTAIL_DETAILS,
     SET_INGREDIENT_LIST,
     SET_GLASS_LIST,
-    SET_ALCOHOLIC_LIST 
+    SET_ALCOHOLIC_LIST,
+    CLEAR_DATA 
 } from '../actions/CocktailsActions';
 
 const initialState = {
+    allCocktails: [],
     categories: [],
-    cocktails: [],
+    categoryCocktails: [],
     selectedCocktail: {},
-
     ingredientList: [],
     glassList: [],
     alcoholicList: []
@@ -19,6 +21,11 @@ const initialState = {
 
 const CocktailsReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_ALL_COCKTAILS:             
+            return {
+                ...state,
+                allCocktails: action.cocktails ? [...state.allCocktails, ...action.cocktails] : state.allCocktails
+            }
         case SET_CATEGORIES:
             const categories = action.categories.map(category => category.strCategory)
             return {
@@ -28,7 +35,7 @@ const CocktailsReducer = (state = initialState, action) => {
         case SET_CATEGORY_COCKTAILS:
             return {
                 ...state,
-                cocktails: action.cocktails
+                categoryCocktails: action.categoryCocktails
             }
         case SET_COCKTAIL_DETAILS:
             const ingredientList = makeIngredientsArray(action.selectedCocktail);
@@ -39,19 +46,27 @@ const CocktailsReducer = (state = initialState, action) => {
                 selectedCocktail: upgradeSelectedCocktail
             }
         case SET_INGREDIENT_LIST:
+            const ingredients = action.ingredientList.map(ingredient => ingredient.strIngredient1)
             return {
                 ...state,
-                ingredientList: action.ingredientList
+                ingredientList: ingredients
             }
         case SET_GLASS_LIST:
+            const glasses = action.glassList.map(glass => glass.strGlass)
             return {
                 ...state,
-                glassList: action.glassList
+                glassList: glasses
             }
         case SET_ALCOHOLIC_LIST:
+            const alcoholic = action.alcoholicList.map(alcoholic => alcoholic.strAlcoholic)
             return {
                 ...state,
-                alcoholicList: action.alcoholicList
+                alcoholicList: alcoholic
+            }
+        case CLEAR_DATA: 
+            return {
+                ...state,
+                [action.variable]: action.variable === 'selectedCocktail' ? {} : [],
             }
         default:
             return state
