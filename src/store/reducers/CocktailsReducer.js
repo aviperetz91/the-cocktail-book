@@ -1,12 +1,12 @@
-import { 
+import {
     SET_ALL_COCKTAILS,
-    SET_CATEGORIES, 
-    SET_CATEGORY_COCKTAILS, 
+    SET_CATEGORIES,
+    SET_CATEGORY_COCKTAILS,
     SET_COCKTAIL_DETAILS,
     SET_INGREDIENT_LIST,
     SET_GLASS_LIST,
     SET_ALCOHOLIC_LIST,
-    CLEAR_DATA 
+    CLEAR_DATA
 } from '../actions/CocktailsActions';
 
 const initialState = {
@@ -21,10 +21,24 @@ const initialState = {
 
 const CocktailsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_ALL_COCKTAILS:             
-            return {
-                ...state,
-                allCocktails: action.cocktails ? [...state.allCocktails, ...action.cocktails] : state.allCocktails
+        case SET_ALL_COCKTAILS:
+            if (action.cocktails) {
+                const extendedCocktails = []
+                action.cocktails.forEach(cocktail => {
+                    const ingredientList = makeIngredientsArray(cocktail);
+                    const measureList = makeMeasureArray(cocktail);
+                    const extended = extendCocktailObject(cocktail, ingredientList, measureList);
+                    extendedCocktails.push(extended)
+                })
+                return {
+                    ...state,
+                    allCocktails: [...state.allCocktails, ...extendedCocktails]
+                }
+            } else {
+                return {
+                    ...state,
+                    allCocktails: state.allCocktails
+                }
             }
         case SET_CATEGORIES:
             const categories = action.categories.map(category => category.strCategory)
@@ -63,7 +77,7 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 alcoholicList: alcoholic
             }
-        case CLEAR_DATA: 
+        case CLEAR_DATA:
             return {
                 ...state,
                 [action.variable]: action.variable === 'selectedCocktail' ? {} : [],

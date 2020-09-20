@@ -5,6 +5,7 @@ import Categories from '../screens/Categories/Categories';
 import CategoryCocktails from '../screens/CategoryCocktails/CategoryCocktails';
 import CocktailDetails from '../screens/CocktailDetails/CocktailDetails';
 import Filters from '../screens/Filters/Filters';
+import FilteredCocktails from '../screens/FilteredCocktails/FilteredCocktails';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ const CocktailsNavigator = () => {
       <Stack.Screen name="CategoryCocktails" component={CategoryCocktails}/>
       <Stack.Screen name="CocktailDetails" component={CocktailDetails}/>
       <Stack.Screen name="Filters" component={Filters}/>
+      <Stack.Screen name="FilteredCocktails" component={FilteredCocktails}/>
     </Stack.Navigator>
   );
 }
