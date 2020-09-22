@@ -10,6 +10,7 @@ const CategoryCocktails = props => {
 
     const navigation = props.navigation;
     const categoryTitle = props.route.params.title;
+    
     const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
 
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const CategoryCocktails = props => {
         dispatch(getCategoryCocktails(categoryTitle))
     }, [dispatch])
 
-    if (categoryCocktails.length == 0) {
+    if (!categoryCocktails) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Spinner color={Colors.darkPrimary} />

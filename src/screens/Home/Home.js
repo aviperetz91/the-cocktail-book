@@ -7,41 +7,44 @@ import Categories from '../Categories/Categories/';
 import Filters from '../Filters/Filters';
 import CocktailBox from '../../components/CocktailBox/CocktailBox';
 import Colors from '../../constants/Colors';
-import { getAllCocktails } from '../../store/actions/CocktailsActions';
+import { getAllCocktails, getCocktailByName, clearData } from '../../store/actions/CocktailsActions';
 
 const Home = props => {
 
-    const { navigation } = props;
-    const dispatch = useDispatch();
-    const allCocktails = useSelector(state => state.cocktails.allCocktails) 
+    const navigation = props.navigation;
 
     const [activeTab, setActiveTab] = useState(0);
     const [displaySearchBar, setDisplaySearchBar] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [render, setRender] = useState(false);
-    const [filteredCocktails, setFilteredCocktails] = useState([])
+    
+    const searchResults = useSelector(state => state.cocktails.searchResults)
     
     const tooltipRef = React.createRef();
     const searchBarRef = React.createRef();
     
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getAllCocktails())
         setTimeout(() => { setRender(true) }, 5000)
     }, [dispatch])
 
-    const searchHandler = (input) => {
-        if(input === '') {
-            setFilteredCocktails([])
+    const searchHandler = input => {
+        if (input === '') {
+            dispatch(clearData('searchResults'))
         } else {
-            const filtered = allCocktails.filter(cocktail => {
-                return cocktail.strDrink.toLowerCase().includes(input.toLowerCase())
-            })
-            setFilteredCocktails(filtered)
+            dispatch(getCocktailByName(input))
         }
     }
 
-    if (render) {
+    if (!render) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Spinner color={Colors.darkPrimary} />
+            </View>
+        )
+    } else {
         return (
             <Container>
                 {displaySearchBar ?
@@ -58,7 +61,7 @@ const Home = props => {
                                 <TouchableOpacity onPress={() => {
                                     setDisplaySearchBar(false);
                                     setSearchInput('')
-                                    setFilteredCocktails([])
+                                    dispatch(clearData('searchResults'))
                                 }}>
                                     <Icon name='arrow-back' style={{ fontSize: 23, color: Colors.primary }} />
                                 </TouchableOpacity>
@@ -69,7 +72,7 @@ const Home = props => {
                         />
                         <FlatList
                             keyExtractor={(item, index) => index}
-                            data={filteredCocktails}
+                            data={searchResults}
                             numColumns={2}
                             renderItem={(cocktail) => (
                                 <CocktailBox
@@ -165,12 +168,6 @@ const Home = props => {
                 }
             </Container>
         );
-    } else {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Spinner color={Colors.darkPrimary} />
-            </View>
-        )
     }
 
 }

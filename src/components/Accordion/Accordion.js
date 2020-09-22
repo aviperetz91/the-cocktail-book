@@ -2,28 +2,14 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Spinner, Radio } from 'native-base';
 import { Icon, CheckBox } from 'react-native-elements';
-import { RadioButton } from 'react-native-paper';
 import styles from './style';
 import Colors from '../../constants/Colors';
 
 const Accordion = props => {
-    const { list, isMultiSelect, selectHandler } = props;
+    const { list, isMultiSelect, selected, checkedList, selectHandler } = props;
 
-    const [isPressed, setIsPressed] = useState(false);
-    const [selected, setSelected] = useState([]);
-    const [checkedList, setCheckedList] = useState([]);
+    const [isPressed, setIsPressed] = useState(false);    
 
-    const updateCheckedList = (item) => {
-        const isFound = checkedList.some(el => el === item);
-        let updated;
-        if (isFound) {
-            updated = checkedList.filter(el => el !== item)
-        } else {
-            updated = [...checkedList, item]
-        }
-        setCheckedList(updated)
-    }
-    
     const renderItem = (item) => {
         if (isMultiSelect) {
             return (
@@ -32,11 +18,8 @@ const Accordion = props => {
                     title={item}
                     checkedColor={Colors.darkPrimary}
                     checked={checkedList.some(el => el === item)}
-                    onPress={() => {
-                        updateCheckedList(item)
-                        selectHandler(item)
-                    }}
-                />
+                    onPress={() => selectHandler(item)}
+                />                            
             )
         } else {
             return (
@@ -45,19 +28,15 @@ const Accordion = props => {
                         <Radio
                             color={'#bfbfbf'}
                             selectedColor={Colors.darkPrimary}
-                            selected={item == selected}
-                            onPress={() => {
-                                setSelected(item)
-                                selectHandler(item)
-                            }}
+                            selected={item === selected}
+                            onPress={() => selectHandler(item)}
                         />
                     </View>
                     <View>
                         <Text
-                            onPress={() => {
-                                setSelected(item)
-                                selectHandler(item)
-                            }} style={{ color: '#43484d', fontWeight: 'bold', fontFamily: 'sans-serif' }}>
+                            onPress={() => selectHandler(item)} 
+                            style={{ color: '#43484d', fontWeight: 'bold', fontFamily: 'sans-serif' }}
+                        >
                             {item}
                         </Text>
                     </View>

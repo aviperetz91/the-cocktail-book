@@ -9,7 +9,8 @@ import Colors from '../../constants/Colors';
 
 const Categories = props => {
 
-    const { navigation } = props;
+    const navigation = props.navigation;
+    
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -18,7 +19,7 @@ const Categories = props => {
 
     const categories = useSelector(state => state.cocktails.categories);
 
-    if (categories.length == 0) {
+    if (!categories) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Spinner color={Colors.darkPrimary} />

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, ScrollView, ImageBackground } from 'react-native';
 import { List, ListItem, Left, Body, Right, Thumbnail, Header, Button, Title, Icon, Spinner } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCocktailById } from '../../store/actions/CocktailsActions';
+import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import styles from './style';
 import { IMAGES_URL } from '@env';
 import DarkenImg from '../../components/DarkenImg/DarkenImg';
@@ -10,17 +10,25 @@ import Colors from '../../constants/Colors';
 
 const CocktailDetails = props => {
 
-    const dispatch = useDispatch();
-    const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
     const navigation = props.navigation;
     const id = props.route.params.id;
     const name = props.route.params.name;
+
+    const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCocktailById(id))
     }, [dispatch])
 
-    if (Object.keys(selectedCocktail).length > 0) {
+    if (!selectedCocktail) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner color={Colors.darkPrimary} />
+            </View>
+        )
+    } else {
         const ingredientAndMeasure = selectedCocktail.ingredientList.map((ingredient, index) => {
             return (
                 <ListItem thumbnail key={index}>
@@ -37,13 +45,19 @@ const CocktailDetails = props => {
             );
         })
         return (
-            <ScrollView style={{backgroundColor: 'white'}}>
+            <ScrollView style={{ backgroundColor: 'white' }}>
                 <ScrollView>
                     <ImageBackground style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }}>
                         <DarkenImg>
                             <Header style={styles.header} androidStatusBarColor={'black'}>
                                 <Left>
-                                    <Button transparent onPress={() => navigation.goBack()}>
+                                    <Button
+                                        transparent
+                                        onPress={() => {
+                                            dispatch(clearData('selectedCocktail'))
+                                            navigation.goBack()
+                                        }}
+                                    >
                                         <Icon name='arrow-back' />
                                     </Button>
                                 </Left>
@@ -51,7 +65,13 @@ const CocktailDetails = props => {
                                     <Button transparent onPress={() => { }}>
                                         <Icon name={'star-outline'} />
                                     </Button>
-                                    <Button transparent onPress={() => navigation.navigate("Home")}>
+                                    <Button
+                                        transparent
+                                        onPress={() => {
+                                            dispatch(clearData('selectedCocktail'))
+                                            navigation.navigate("Home")
+                                        }}
+                                    >
                                         <Icon name='home' />
                                     </Button>
                                 </Right>
@@ -72,12 +92,6 @@ const CocktailDetails = props => {
                     </View>
                 </ScrollView>
             </ScrollView>
-        )
-    } else {
-        return (
-            <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.darkPrimary} />
-            </View>
         )
     }
 };

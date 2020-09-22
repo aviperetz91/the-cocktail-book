@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, FlatList } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-native-elements';
 import styles from './style';
@@ -13,72 +13,134 @@ const Filters = props => {
 
     const allCocktails = useSelector(state => state.cocktails.allCocktails);
     const categories = useSelector(state => state.cocktails.categories);
-    const ingredientList = useSelector(state => state.cocktails.ingredientList);
     const glassList = useSelector(state => state.cocktails.glassList);
-    const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
+    // const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
+    const ingredientList = useSelector(state => state.cocktails.ingredientList);
+
+    const [checkedCategories, setCheckedCategories] = useState([]);
+    const [checkedGlasses, setCheckedGlasses] = useState([]);
+    // const [selectedAlcoholic, setSelectedAlcoholic] = useState('');
+    const [checkedIngredients, setCheckedIngredients] = useState([]);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getIngredientList());
         dispatch(getGlassList());
-        dispatch(getAlcoholicList());
+        // dispatch(getAlcoholicList());
     }, [dispatch])
 
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [checkedIngredients, setCheckedIngredients] = useState([]);
-    const [selectedGlass, setSelectedGlass] = useState('');
-    const [selectedAlcoholic, setSelectedAlcoholic] = useState('');
-
-    const updateCheckedIngredients = (item) => {
-        const isFound = checkedIngredients.some(el => el === item);
+    const updateCheckedList = (type, item) => {
+        let checkedList;
+        let setChecked;
+        if (type === 'categories') {
+            checkedList = [...checkedCategories];
+            setChecked = setCheckedCategories;
+        } else if (type === 'glasses') {
+            checkedList = [...checkedGlasses];
+            setChecked = setCheckedGlasses;
+        } else if (type === 'ingredients') {
+            checkedList = [...checkedIngredients]
+            setChecked = setCheckedIngredients;
+        }
+        const isFound = checkedList.some(el => el === item);
         let updated;
         if (isFound) {
-            updated = checkedIngredients.filter(el => el !== item)
+            updated = checkedList.filter(el => el !== item)
         } else {
-            updated = [...checkedIngredients, item]
+            updated = [...checkedList, item]
         }
-        setCheckedIngredients(updated)
+        setChecked(updated)
     }
 
-    const filterCocktails = () => {
-        console.log('===================')
-        console.log("selectedCategory: ", selectedCategory);
-        console.log("checkedIngredients: ". checkedIngredients);
-        console.log("selectedGlass: ", selectedGlass);
-        console.log("selectedAlcoholic: ", selectedAlcoholic);
-        console.log('===================')
-        const byCategory = allCocktails.filter(cocktail => cocktail.strCategory === selectedCategory);
-        const byGlass = byCategory.filter(cocktail => cocktail.strGlass ===  selectedGlass);
-        const byAlcoholic = byGlass.filter(cocktail => cocktail.strAlcoholic === selectedAlcoholic);
-        const byIngredients = [];
-        for (let i = 0; i < byAlcoholic.length; i++) {
-            for (let j = 0; j < checkedIngredients.length; j++) {
-                if (byAlcoholic[i].ingredientList.some(ingredient => ingredient === checkedIngredients[j])) {
-                    byIngredients.push(byAlcoholic[i]);
+    const filterCocktails = () => {    
+        let byCategories = [];
+        for (let i = 0; i < allCocktails.length; i++) {
+            for (let j = 0; j < checkedCategories.length; j++) {
+                if (allCocktails[i].strCategory === checkedCategories[j] && !byCategories.some(el => el.idDrink === allCocktails[i].idDrink)) {
+                    byCategories.push(allCocktails[i]);
                 }
             }
         }
-        console.log('===================')
-        console.log("byCategory: ", byCategory)
-        console.log("byGlass: ", byGlass)
-        console.log("byAlcoholic: ", byAlcoholic)
-        console.log("byIngredients: ", byIngredients)
-
+        console.log(byCategories)
+        byCategories = byCategories.length > 0 ? byCategories : allCocktails; 
+        let byGlasses = [];
+        for (let i = 0; i < byCategories.length; i++) {
+            for (let j = 0; j < checkedGlasses.length; j++) {
+                if (byCategories[i].strGlass === checkedGlasses[j] && !byGlasses.some(el => el.idDrink === byCategories[i].idDrink)) {
+                    byGlasses.push(byCategories[i]);
+                }
+            }
+        }
+        console.log(byGlasses)
+        byGlasses = byGlasses.length > 0 ? byGlasses : allCocktails;
+        let byIngredients = [];
+        for (let i = 0; i < byGlasses.length; i++) {
+            for (let j = 0; j < checkedIngredients.length; j++) {
+                if (byGlasses[i].ingredientList.some(ingredient => ingredient === checkedIngredients[j]) && !byIngredients.some(el => el.idDrink === byGlasses[i].idDrink)) {
+                    byIngredients.push(byGlasses[i]);
+                }
+            }
+        }
+        console.log(byIngredients)
         navigation.navigate('FilteredCocktails', { filteredCocktails: byIngredients })
     }
 
+    const clearFiltersHandler = () => {
+        setCheckedCategories([]);
+        setCheckedGlasses([]);
+        // setSelectedAlcoholic('');
+        setCheckedIngredients([]);
+    }
+
+    console.log(allCocktails)
+    console.log(checkedCategories)
+    console.log(checkedGlasses)
+    // console.log(selectedAlcoholic)
+    console.log(checkedIngredients)
+
     return (
         <View style={styles.screen}>
-            <Accordion title={'Filter By Category'} list={categories} selectHandler={(item) => setSelectedCategory(item)} />
-            <Accordion title={'Filter By Glass'} list={glassList} selectHandler={(item) => setSelectedGlass(item)} />
-            <Accordion title={'Filter By Alcoholic'} list={alcoholicList} selectHandler={(item) => setSelectedAlcoholic(item)} />
-            <Accordion title={'Filter By Ingredient'} list={ingredientList} isMultiSelect selectHandler={(item) => updateCheckedIngredients(item)} />
+            <Accordion
+                title={'Filter By Category'}
+                list={categories}
+                checkedList={checkedCategories}
+                isMultiSelect
+                selectHandler={(item) => updateCheckedList('categories', item)}
+            />
+            <Accordion
+                title={'Filter By Glass'}
+                list={glassList}
+                checkedList={checkedGlasses}
+                isMultiSelect
+                selectHandler={(item) => updateCheckedList('glasses', item)}
+            />
+            {/* <Accordion 
+                title={'Filter By Alcoholic'} 
+                list={alcoholicList} 
+                selected={selectedAlcoholic}
+                selectHandler={(item) => setSelectedAlcoholic(item)} 
+            /> */}
+            <Accordion
+                filter={'ingredients'}
+                title={'Filter By Ingredient'}
+                list={ingredientList}
+                checkedList={checkedIngredients}
+                isMultiSelect
+                selectHandler={(item) => updateCheckedList('ingredients', item)}
+            />
+            <Button
+                title="Clear filters"
+                type="solid"
+                buttonStyle={{ padding: 10, backgroundColor: Colors.accent }}
+                containerStyle={{ marginTop: 25, width: 350 }}
+                onPress={clearFiltersHandler}
+            />
             <Button
                 title="Show Results"
                 type="solid"
                 buttonStyle={{ padding: 10, backgroundColor: Colors.darkPrimary }}
-                containerStyle={{ marginTop: 20, width: 350 }}
+                containerStyle={{ marginTop: 10, width: 350 }}
                 onPress={filterCocktails}
             />
         </View>

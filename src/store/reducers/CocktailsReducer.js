@@ -3,20 +3,22 @@ import {
     SET_CATEGORIES,
     SET_CATEGORY_COCKTAILS,
     SET_COCKTAIL_DETAILS,
+    SET_SEARCH_RESULTS,
     SET_INGREDIENT_LIST,
     SET_GLASS_LIST,
     SET_ALCOHOLIC_LIST,
-    CLEAR_DATA
+    CLEAR_DATA,
 } from '../actions/CocktailsActions';
 
 const initialState = {
-    allCocktails: [],
-    categories: [],
-    categoryCocktails: [],
-    selectedCocktail: {},
-    ingredientList: [],
-    glassList: [],
-    alcoholicList: []
+    allCocktails: null,
+    categories: null,
+    categoryCocktails: null,
+    selectedCocktail: null,
+    searchResults: null,
+    ingredientList: null,
+    glassList: null,
+    alcoholicList: null,
 }
 
 const CocktailsReducer = (state = initialState, action) => {
@@ -32,7 +34,7 @@ const CocktailsReducer = (state = initialState, action) => {
                 })
                 return {
                     ...state,
-                    allCocktails: [...state.allCocktails, ...extendedCocktails]
+                    allCocktails: state.allCocktails ? [...state.allCocktails, ...extendedCocktails] : extendedCocktails
                 }
             } else {
                 return {
@@ -59,6 +61,11 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 selectedCocktail: upgradeSelectedCocktail
             }
+        case SET_SEARCH_RESULTS:
+            return {
+                ...state,
+                searchResults: action.searchResults
+            }
         case SET_INGREDIENT_LIST:
             const ingredients = action.ingredientList.map(ingredient => ingredient.strIngredient1)
             return {
@@ -80,7 +87,7 @@ const CocktailsReducer = (state = initialState, action) => {
         case CLEAR_DATA:
             return {
                 ...state,
-                [action.variable]: action.variable === 'selectedCocktail' ? {} : [],
+                [action.variable]: null,
             }
         default:
             return state
