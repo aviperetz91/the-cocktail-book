@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         
     },
     accordionHeader: {
-        width: 350,                
+        width: '100%',                
         padding: 15,
         borderRadius: 4,
         backgroundColor: '#eee',
@@ -19,14 +19,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     accordionBody: {
-        height: 300,
+        flex: 1,
         backgroundColor: '#f4f4f4',
         paddingHorizontal: 15
     },
     checkboxContainer: {
         backgroundColor: '#f4f4f4',
         borderWidth: 0,
-        margin: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        marginVertical: 0
     }
 })
   

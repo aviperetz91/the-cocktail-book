@@ -23,8 +23,8 @@ const Accordion = props => {
             )
         } else {
             return (
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
-                    <View style={{ marginLeft: 13, marginRight: 6, padding: 5 }}>
+                <View>
+                    <View>
                         <Radio
                             color={'#bfbfbf'}
                             selectedColor={Colors.darkPrimary}
@@ -35,7 +35,7 @@ const Accordion = props => {
                     <View>
                         <Text
                             onPress={() => selectHandler(item)} 
-                            style={{ color: '#43484d', fontWeight: 'bold', fontFamily: 'sans-serif' }}
+                            // style={{ color: '#43484d', fontWeight: 'bold', fontFamily: 'sans-serif' }}
                         >
                             {item}
                         </Text>
@@ -54,7 +54,7 @@ const Accordion = props => {
                 </View>
             </TouchableWithoutFeedback>
             {isPressed ?
-                <View style={styles.accordionBody}>
+                <View>
                     {list && list.length > 0 ?
                         <FlatList
                             keyExtractor={(item, index) => index.toString()}
