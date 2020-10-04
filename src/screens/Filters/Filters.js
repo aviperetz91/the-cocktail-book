@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Text, ImageBackground } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from 'react-native-elements';
 import styles from './style';
@@ -12,22 +12,22 @@ const Filters = props => {
     const navigation = props.navigation;
 
     const allCocktails = useSelector(state => state.cocktails.allCocktails);
+    const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
     const categories = useSelector(state => state.cocktails.categories);
     const glassList = useSelector(state => state.cocktails.glassList);
-    // const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
     const ingredientList = useSelector(state => state.cocktails.ingredientList);
 
+    const [selectedAlcoholic, setSelectedAlcoholic] = useState('');
     const [checkedCategories, setCheckedCategories] = useState([]);
     const [checkedGlasses, setCheckedGlasses] = useState([]);
-    // const [selectedAlcoholic, setSelectedAlcoholic] = useState('');
     const [checkedIngredients, setCheckedIngredients] = useState([]);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getIngredientList());
+        dispatch(getAlcoholicList());
         dispatch(getGlassList());
-        // dispatch(getAlcoholicList());
+        dispatch(getIngredientList());
     }, [dispatch])
 
     const updateCheckedList = (type, item) => {
@@ -54,11 +54,18 @@ const Filters = props => {
     }
 
     const filterCocktails = () => {
-        let byCategories = [];
+        let byAlcoholic = [];
         for (let i = 0; i < allCocktails.length; i++) {
+            if (allCocktails[i].strAlcoholic === selectedAlcoholic) {
+                byAlcoholic.push(allCocktails[i]);
+            }
+        }
+        console.log(byAlcoholic)
+        let byCategories = [];
+        for (let i = 0; i < byAlcoholic.length; i++) {
             for (let j = 0; j < checkedCategories.length; j++) {
-                if (allCocktails[i].strCategory === checkedCategories[j] && !byCategories.some(el => el.idDrink === allCocktails[i].idDrink)) {
-                    byCategories.push(allCocktails[i]);
+                if (byAlcoholic[i].strCategory === checkedCategories[j] && !byCategories.some(el => el.idDrink === byAlcoholic[i].idDrink)) {
+                    byCategories.push(byAlcoholic[i]);
                 }
             }
         }
@@ -87,76 +94,75 @@ const Filters = props => {
     }
 
     const clearFiltersHandler = () => {
+        setSelectedAlcoholic('');
         setCheckedCategories([]);
         setCheckedGlasses([]);
-        // setSelectedAlcoholic('');
         setCheckedIngredients([]);
     }
 
     console.log(allCocktails)
+    console.log(selectedAlcoholic)
     console.log(checkedCategories)
     console.log(checkedGlasses)
-    // console.log(selectedAlcoholic)
     console.log(checkedIngredients)
 
     return (
-        <View style={styles.screen}>
-            <ScrollView contentContainerStyle={{ marginBottom: 110 }}> 
-                <View>
-                    <Accordion
-                        title={'Filter By Category'}
-                        list={categories}
-                        checkedList={checkedCategories}
-                        isMultiSelect
-                        selectHandler={(item) => updateCheckedList('categories', item)}
-                    />
-                    <Accordion
-                        title={'Filter By Glass'}
-                        list={glassList}
-                        checkedList={checkedGlasses}
-                        isMultiSelect
-                        selectHandler={(item) => updateCheckedList('glasses', item)}
-                    />
-                    {/* <Accordion 
-                title={'Filter By Alcoholic'} 
-                list={alcoholicList} 
-                selected={selectedAlcoholic}
-                selectHandler={(item) => setSelectedAlcoholic(item)} 
-            /> */}
-                    <Accordion
-                        filter={'ingredients'}
-                        title={'Filter By Ingredient'}
-                        list={ingredientList}
-                        checkedList={checkedIngredients}
-                        isMultiSelect
-                        selectHandler={(item) => updateCheckedList('ingredients', item)}
-                    />
+        <ImageBackground
+            source={{ uri: 'https://i.imgur.com/urdfAiX.jpg' }}
+            style={styles.backImage}
+        >
+                <View style={styles.container}>
+                    <ScrollView>
+                        <View>
+                            <View style={{ marginBottom: 30 }}>
+                                <Accordion
+                                    title={'Filter By Alcoholic'}
+                                    list={alcoholicList}
+                                    selected={selectedAlcoholic}
+                                    selectHandler={(item) => setSelectedAlcoholic(item)}
+                                />
+                                <Accordion
+                                    title={'Filter By Category'}
+                                    list={categories}
+                                    checkedList={checkedCategories}
+                                    isMultiSelect
+                                    selectHandler={(item) => updateCheckedList('categories', item)}
+                                />
+                                <Accordion
+                                    title={'Filter By Glass'}
+                                    list={glassList}
+                                    checkedList={checkedGlasses}
+                                    isMultiSelect
+                                    selectHandler={(item) => updateCheckedList('glasses', item)}
+                                />
+                                <Accordion
+                                    filter={'ingredients'}
+                                    title={'Filter By Ingredient'}
+                                    list={ingredientList}
+                                    checkedList={checkedIngredients}
+                                    isMultiSelect
+                                    selectHandler={(item) => updateCheckedList('ingredients', item)}
+                                />
+                            </View>
+                        </View>
+                        <View>
+                            <Button
+                                title="Clear filters"
+                                type="solid"
+                                buttonStyle={{ padding: 10, backgroundColor: Colors.warning }}
+                                containerStyle={{ marginBottom: 10 }}
+                                onPress={clearFiltersHandler}
+                            />
+                            <Button
+                                title="Show Results"
+                                type="solid"
+                                buttonStyle={{ padding: 10, backgroundColor: Colors.success }}
+                                onPress={filterCocktails}
+                            />
+                        </View>
+                    </ScrollView>
                 </View>
-            </ScrollView>
-            <View 
-                style={{ 
-                    backgroundColor: 'white',
-                    width: '100%',
-                    position: 'absolute', 
-                    bottom: 0 
-                }}
-            >
-                <Button
-                    title="Clear filters"
-                    type="solid"
-                    buttonStyle={{ padding: 10, backgroundColor: Colors.accent }}
-                    containerStyle={{ marginBottom: 10 }}
-                    onPress={clearFiltersHandler}
-                />
-                <Button
-                    title="Show Results"
-                    type="solid"
-                    buttonStyle={{ padding: 10, backgroundColor: Colors.darkPrimary }}
-                    // containerStyle={{ marginTop: 10 }}
-                    onPress={filterCocktails}
-                />
-            </View>
-        </View>
+        </ImageBackground>
     );
 };
 

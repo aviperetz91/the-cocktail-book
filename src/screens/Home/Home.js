@@ -17,12 +17,12 @@ const Home = props => {
     const [displaySearchBar, setDisplaySearchBar] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [render, setRender] = useState(false);
-    
+
     const searchResults = useSelector(state => state.cocktails.searchResults)
-    
+
     const tooltipRef = React.createRef();
     const searchBarRef = React.createRef();
-    
+
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -1,8 +1,13 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({ 
-    screen: {
-        marginTop: 75,
+    backImage: {                                
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",       
+    },
+    container: {                
         marginBottom: 20,
         marginHorizontal: 30,
     }

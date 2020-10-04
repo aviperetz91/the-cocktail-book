@@ -16,18 +16,19 @@ const Accordion = props => {
                 <CheckBox
                     containerStyle={styles.checkboxContainer}
                     title={item}
-                    checkedColor={Colors.darkPrimary}
+                    checkedColor={Colors.textColor}
                     checked={checkedList.some(el => el === item)}
                     onPress={() => selectHandler(item)}
+                    textStyle={{  color: Colors.textColor}}
                 />                            
             )
         } else {
             return (
-                <View>
+                <View style={styles.radioContainer} onPress={() => selectHandler(item)}>
                     <View>
                         <Radio
                             color={'#bfbfbf'}
-                            selectedColor={Colors.darkPrimary}
+                            selectedColor={Colors.textColor}
                             selected={item === selected}
                             onPress={() => selectHandler(item)}
                         />
@@ -35,7 +36,7 @@ const Accordion = props => {
                     <View>
                         <Text
                             onPress={() => selectHandler(item)} 
-                            // style={{ color: '#43484d', fontWeight: 'bold', fontFamily: 'sans-serif' }}
+                            style={styles.radioText}
                         >
                             {item}
                         </Text>
@@ -48,13 +49,15 @@ const Accordion = props => {
     return (
         <View style={styles.accordion}>
             <TouchableWithoutFeedback onPress={() => setIsPressed(!isPressed)}>
-                <View style={styles.accordionHeader}>
-                    <Text style={styles.accordionHeaderText}>{props.title}</Text>
-                    <Icon type={'font-awesome'} name={isPressed ? 'chevron-up' : 'chevron-down'} size={12} />
+                <View style={isPressed ? {...styles.accordionHeader, borderBottomWidth: 0} : styles.accordionHeader}>
+                    <Text style={styles.accordionHeaderText}>
+                        {props.title}
+                    </Text>
+                    <Icon type={'font-awesome'} name={isPressed ? 'chevron-up' : 'chevron-down'} size={13}  />
                 </View>
             </TouchableWithoutFeedback>
             {isPressed ?
-                <View>
+                <View style={styles.accordionBody}>
                     {list && list.length > 0 ?
                         <FlatList
                             keyExtractor={(item, index) => index.toString()}
