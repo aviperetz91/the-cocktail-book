@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Header, Left, Body, Right, Button, Title, Icon, Spinner, Card } from 'native-base';
-import CocktailBox from '../../components/CocktailBox/CocktailBox';
+import CocktailItem from '../../components/CocktailItem/CocktailItem';
 import Colors from '../../constants/Colors';
 
 const FilteredCocktails = props => {
@@ -45,21 +45,22 @@ const FilteredCocktails = props => {
                         </Button>
                     </Left>
                     <Body>
-                        <Title>Results</Title>
+                        <Title>{filteredCocktails.length} Results</Title>
                     </Body>
                     <Right />
                 </Header>
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={filteredCocktails}
-                    numColumns={2}
-                    renderItem={(cocktail) => (
-                        <CocktailBox
-                            title={cocktail.item.strDrink}
-                            image={cocktail.item.strDrinkThumb}
+                    style={{ backgroundColor: '#f4f4f4' }}
+                    renderItem={({item}) => (
+                        <CocktailItem
+                            title={item.strDrink}
+                            image={item.strDrinkThumb}
+                            tags={item.strTags}
                             onSelect={() => navigation.navigate('CocktailDetails', {
-                                id: cocktail.item.idDrink,
-                                name: cocktail.item.strDrink
+                                id: item.idDrink,
+                                name: item.strDrink
                             })}
                         />
                     )}

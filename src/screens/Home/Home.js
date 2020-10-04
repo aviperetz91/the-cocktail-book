@@ -5,7 +5,7 @@ import { View, TouchableOpacity, FlatList } from 'react-native';
 import { Tooltip, SearchBar } from 'react-native-elements';
 import Categories from '../Categories/Categories/';
 import Filters from '../Filters/Filters';
-import CocktailBox from '../../components/CocktailBox/CocktailBox';
+import CocktailItem from '../../components/CocktailItem/CocktailItem';
 import Colors from '../../constants/Colors';
 import { getAllCocktails, getCocktailByName, clearData } from '../../store/actions/CocktailsActions';
 
@@ -73,14 +73,15 @@ const Home = props => {
                         <FlatList
                             keyExtractor={(item, index) => index}
                             data={searchResults}
-                            numColumns={2}
-                            renderItem={(cocktail) => (
-                                <CocktailBox
-                                    title={cocktail.item.strDrink}
-                                    image={cocktail.item.strDrinkThumb}
+                            style={{ backgroundColor: '#f4f4f4' }}
+                            renderItem={({item}) => (
+                                <CocktailItem
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
                                     onSelect={() => navigation.navigate('CocktailDetails', {
-                                        id: cocktail.item.idDrink,
-                                        name: cocktail.item.strDrink
+                                        id: item.idDrink,
+                                        name: item.strDrink
                                     })}
                                 />
                             )}

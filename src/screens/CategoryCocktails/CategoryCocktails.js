@@ -3,7 +3,7 @@ import { View, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Header, Left, Body, Right, Button, Title, Icon, Spinner } from 'native-base';
 import { getCategoryCocktails, clearData } from '../../store/actions/CocktailsActions';
-import CocktailBox from '../../components/CocktailBox/CocktailBox';
+import CocktailItem from '../../components/CocktailItem/CocktailItem';
 import Colors from '../../constants/Colors';
 
 const CategoryCocktails = props => {
@@ -48,14 +48,15 @@ const CategoryCocktails = props => {
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={categoryCocktails}
-                    numColumns={2}
-                    renderItem={(cocktail) => (
-                        <CocktailBox
-                            title={cocktail.item.strDrink}
-                            image={cocktail.item.strDrinkThumb}
+                    style={{ backgroundColor: '#f4f4f4' }}
+                    renderItem={({item}) => (
+                        <CocktailItem
+                            title={item.strDrink}
+                            image={item.strDrinkThumb}
+                            tags={item.strTags}
                             onSelect={() => navigation.navigate('CocktailDetails', {
-                                id: cocktail.item.idDrink,
-                                name: cocktail.item.strDrink
+                                id: item.idDrink,
+                                name: item.strDrink
                             })}
                         />
                     )}
