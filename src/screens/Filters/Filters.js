@@ -53,44 +53,61 @@ const Filters = props => {
         setChecked(updated)
     }
 
-    const filterCocktails = () => {
+    const filterCocktails = () => {       
         let byAlcoholic = [];
         for (let i = 0; i < allCocktails.length; i++) {
             if (allCocktails[i].strAlcoholic === selectedAlcoholic) {
                 byAlcoholic.push(allCocktails[i]);
             }
         }
-        console.log(byAlcoholic)
+        console.log("byAlcoholic: ", byAlcoholic)
+        const listAlcoholic = byAlcoholic.length > 0 ? byAlcoholic : allCocktails;
         let byCategories = [];
-        for (let i = 0; i < byAlcoholic.length; i++) {
+        for (let i = 0; i < listAlcoholic.length; i++) {
             for (let j = 0; j < checkedCategories.length; j++) {
-                if (byAlcoholic[i].strCategory === checkedCategories[j] && !byCategories.some(el => el.idDrink === byAlcoholic[i].idDrink)) {
-                    byCategories.push(byAlcoholic[i]);
+                if (listAlcoholic[i].strCategory === checkedCategories[j]) {
+                    byCategories.push(listAlcoholic[i]);
                 }
             }
         }
-        console.log(byCategories)
-        byCategories = byCategories.length > 0 ? byCategories : allCocktails;
+        console.log("byCategories: ", byCategories)
+        const listCategories = byCategories.length > 0 ? byCategories : allCocktails;
         let byGlasses = [];
-        for (let i = 0; i < byCategories.length; i++) {
+        for (let i = 0; i < listCategories.length; i++) {
             for (let j = 0; j < checkedGlasses.length; j++) {
-                if (byCategories[i].strGlass === checkedGlasses[j] && !byGlasses.some(el => el.idDrink === byCategories[i].idDrink)) {
-                    byGlasses.push(byCategories[i]);
+                if (listCategories[i].strGlass === checkedGlasses[j]) {
+                    byGlasses.push(listCategories[i]);
                 }
             }
         }
-        console.log(byGlasses)
-        byGlasses = byGlasses.length > 0 ? byGlasses : allCocktails;
+        console.log("byGlasses: ", byGlasses)
+        const listGlasses =  byGlasses.length > 0 ? byGlasses : allCocktails;
         let byIngredients = [];
-        for (let i = 0; i < byGlasses.length; i++) {
+        for (let i = 0; i < listGlasses.length; i++) {
             for (let j = 0; j < checkedIngredients.length; j++) {
-                if (byGlasses[i].ingredientList.some(ingredient => ingredient === checkedIngredients[j]) && !byIngredients.some(el => el.idDrink === byGlasses[i].idDrink)) {
-                    byIngredients.push(byGlasses[i]);
+                if (listGlasses[i].ingredientList.some(ingredient => ingredient === checkedIngredients[j])) {
+                    byIngredients.push(listGlasses[i]);
                 }
             }
         }
-        console.log(byIngredients)
-        navigation.navigate('FilteredCocktails', { filteredCocktails: byIngredients })
+        console.log("byIngredients: ", byIngredients)
+
+        let temp = [];
+        if (byIngredients.length === 0 && byGlasses.length > 0) {
+            temp = byGlasses;
+        } 
+        if (byIngredients.length === 0 && byGlasses.length === 0 && byCategories.length > 0) {
+            temp = byCategories;
+        } 
+        if (byIngredients.length === 0 && byGlasses.length === 0 && byCategories.length === 0) {
+            temp = byAlcoholic;
+        } 
+        if (byIngredients.length > 0) {
+            temp = byIngredients
+        }
+
+        console.log("filteredCocktails: ", temp)
+        navigation.navigate('FilteredCocktails', { filteredCocktails: temp })
     }
 
     const clearFiltersHandler = () => {

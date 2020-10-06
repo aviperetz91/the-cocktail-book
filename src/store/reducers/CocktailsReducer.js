@@ -73,10 +73,8 @@ const CocktailsReducer = (state = initialState, action) => {
                 ingredientList: ingredients
             }
         case SET_GLASS_LIST:
-            console.log(action.glassList.length - 1)
             const glasses = [];
             action.glassList.forEach((glass, index) => {
-                console.log(index)
                 if (index !== action.glassList.length - 1) {
                     glasses.push(glass.strGlass)
                 }
