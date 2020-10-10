@@ -10,7 +10,7 @@ const CategoryCocktails = props => {
 
     const navigation = props.navigation;
     const categoryTitle = props.route.params.title;
-    
+
     const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
 
     const dispatch = useDispatch();
@@ -30,10 +30,10 @@ const CategoryCocktails = props => {
             <Fragment>
                 <Header style={{ backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
                     <Left>
-                        <Button 
-                            transparent 
-                            onPress={() => { 
-                                dispatch(clearData('categoryCocktails')); 
+                        <Button
+                            transparent
+                            onPress={() => {
+                                dispatch(clearData('categoryCocktails'));
                                 navigation.goBack()
                             }}
                         >
@@ -46,9 +46,8 @@ const CategoryCocktails = props => {
                     <Right />
                 </Header>
                 <FlatList
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={(item, index) => index.toString()}
                     data={categoryCocktails}
-                    style={{ backgroundColor: '#f4f4f4' }}
                     renderItem={({item}) => (
                         <CocktailItem
                             title={item.strDrink}
@@ -60,10 +59,10 @@ const CategoryCocktails = props => {
                             })}
                         />
                     )}
-                />
+                />                
             </Fragment>
         )
-    } 
+    }
 }
 
 

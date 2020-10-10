@@ -15,7 +15,11 @@ const CategoryBox = props => {
                 <Text style={styles.title}>
                     {/* {props.title.length > 17 ? `${props.title.substring(0, 17)}...` : `${props.title}`} */}
                     {props.title}
-                </Text>                
+                </Text>        
+                {props.title !== '' ?
+                <Text style={styles.subTitle}>
+                    {`${props.subTitle} ITEMS`}
+                </Text> : null }      
             </View>
         </TouchableOpacity>
     )

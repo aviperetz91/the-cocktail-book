@@ -14,9 +14,16 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     title: {
-        fontSize: 17,
+        fontSize: 15,
         color: 'white',
         textAlign: 'center',
+        letterSpacing: 1,
+    },
+    subTitle: {
+        fontSize: 10,
+        color: '#b7b7b7',
+        textAlign: 'center',
+        letterSpacing: 3,
     },
     bgImage: {
         width: '100%',

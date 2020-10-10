@@ -73,7 +73,6 @@ const Home = props => {
                         <FlatList
                             keyExtractor={(item, index) => index}
                             data={searchResults}
-                            style={{ backgroundColor: '#f4f4f4' }}
                             renderItem={({item}) => (
                                 <CocktailItem
                                     title={item.strDrink}

@@ -1,41 +1,82 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+        backgroundColor: 'white'
+    },
+    imageContainer: {
+        borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        backgroundColor: 'black',
+        // elevation: 5,
+    },
     image: {
         width: "100%",
         height: 320,
-        position: 'relative'
+        borderBottomRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        opacity: 0.8
     },
-    header: {
-        backgroundColor: 'transparent',
-        elevation: 0
+    backButton: {
+        position: 'absolute', 
+        left: 6, 
+        top: 25,
+        padding: 15, 
     },
-    titleContainer: {
+    homeButton: {
+        position: 'absolute', 
+        right: 6, 
+        top: 25,
+        padding: 15, 
+    },
+    favoriteButton: {
         position: 'absolute',
-        bottom: 0,
+        backgroundColor: 'white',
+        elevation: 5,
+        top: 290,
+        left: 320,
+        width: 45,
+        height: 45,
+        borderRadius: 50,
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        paddingVertical: 10,
-        width: '100%'
+        justifyContent: 'center'
+    },  
+    titleContainer: {
+        padding: 20,
     },
     title: {
-        fontSize: 20,
-    },
-    subTitleContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: 20 
-    },
-    subTitle: {
+        color: 'black',
         fontWeight: 'bold',
-        fontSize: 17,
     },
-    container: {
-        backgroundColor: 'white'
+    tabBarUnderline: {
+        backgroundColor: 'black', 
+        height: 1
     },
-    ingredientsContainer: {
-        flexDirection: "row",
-        alignItems: "center",
+    whiteBack: {
+        backgroundColor: 'white',
+    },
+    textMuted: {
+        color: '#a7a7a7'
+    },
+    marginTop: {
+        marginTop: 10
+    },
+    activeTabText: {
+        color: 'black', 
+        fontWeight: 'bold', 
+        fontSize: 16
+    },
+    detailsContainer: {
+        padding: 20, 
+        paddingTop: 10
+    },
+    detailsContent: {
+        fontSize: 16,
+        lineHeight: 30
+    }, 
+    detailsTitle: {
+        color: '#444',
     },
     ingredientImage: {
         width: 50,
@@ -49,23 +90,7 @@ const styles = StyleSheet.create({
     },
     listItemTitle: {
         fontSize: 16,
-    },
-    content: {
-        fontSize: 16
-    },
-    iconContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        marginVertical: 15,
-    },
-    iconTitle: {
-        textAlign: "center",
-        marginLeft: 5
-    },
-    col: {
-        width: '33%',
-    },
+    },   
     spinnerContainer: {
         flex: 1, 
         justifyContent: 'center', 

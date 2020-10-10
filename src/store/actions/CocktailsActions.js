@@ -24,7 +24,12 @@ export const getAllCocktails = () => {
 export const getCategories = () => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/list.php?c=list`)
-        dispatch({ type: SET_CATEGORIES, categories: response.data.drinks })
+        let categoriesLength = {};
+        response.data.drinks.forEach(async category => {
+            const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${category.strCategory}`)
+            categoriesLength[category.strCategory] = categoryCocktails.data.drinks.length
+            dispatch({ type: SET_CATEGORIES, categories: response.data.drinks, categoriesLength })
+        })
     }
 }
 

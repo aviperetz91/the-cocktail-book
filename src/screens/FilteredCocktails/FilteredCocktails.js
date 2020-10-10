@@ -52,7 +52,6 @@ const FilteredCocktails = props => {
                 <FlatList
                     keyExtractor={(item, index) => index}
                     data={filteredCocktails}
-                    style={{ backgroundColor: '#f4f4f4' }}
                     renderItem={({item}) => (
                         <CocktailItem
                             title={item.strDrink}

@@ -13,6 +13,7 @@ import {
 const initialState = {
     allCocktails: null,
     categories: null,
+    categoriesLength: null,
     categoryCocktails: null,
     selectedCocktail: null,
     searchResults: null,
@@ -46,7 +47,8 @@ const CocktailsReducer = (state = initialState, action) => {
             const categories = action.categories.map(category => category.strCategory)
             return {
                 ...state,
-                categories: categories
+                categories: categories,
+                categoriesLength: action.categoriesLength
             }
         case SET_CATEGORY_COCKTAILS:
             return {

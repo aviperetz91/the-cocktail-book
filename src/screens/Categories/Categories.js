@@ -13,6 +13,7 @@ const Categories = props => {
     const navigation = props.navigation;
 
     const categories = useSelector(state => state.cocktails.categories);
+    const categoriesLength = useSelector(state => state.cocktails.categoriesLength);
 
     const dispatch = useDispatch();
 
@@ -29,21 +30,23 @@ const Categories = props => {
         )
     } else {
         return (
-            <FlatList
-                keyExtractor={(item, index) => index}
-                data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
-                numColumns={2}
-                contentContainerStyle={{ backgroundColor: '#efefef' }}
-                renderItem={({ item }) => {
-                    return (
-                        <CategoryBox
-                            title={item}
-                            image={categoriesImages[categories.findIndex(el => el === item)]}
-                            onSelect={() => navigation.navigate("CategoryCocktails", { title: item })}
-                        />
-                    )
-                }}
-            />
+            <View style={{ padding: 12 }}>
+                <FlatList
+                    keyExtractor={(item, index) => index}
+                    data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
+                    numColumns={2}
+                    renderItem={({ item }) => {
+                        return (
+                            <CategoryBox
+                                title={item}
+                                subTitle={categoriesLength[item]}
+                                image={categoriesImages[categories.findIndex(el => el === item)]}
+                                onSelect={() => navigation.navigate("CategoryCocktails", { title: item })}
+                            />
+                        )
+                    }}
+                />
+            </View>
         )
     }
 }
