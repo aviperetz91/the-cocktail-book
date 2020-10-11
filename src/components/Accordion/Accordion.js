@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Spinner, Radio } from 'native-base';
-import { Icon, CheckBox } from 'react-native-elements';
+import { CheckBox, Icon } from 'react-native-elements';
 import styles from './style';
 import Colors from '../../constants/Colors';
 
 const Accordion = props => {
     const { list, isMultiSelect, selected, checkedList, selectHandler } = props;
 
-    const [isPressed, setIsPressed] = useState(false);    
+    const [isPressed, setIsPressed] = useState(false);
 
     const renderItem = (item) => {
         if (isMultiSelect) {
@@ -16,27 +16,27 @@ const Accordion = props => {
                 <CheckBox
                     containerStyle={styles.checkboxContainer}
                     title={item}
-                    checkedColor={Colors.textColor}
+                    checkedColor={'white'}
                     checked={checkedList.some(el => el === item)}
                     onPress={() => selectHandler(item)}
-                    textStyle={{  color: Colors.textColor}}
-                />                            
+                    textStyle={{ color: checkedList.some(el => el === item) ? 'white' : '#a7a7a7', letterSpacing: 1, fontWeight: 'normal'}}
+                />
             )
         } else {
             return (
                 <View style={styles.radioContainer} onPress={() => selectHandler(item)}>
                     <View>
                         <Radio
-                            color={'#bfbfbf'}
-                            selectedColor={Colors.textColor}
+                            color={'#a7a7a7'}
+                            selectedColor={'white'}
                             selected={item === selected}
                             onPress={() => selectHandler(item)}
                         />
                     </View>
                     <View>
                         <Text
-                            onPress={() => selectHandler(item)} 
-                            style={styles.radioText}
+                            onPress={() => selectHandler(item)}
+                            style={item === selected ? {...styles.radioText, color: 'white'} : styles.radioText}
                         >
                             {item}
                         </Text>
@@ -49,11 +49,11 @@ const Accordion = props => {
     return (
         <View style={styles.accordion}>
             <TouchableWithoutFeedback onPress={() => setIsPressed(!isPressed)}>
-                <View style={isPressed ? {...styles.accordionHeader, borderBottomWidth: 0} : styles.accordionHeader}>
+                <View style={isPressed ? styles.accordionHeader: {...styles.accordionHeader, borderBottomWidth: 3}}>
                     <Text style={styles.accordionHeaderText}>
                         {props.title}
                     </Text>
-                    <Icon type={'font-awesome'} name={isPressed ? 'chevron-up' : 'chevron-down'} size={13}  />
+                    <Icon type={'ionicon'} name={isPressed ? 'chevron-up' : 'chevron-down'} size={17} color={'white'} />
                 </View>
             </TouchableWithoutFeedback>
             {isPressed ?
