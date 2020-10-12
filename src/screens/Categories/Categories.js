@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
-import { Spinner } from 'native-base';
+import { Header, Left, Body, Right, Button, Title, Icon, Spinner } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCategories } from '../../store/actions/CocktailsActions';
 import categoriesImages from '../../constants/categoriesImages';
 import Colors from '../../constants/Colors';
 import CategoryBox from '../../components/CategoryBox/CategoryBox';
+import styles from './style';
 
 
 const Categories = props => {
@@ -24,14 +25,28 @@ const Categories = props => {
 
     if (!categories) {
         return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.spinnerContainer}>
                 <Spinner color={Colors.darkPrimary} />
             </View>
         )
     } else {
         return (
-            <View style={{ padding: 12 }}>
-                <FlatList
+            <Fragment>
+                <View>
+                    <Header style={styles.header} androidStatusBarColor={'black'}>
+                        <Left>
+                            <Button transparent onPress={() => navigation.goBack()}>
+                                <Icon name='arrow-back' style={{ color: 'black' }} />
+                            </Button>
+                        </Left>
+                        <Body>
+                            <Title style={styles.title}>Categories</Title>
+                        </Body>
+                        <Right />
+                    </Header>
+                </View>
+                <FlatList                    
+                    contentContainerStyle={styles.screen}
                     keyExtractor={(item, index) => index}
                     data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
                     numColumns={2}
@@ -46,7 +61,7 @@ const Categories = props => {
                         )
                     }}
                 />
-            </View>
+            </Fragment>
         )
     }
 }

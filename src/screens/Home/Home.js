@@ -87,7 +87,7 @@ const Home = props => {
                         />
                     </View>
                     :
-                    <Header hasTabs style={{ marginBottom: 15, backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
+                    <Header hasTabs style={{ marginBottom: 15, backgroundColor: Colors.primary }}>
                         <Left>
                             <View>
                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>

@@ -18,7 +18,7 @@ const FilteredCocktails = props => {
     } else if (filteredCocktails.length === 0) {
         return (
             <Fragment>
-                <Header style={{ backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
+                <Header style={{ backgroundColor: Colors.primary }}>
                     <Left>
                         <Button transparent onPress={() => navigation.goBack()}>
                             <Icon name='arrow-back' />
@@ -38,7 +38,7 @@ const FilteredCocktails = props => {
     } else {
         return (
             <Fragment>
-                <Header style={{ backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
+                <Header style={{ backgroundColor: Colors.primary }}>
                     <Left>
                         <Button transparent onPress={() => navigation.goBack()}>
                             <Icon name='arrow-back' />

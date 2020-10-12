@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     gridItem: {
         flex: 1,
-        margin: 0.25,
+        margin: 0.5,
         height: 150,
         backgroundColor: 'black'
     },  

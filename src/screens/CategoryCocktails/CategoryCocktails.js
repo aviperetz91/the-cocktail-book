@@ -28,7 +28,7 @@ const CategoryCocktails = props => {
     } else {
         return (
             <Fragment>
-                <Header style={{ backgroundColor: Colors.primary }} androidStatusBarColor={Colors.darkPrimary}>
+                <Header style={{ backgroundColor: Colors.primary }}>
                     <Left>
                         <Button
                             transparent

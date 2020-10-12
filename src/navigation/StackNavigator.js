@@ -9,10 +9,10 @@ import FilteredCocktails from '../screens/FilteredCocktails/FilteredCocktails';
 
 const Stack = createStackNavigator();
 
-const CocktailsNavigator = () => {
+const StackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name="Home" component={Home}/>
+      {/* <Stack.Screen name="Home" component={Home}/> */}
       <Stack.Screen name="Categories" component={Categories}/>
       <Stack.Screen name="CategoryCocktails" component={CategoryCocktails}/>
       <Stack.Screen name="CocktailDetails" component={CocktailDetails}/>
@@ -22,4 +22,4 @@ const CocktailsNavigator = () => {
   );
 }
 
-export default CocktailsNavigator;
+export default StackNavigator;
