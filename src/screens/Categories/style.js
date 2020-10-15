@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'center',
         letterSpacing: 4,
+        marginLeft: 15
     },    
     header: {
         backgroundColor: 'white', 

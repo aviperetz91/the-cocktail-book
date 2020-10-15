@@ -5,27 +5,25 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: '#343434', 
         elevation: 0,
-        position: 'absolute',
-        top: 30,
-        left: 10,
+        marginTop: 6
     },
     title: {
         fontSize: 20,
         color: 'white',
         textAlign: 'center',
         letterSpacing: 4,
+        marginLeft: 15
     },   
     screen: {                                
         flex: 1,
-        justifyContent: 'flex-start',    
+        justifyContent: 'center',    
         backgroundColor: '#343434' 
         
     },
     container: {    
-        marginTop: 130,
-        paddingBottom: 20,
+        paddingBottom: 60,
         paddingHorizontal: 30,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     clearButton: {
         padding: 10, 

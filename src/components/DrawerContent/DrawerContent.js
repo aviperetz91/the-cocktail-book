@@ -51,9 +51,9 @@ const DrawerContent = (props) => {
             <DrawerItem
               icon={({ color, size }) => (
                 <Icon
-                  type={'ionicon'}
+                  type={'Ionicons'}
                   name='grid-outline'
-                  style={{ fontSize: size - 2, color: color }}
+                  style={{ fontSize: size - 3, color: color, marginLeft: 1 }}
                 />
               )}
               label="Categories"

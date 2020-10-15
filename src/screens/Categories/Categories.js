@@ -35,8 +35,8 @@ const Categories = props => {
                 <View>
                     <Header style={styles.header} androidStatusBarColor={'black'}>
                         <Left>
-                            <Button transparent onPress={() => navigation.goBack()}>
-                                <Icon name='arrow-back' style={{ color: 'black' }} />
+                            <Button transparent onPress={() => navigation.openDrawer()}>
+                                <Icon name='menu-outline' style={{ color: 'black', fontSize: 32 }} />
                             </Button>
                         </Left>
                         <Body>

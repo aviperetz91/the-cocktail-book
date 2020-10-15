@@ -126,18 +126,19 @@ const Filters = props => {
 
     return (
         <Fragment>
+            <Header style={styles.header} androidStatusBarColor={'black'}>
+                <Left>
+                    <Button transparent onPress={() => navigation.openDrawer()}>
+                        <Icon name='menu-outline' style={{ color: 'white', fontSize: 32 }} />
+                    </Button>
+                </Left>
+                <Body>
+                    <Title style={styles.title}>Filters</Title>
+                </Body>
+                <Right />
+            </Header>
             <View style={styles.screen}>
-                <Header style={styles.header} androidStatusBarColor={'black'}>
-                    <Left>
-                        <Button transparent onPress={() => navigation.goBack()}>
-                            <Icon name='arrow-back' style={{ color: 'white' }} />
-                        </Button>
-                    </Left>
-                    <Body>
-                        {/* <Title style={styles.title}>Filters</Title> */}
-                    </Body>
-                    <Right />
-                </Header>
+
                 <View style={styles.container}>
                     <ScrollView>
                         <View>
