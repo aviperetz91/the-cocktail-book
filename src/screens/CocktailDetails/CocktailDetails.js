@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { View, ScrollView, Image, StatusBar, ImageBackground, TouchableOpacity } from 'react-native';
-import { List, Text, ListItem, Left, Body, Right, Thumbnail, Header, Tabs, Tab, TabHeading, Button, Title, Icon, Spinner } from 'native-base';
+import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-native';
+import { List, Text, ListItem, Left, Body, Right, Thumbnail, Tabs, Tab, Icon, Spinner } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import styles from './style';
 import { IMAGES_URL } from '@env';
-import Wrapper from '../../components/Wrapper/Wrapper';
 import Colors from '../../constants/Colors';
 
 const CocktailDetails = props => {
@@ -65,14 +64,19 @@ const CocktailDetails = props => {
                         <Icon type={'FontAwesome'} name='heart' style={{ fontSize: 20, color: 'red' }} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={goBack} style={styles.backButton}>
-                        <Icon type={'MaterialIcons'} name='arrow-back' style={{ fontSize: 26, color: 'white' }} />
+                        <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={{ fontSize: 29, color: 'white' }} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={goHome} style={styles.homeButton}>
-                        <Icon type={'MaterialIcons'} name='home' style={{ fontSize: 25, color: 'white' }} />
+                        <Icon type={'MaterialCommunityIcons'} name='home' style={{ fontSize: 25, color: 'white' }} />
                     </TouchableOpacity>
-                    <View style={styles.titleContainer}>
-                        <Title style={styles.title}>{name}</Title>
-                        <Text note>{selectedCocktail.strTags ? selectedCocktail.strTags : 'No Tags'}</Text>
+                    <View style={styles.container}>
+                        <View style={styles.titleContainer}>
+                            <Text style={styles.title}>{name}</Text>
+                            <Text note>{selectedCocktail.strGlass}</Text>
+                        </View>
+                        <View style={styles.ratingContainer}>
+                            <Text>* ratings *</Text>
+                        </View>
                     </View>
                     <Tabs tabBarUnderlineStyle={styles.tabBarUnderline}>
                         <Tab
@@ -92,22 +96,9 @@ const CocktailDetails = props => {
                             activeTabStyle={styles.whiteBack}
                             activeTextStyle={styles.activeTabText}
                         >
-                            <View style={styles.detailsContainer}>
-                                <Text style={styles.detailsTitle}>
-                                    Category:
-                                    <Text note style={styles.detailsContent}>   {selectedCocktail.strCategory}</Text>
-                                </Text>
-                                <Text style={styles.detailsTitle}>
-                                    Type:
-                                    <Text note style={styles.detailsContent}>   {selectedCocktail.strAlcoholic}</Text>
-                                </Text>
-                                <Text style={styles.detailsTitle}>
-                                    Glass:
-                                    <Text note style={styles.detailsContent}>   {selectedCocktail.strGlass}</Text>
-                                </Text>
-                                <Text style={styles.detailsTitle}>
-                                    Instructions:
-                                    <Text note style={styles.detailsContent}>   {selectedCocktail.strInstructions}</Text>
+                            <View style={styles.detailsContainer}>                                
+                                <Text style={styles.detailsTitle}>            
+                                    <Text note style={styles.detailsContent}>{selectedCocktail.strInstructions}</Text>
                                 </Text>
                             </View>
                         </Tab>

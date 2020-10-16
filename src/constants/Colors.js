@@ -5,5 +5,6 @@ export default {
     success: "#28a745",
     warning: "#ffc107",
     danger: '#dc3545',
+    dark: '#222',
     textColor: '#462e22'
 }

@@ -1,10 +1,11 @@
 import React, { useEffect, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
-import { Header, Left, Body, Right, Button, Title, Icon, Spinner } from 'native-base';
+import { Spinner } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCategories } from '../../store/actions/CocktailsActions';
 import categoriesImages from '../../constants/categoriesImages';
 import Colors from '../../constants/Colors';
+import Header from '../../components/Header/Header';
 import CategoryBox from '../../components/CategoryBox/CategoryBox';
 import styles from './style';
 
@@ -22,6 +23,9 @@ const Categories = props => {
         dispatch(getCategories());
     }, [dispatch])
 
+    const navigate = (item) => {
+        navigation.navigate("CategoryCocktails", { title: item })
+    }
 
     if (!categories) {
         return (
@@ -33,21 +37,22 @@ const Categories = props => {
         return (
             <Fragment>
                 <View>
-                    <Header style={styles.header} androidStatusBarColor={'black'}>
-                        <Left>
-                            <Button transparent onPress={() => navigation.openDrawer()}>
-                                <Icon name='menu-outline' style={{ color: 'black', fontSize: 32 }} />
-                            </Button>
-                        </Left>
-                        <Body>
-                            <Title style={styles.title}>Categories</Title>
-                        </Body>
-                        <Right />
-                    </Header>
+                    <Header
+                        headerBackground={'white'}
+                        statusBarColor={'black'}
+                        pressHandler={navigation.openDrawer}
+                        iconType={'Ionicons'}
+                        iconName={'menu-outline'}
+                        iconColor={'black'}
+                        iconSize={32}
+                        title={'Categories'}
+                        titleColor={'black'}
+                        letterSpacing={4}
+                    />  
                 </View>
-                <FlatList                    
+                <FlatList
                     contentContainerStyle={styles.screen}
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={(item, index) => index.toString()}
                     data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
                     numColumns={2}
                     renderItem={({ item }) => {
@@ -56,7 +61,7 @@ const Categories = props => {
                                 title={item}
                                 subTitle={categoriesLength[item]}
                                 image={categoriesImages[categories.findIndex(el => el === item)]}
-                                onSelect={() => navigation.navigate("CategoryCocktails", { title: item })}
+                                onSelect={() => navigate(item)}
                             />
                         )
                     }}

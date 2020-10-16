@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
-import { Spinner, Radio } from 'native-base';
+import { Spinner, Radio, Button } from 'native-base';
 import { CheckBox, Icon } from 'react-native-elements';
 import styles from './style';
 import Colors from '../../constants/Colors';
@@ -24,7 +24,7 @@ const Accordion = props => {
             )
         } else {
             return (
-                <View style={styles.radioContainer} onPress={() => selectHandler(item)}>
+                <Button transparent style={styles.radioContainer} onPress={() => selectHandler(item)}>
                     <View>
                         <Radio
                             color={'#a7a7a7'}
@@ -41,7 +41,7 @@ const Accordion = props => {
                             {item}
                         </Text>
                     </View>
-                </View>
+                </Button>
             )
         }
     }

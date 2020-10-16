@@ -50,7 +50,7 @@ const FilteredCocktails = props => {
                     <Right />
                 </Header>
                 <FlatList
-                    keyExtractor={(item, index) => index}
+                    keyExtractor={(item, index) => item.idDrink}
                     data={filteredCocktails}
                     renderItem={({item}) => (
                         <CocktailItem

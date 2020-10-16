@@ -6,10 +6,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center', 
         alignItems: 'center'
     },
-    screen: {
-        paddingVertical: 6,
-        paddingHorizontal: 12, 
-        backgroundColor: 'white'
+    listStyle: {
+        backgroundColor: 'white',
+        paddingVertical: 10
     }
 })
   

@@ -1,10 +1,10 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { ScrollView, View, ImageBackground } from 'react-native';
-import { Header, Left, Body, Right, Title, Button, Icon } from 'native-base';
+import { ScrollView, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button as Btn } from 'react-native-elements';
 import styles from './style';
 import { getIngredientList, getGlassList, getAlcoholicList } from '../../store/actions/CocktailsActions';
+import Header from '../../components/Header/Header';
 import Accordion from '../../components/Accordion/Accordion';
 import Colors from '../../constants/Colors';
 
@@ -126,19 +126,19 @@ const Filters = props => {
 
     return (
         <Fragment>
-            <Header style={styles.header} androidStatusBarColor={'black'}>
-                <Left>
-                    <Button transparent onPress={() => navigation.openDrawer()}>
-                        <Icon name='menu-outline' style={{ color: 'white', fontSize: 32 }} />
-                    </Button>
-                </Left>
-                <Body>
-                    <Title style={styles.title}>Filters</Title>
-                </Body>
-                <Right />
-            </Header>
+            <Header
+                headerBackground={Colors.dark}
+                statusBarColor={'black'}
+                pressHandler={navigation.openDrawer}
+                iconType={'Ionicons'}
+                iconName={'menu-outline'}
+                iconColor={'white'}
+                iconSize={32}
+                title={'Filters'}
+                titleColor={'white'}
+                letterSpacing={4}
+            />
             <View style={styles.screen}>
-
                 <View style={styles.container}>
                     <ScrollView>
                         <View>

@@ -74,6 +74,17 @@ const DrawerContent = (props) => {
               icon={({ color, size }) => (
                 <Icon
                   type={'MaterialCommunityIcons'}
+                  name="magnify"
+                  style={{ fontSize: size, color: color }}
+                />
+              )}
+              label="Search"
+              onPress={() => props.navigation.navigate('Search')}
+            />    
+            <DrawerItem
+              icon={({ color, size }) => (
+                <Icon
+                  type={'MaterialCommunityIcons'}
                   name="heart-outline"
                   style={{ fontSize: size - 1, color: color }}
                 />

@@ -42,12 +42,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },  
-    titleContainer: {
+    container: {
         padding: 20,
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'flex-end'
+    },
+    titleContainer: {
+        width: '70%',        
+    },
+    ratingContainer: {
+        width: '30%',
+        alignItems: 'flex-end'
     },
     title: {
+        fontSize: 20,
         color: 'black',
         fontWeight: 'bold',
+        letterSpacing: 1
     },
     tabBarUnderline: {
         backgroundColor: 'black', 

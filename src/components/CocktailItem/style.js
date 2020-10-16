@@ -6,18 +6,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
-        borderColor: '#ddd'
     },
     itemImage: {
         width: 85, 
         height: 85, 
-        borderRadius: 3
+        borderRadius: 20
     },
     itemTitle: { 
-        fontSize: 16, 
-        fontWeight: '600' 
+        fontSize: 17, 
+        fontWeight: '700',
+        letterSpacing: 0.5
     },
     itemNote: { 
         color: '#6c757d' 
