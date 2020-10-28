@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from 'native-base';
-import { View, TouchableOpacity, FlatList } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { Container, Header, Item, Input, Icon } from 'native-base';
+import { View, FlatList } from 'react-native';
 import CocktailItem from '../../components/CocktailItem/CocktailItem';
-import Colors from '../../constants/Colors';
 import { getCocktailByName, clearData } from '../../store/actions/CocktailsActions';
 import styles from './style';
 
@@ -13,8 +11,7 @@ const Search = props => {
     const navigation = props.navigation;
     const [searchInput, setSearchInput] = useState('');
     const searchResults = useSelector(state => state.cocktails.searchResults)
-    const searchBarRef = React.createRef();
-
+    
     const dispatch = useDispatch();
 
     const searchHandler = input => {
@@ -43,34 +40,39 @@ const Search = props => {
         searchHandler(input);
     }
 
+    const clearHandler = () => {
+        setSearchInput('');
+        dispatch(clearData('searchResults'))
+    }
+
     return (
         <View style={styles.screen}>
-            <SearchBar
-                ref={searchBarRef}
-                placeholder="Search..."
-                onChangeText={(input) => changeTextHandler(input)}
-                value={searchInput}
-                searchIcon={
-                    <TouchableOpacity onPress={goBack}>
-                        <Icon name='arrow-back' style={{ fontSize: 23, color: Colors.primary }} />
-                    </TouchableOpacity>
-                }
-                lightTheme
-                containerStyle={{ backgroundColor: 'white', elevation: 10 }}
-                inputContainerStyle={{ backgroundColor: 'white' }}
-            />
-            <FlatList
-                keyExtractor={(item) => item.idDrink}
-                data={searchResults}
-                renderItem={({ item }) => (
-                    <CocktailItem
-                        title={item.strDrink}
-                        image={item.strDrinkThumb}
-                        tags={item.strTags}
-                        onSelect={() => navigate(item)}
-                    />
-                )}
-            />
+            <Container>
+                <Header searchBar style={styles.searchBar} androidStatusBarColor={'white'} iosBarStyle={'dark-content'}>
+                    <Item style={{ backgroundColor: 'white' }}>
+                        <Icon name="arrow-back-outline" onPress={goBack} />
+                        <Input                            
+                            style={styles.input}
+                            value={searchInput}
+                            placeholder="Search..."
+                            onChangeText={(input) => changeTextHandler(input)}
+                        />
+                        { searchInput !== '' ? <Icon name="close-outline" style={{ color: '#aaa' }} onPress={clearHandler} /> : null } 
+                    </Item>
+                </Header>
+                <FlatList
+                    keyExtractor={(item) => item.idDrink}
+                    data={searchResults}
+                    renderItem={({ item }) => (
+                        <CocktailItem
+                            title={item.strDrink}
+                            image={item.strDrinkThumb}
+                            tags={item.strTags}
+                            onSelect={() => navigate(item)}
+                        />
+                    )}
+                />
+            </Container>
         </View>
     );
 }

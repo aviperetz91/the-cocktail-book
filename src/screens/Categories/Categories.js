@@ -36,21 +36,19 @@ const Categories = props => {
     } else {
         return (
             <Fragment>
-                <View>
-                    <Header
-                        headerBackground={'white'}
-                        statusBarColor={'black'}
-                        iosBarStyle={'dark-content'}
-                        pressHandler={navigation.openDrawer}
-                        iconType={'Ionicons'}
-                        iconName={'menu-outline'}
-                        iconColor={'black'}
-                        iconSize={32}
-                        title={'Categories'}
-                        titleColor={'black'}
-                        letterSpacing={4}
-                    />  
-                </View>
+                <Header
+                    headerBackground={'white'}
+                    statusBarColor={'white'}
+                    iosBarStyle={'dark-content'}
+                    pressHandler={navigation.openDrawer}
+                    iconType={'Ionicons'}
+                    iconName={'menu-outline'}
+                    iconColor={'black'}
+                    iconSize={32}
+                    title={'Categories'}
+                    titleColor={'black'}
+                    letterSpacing={4}
+                />
                 <FlatList
                     contentContainerStyle={styles.screen}
                     keyExtractor={(item, index) => index.toString()}
