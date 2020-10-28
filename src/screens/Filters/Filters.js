@@ -136,7 +136,7 @@ const Filters = props => {
         <Fragment>
             <Header
                 headerBackground={Colors.dark}
-                statusBarColor={'black'}
+                statusBarColor={Colors.dark}
                 iosBarStyle={'light-content'}
                 pressHandler={navigation.openDrawer}
                 iconType={'Ionicons'}
