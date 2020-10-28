@@ -40,6 +40,7 @@ const Categories = props => {
                     <Header
                         headerBackground={'white'}
                         statusBarColor={'black'}
+                        iosBarStyle={'dark-content'}
                         pressHandler={navigation.openDrawer}
                         iconType={'Ionicons'}
                         iconName={'menu-outline'}

@@ -3,13 +3,12 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     imageContainer: {
         borderBottomRightRadius: 30,
         borderBottomLeftRadius: 30,
         backgroundColor: 'black',
-        // elevation: 5,
     },
     image: {
         width: "100%",

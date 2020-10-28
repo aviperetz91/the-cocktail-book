@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         elevation: 0,
         marginVertical: 6,
-        alignItems: 'center'
+        alignItems: 'center',
+        borderBottomWidth: 0,                        
     },
     title: {
         color: 'black',

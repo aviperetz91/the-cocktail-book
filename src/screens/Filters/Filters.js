@@ -54,6 +54,14 @@ const Filters = props => {
         setChecked(updated)
     }
 
+    const handleSelectAlcoholic = (item) => {
+        if (item === selectedAlcoholic) {
+            setSelectedAlcoholic('')
+        } else {
+            setSelectedAlcoholic(item)
+        }
+    }
+
     const filterCocktails = () => {
         let byAlcoholic = [];
         for (let i = 0; i < allCocktails.length; i++) {
@@ -129,6 +137,7 @@ const Filters = props => {
             <Header
                 headerBackground={Colors.dark}
                 statusBarColor={'black'}
+                iosBarStyle={'light-content'}
                 pressHandler={navigation.openDrawer}
                 iconType={'Ionicons'}
                 iconName={'menu-outline'}
@@ -147,7 +156,7 @@ const Filters = props => {
                                     title={'Alcoholic'}
                                     list={alcoholicList}
                                     selected={selectedAlcoholic}
-                                    selectHandler={(item) => setSelectedAlcoholic(item)}
+                                    selectHandler={(item) => handleSelectAlcoholic(item)}
                                 />
                                 <Accordion
                                     title={'Category'}
