@@ -3,9 +3,9 @@ import { Header as NBHeader, Left, Right, Button, Title, Icon } from 'native-bas
 import styles from './style';
 
 const Header = props => {
-    const { headerBackground, statusBarColor, pressHandler, iconType, iconName, iconColor, iconSize, title, titleColor, letterSpacing } = props;
+    const { headerBackground, statusBarColor, iosBarStyle, pressHandler, iconType, iconName, iconColor, iconSize, title, titleColor, letterSpacing } = props;
     return (
-        <NBHeader style={{...styles.header, backgroundColor: headerBackground}} androidStatusBarColor={statusBarColor}>
+        <NBHeader style={{...styles.header, backgroundColor: headerBackground}} androidStatusBarColor={statusBarColor} iosBarStyle={iosBarStyle}>
             <Left>
                 <Button transparent onPress={pressHandler}>
                     <Icon 

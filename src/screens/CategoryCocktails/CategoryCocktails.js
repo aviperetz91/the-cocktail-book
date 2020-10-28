@@ -44,8 +44,9 @@ const CategoryCocktails = props => {
         return (
             <Fragment>
                 <Header
-                    headerBackground={Colors.dark}
+                    headerBackground={'black'}
                     statusBarColor={'black'}
+                    iosBarStyle={'light-content'}
                     pressHandler={goBack}
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
