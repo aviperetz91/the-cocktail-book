@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import SignupLogin from '../screens/SignupLogin/SignupLogin';
 // import Home from '../screens/Home/Home';
 import Categories from '../screens/Categories/Categories';
 import CategoryCocktails from '../screens/CategoryCocktails/CategoryCocktails';
@@ -12,14 +13,15 @@ const Stack = createStackNavigator();
 
 const StackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Signup" component={SignupLogin} />
       {/* <Stack.Screen name="Home" component={Home}/> */}
-      <Stack.Screen name="Categories" component={Categories}/>
-      <Stack.Screen name="CategoryCocktails" component={CategoryCocktails}/>
-      <Stack.Screen name="CocktailDetails" component={CocktailDetails}/>
-      <Stack.Screen name="Filters" component={Filters}/>
-      <Stack.Screen name="FilteredCocktails" component={FilteredCocktails}/>
-      <Stack.Screen name="Search" component={Search}/>
+      <Stack.Screen name="Categories" component={Categories} />
+      <Stack.Screen name="CategoryCocktails" component={CategoryCocktails} />
+      <Stack.Screen name="CocktailDetails" component={CocktailDetails} />
+      <Stack.Screen name="Filters" component={Filters} />
+      <Stack.Screen name="FilteredCocktails" component={FilteredCocktails} />
+      <Stack.Screen name="Search" component={Search} />
     </Stack.Navigator>
   );
 }

@@ -2,14 +2,12 @@ import { StyleSheet } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-    spinnerContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     screen: {
         flex: 1,
         backgroundColor: 'white'
+    },
+    header: {
+        display: 'none'
     },
     searchBar: {
         backgroundColor: 'white',
@@ -22,12 +20,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 12,
-        borderTopWidth: 1,
-        borderColor: '#dedede',
         marginBottom: 16
     },
+    arrowBack: {
+        fontSize: 23, 
+        color: Colors.primary
+    },
     input: {
-        backgroundColor: "white",
+        backgroundColor: 'white'
     }
 })
 
