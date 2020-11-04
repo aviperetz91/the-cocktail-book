@@ -8,16 +8,21 @@ const styles = StyleSheet.create({
         padding: 16,
         elevation: 0
     },
+    headerTitleContainer: {
+        borderColor: '#565656', 
+        borderBottomWidth: 3,
+        borderRadius: 5,
+    },  
     headerTitle: {
         color: 'black',
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        paddingBottom: 10
     },
     row: {
         flexDirection: 'row',
         justifyContent: 'flex-start', 
-        alignItems: 'center' 
-    },
+        alignItems: 'center',    },
     m_x: {
         marginHorizontal: 20
     },
@@ -50,7 +55,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#e7e7e7'
     },
     nextButton: {
-        backgroundColor: Colors.danger,
         width: 82,
         height: 48,
         borderRadius: 6,
@@ -70,7 +74,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },   
     nextIcon: {
-        fontSize: 35, color: 'white'
+        fontSize: 35, 
+        color: 'white'
     }
 })
 
