@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer } from 'native-base';
 import styles from './style';
 import Colors from '../../constants/Colors';
+import { signup, login } from '../../store/actions/AuthActions';
 
 const SignupLogin = props => {
 
-    const [mode, setMode] = useState('login')
+    const dispatch = useDispatch();
+    const [mode, setMode] = useState('login');
     const [info, setInfo] = useState({
         fullName: '',
         email: '',
         password: ''
-    })
+    });
 
     const changeTextHandler = (key, value) => {
         setInfo({
             ...info,
             [key]: value
         })
+    }
+
+    const signupHandler = () => {
+        dispatch(signup(info.email, info.password))
+    }
+
+    const loginHandler = () => {
+        dispatch(login(info.email, info.password))
     }
 
     return (
@@ -83,7 +94,7 @@ const SignupLogin = props => {
             <Footer style={styles.footer}>
                 <Button
                     style={{ ...styles.nextButton, backgroundColor: mode === 'signup' ? Colors.danger : Colors.warning }}
-                    onPress={() => console.log(info)}
+                    onPress={() => mode === 'signup' ? signupHandler() : mode === 'login' ? loginHandler() : {}}
                 >
                     <Icon type={"MaterialIcons"} name='trending-flat' style={styles.nextIcon} />
                 </Button>
