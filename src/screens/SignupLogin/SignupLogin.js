@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer } from 'native-base';
+import { useDispatch } from 'react-redux';
+import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer, Spinner } from 'native-base';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login } from '../../store/actions/AuthActions';
 
 const SignupLogin = props => {
 
+    const navigation = props.navigation;
     const dispatch = useDispatch();
     const [mode, setMode] = useState('login');
     const [info, setInfo] = useState({
@@ -15,20 +16,39 @@ const SignupLogin = props => {
         email: '',
         password: ''
     });
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
 
     const changeTextHandler = (key, value) => {
         setInfo({
             ...info,
             [key]: value
-        })
+        });
+        setError();
     }
 
-    const signupHandler = () => {
-        dispatch(signup(info.email, info.password))
-    }
-
-    const loginHandler = () => {
-        dispatch(login(info.email, info.password))
+    const authHandler = async () => {
+        if (info.email === '' || info.password === '') {
+            setError('Please enter the missing fields')
+        } else {
+            setIsLoading(true);
+            let res
+            try {
+                if (mode === 'signup') {
+                    res = await dispatch(signup(info.email, info.password))
+                } else if (mode === 'login') {
+                    res = await dispatch(login(info.email, info.password))
+                }
+                console.log(res)
+                if (res.registered || res.idToken) {
+                    navigation.navigate('Categories')
+                }
+            } catch (err) {
+                console.log(err)
+                setError(err)
+            }
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -89,12 +109,18 @@ const SignupLogin = props => {
                         />
                     </Item>
                 </View>
+                {isLoading ? <Spinner color={'#343434'} /> : null}
+                {error ?
+                    <View style={styles.alertContainer}>
+                        <Text style={styles.alertText}>{error.toString()}</Text>
+                    </View>
+                    : null}
             </View>
             <Content />
             <Footer style={styles.footer}>
                 <Button
                     style={{ ...styles.nextButton, backgroundColor: mode === 'signup' ? Colors.danger : Colors.warning }}
-                    onPress={() => mode === 'signup' ? signupHandler() : mode === 'login' ? loginHandler() : {}}
+                    onPress={authHandler}
                 >
                     <Icon type={"MaterialIcons"} name='trending-flat' style={styles.nextIcon} />
                 </Button>

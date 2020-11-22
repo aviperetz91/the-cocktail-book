@@ -12,10 +12,17 @@ export const signup = (email, password) => {
                 password: password,
                 returnSecureToken: true
             });
-            console.log(response.data)
-            dispatch({ type: SIGNUP })
+            return response.data;
+            // dispatch({ type: SIGNUP })
         } catch (err) {
-            console.log(err)
+            let errorMessage = '';
+            const errorType = err.response.data.error.message;
+            if (errorType === 'EMAIL_EXISTS') {
+                errorMessage = 'This email address is already in use'            
+            } else if (errorType === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+                errorMessage = 'We have blocked all requests from this device due to unusual activity'
+            }
+            throw new Error(errorMessage)
         }
     }
 }
@@ -27,11 +34,22 @@ export const login = (email, password) => {
                 email: email,
                 password: password,
                 returnSecureToken: true
-            });
-            console.log(response.data)
+            })
+            return response.data;
+            // dispatch({ type: LOGIN })
         } catch (err) {
-            console.log(err)
+            let errorMessage = '';
+            const errorType = err.response.data.error.message;
+            if (errorType === 'EMAIL_NOT_FOUND') {
+                errorMessage = 'This email could not be found'
+            } else if (errorType === 'INVALID_PASSWORD') {
+                errorMessage = 'This password is not valid'
+            } else if (errorType === 'USER_DISABLED') {
+                errorMessage = 'The user account has been disabled by an administrator'
+            } else if (errorType === 'TOO_MANY_ATTEMPTS_TRY_LATER') {
+                errorMessage = 'Access to this account has been temporarily disabled due to many failed login attempts'
+            }
+            throw new Error(errorMessage)
         }
-        dispatch({ type: LOGIN })
     }
 }

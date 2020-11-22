@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 const StackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Signup" component={SignupLogin} />
+      <Stack.Screen name="SignupLogin" component={SignupLogin} />
       {/* <Stack.Screen name="Home" component={Home}/> */}
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="CategoryCocktails" component={CategoryCocktails} />
