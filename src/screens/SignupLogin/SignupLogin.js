@@ -32,15 +32,14 @@ const SignupLogin = props => {
             setError('Please enter the missing fields')
         } else {
             setIsLoading(true);
-            let res
+            let res;
             try {
                 if (mode === 'signup') {
                     res = await dispatch(signup(info.email, info.password))
                 } else if (mode === 'login') {
                     res = await dispatch(login(info.email, info.password))
                 }
-                console.log(res)
-                if (res.registered || res.idToken) {
+                if (res.idToken) {
                     navigation.navigate('Categories')
                 }
             } catch (err) {

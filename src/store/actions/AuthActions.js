@@ -3,6 +3,7 @@ import { SECRET_KEY } from '@env';
 
 export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
+export const SIGNOUT = 'SIGNOUT';
 
 export const signup = (email, password) => {
     return async dispatch => {
@@ -12,8 +13,8 @@ export const signup = (email, password) => {
                 password: password,
                 returnSecureToken: true
             });
+            dispatch({ type: SIGNUP, token: response.data.idToken, userId: response.data.userId })
             return response.data;
-            // dispatch({ type: SIGNUP })
         } catch (err) {
             let errorMessage = '';
             const errorType = err.response.data.error.message;
@@ -35,8 +36,8 @@ export const login = (email, password) => {
                 password: password,
                 returnSecureToken: true
             })
+            dispatch({ type: LOGIN, token: response.data.idToken, userId: response.data.userId })
             return response.data;
-            // dispatch({ type: LOGIN })
         } catch (err) {
             let errorMessage = '';
             const errorType = err.response.data.error.message;
@@ -52,4 +53,8 @@ export const login = (email, password) => {
             throw new Error(errorMessage)
         }
     }
+}
+
+export const signout = () => {
+    return { type: SIGNOUT }
 }

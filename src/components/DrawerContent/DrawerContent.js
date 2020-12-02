@@ -1,11 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Icon } from 'native-base';
 import { Avatar, Title, Drawer } from 'react-native-paper';
+import { signout } from '../../store/actions/AuthActions';
 import styles from './style';
 
 const DrawerContent = (props) => {
+
+  const dispatch = useDispatch();
 
   return (
     <View style={{ flex: 1 }}>
@@ -106,7 +110,7 @@ const DrawerContent = (props) => {
             />
           )}
           label="Sign Out"
-          onPress={() => { signOut() }}
+          onPress={() =>  dispatch(signout()) }
         />
       </Drawer.Section>
     </View>
