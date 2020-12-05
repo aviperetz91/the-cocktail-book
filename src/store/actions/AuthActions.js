@@ -13,7 +13,7 @@ export const signup = (email, password) => {
                 password: password,
                 returnSecureToken: true
             });
-            dispatch({ type: SIGNUP, token: response.data.idToken, userId: response.data.userId })
+            dispatch({ type: SIGNUP, token: response.data.idToken, userId: response.data.localId })
             return response.data;
         } catch (err) {
             let errorMessage = '';
@@ -36,7 +36,7 @@ export const login = (email, password) => {
                 password: password,
                 returnSecureToken: true
             })
-            dispatch({ type: LOGIN, token: response.data.idToken, userId: response.data.userId })
+            dispatch({ type: LOGIN, token: response.data.idToken, userId: response.data.localId })
             return response.data;
         } catch (err) {
             let errorMessage = '';
