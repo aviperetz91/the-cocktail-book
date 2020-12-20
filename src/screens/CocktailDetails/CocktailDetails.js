@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-native';
-import { List, Text, ListItem, Left, Body, Right, Thumbnail, Tabs, Tab, Icon, Spinner } from 'native-base';
+import { Text, Tabs, Tab, Icon, Spinner } from 'native-base';
+import { Rating } from 'react-native-elements';
+import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import styles from './style';
-import { IMAGES_URL } from '@env';
 import Colors from '../../constants/Colors';
+import IngredientList from './IngredientList/IngredientList';
+import Reviews from './Reviews/Reviews';
+
 
 const CocktailDetails = props => {
 
@@ -38,81 +42,72 @@ const CocktailDetails = props => {
             </View>
         )
     } else {
-        const ingredientAndMeasure = selectedCocktail.ingredientList.map((ingredient, index) => {
-            return (
-                <ListItem thumbnail key={index}>
-                    <Left>
-                        <Thumbnail source={{ uri: `${IMAGES_URL}/ingredients/${ingredient}.png` }} />
-                    </Left>
-                    <Body>
-                        <Text style={styles.listItemTitle}>{ingredient}</Text>
-                    </Body>
-                    <Right>
-                        <Text note>{selectedCocktail.measureList[index]}</Text>
-                    </Right>
-                </ListItem>
-            );
-        })
         return (
-            <View style={styles.screen}>
-                <StatusBar translucent hidden={true} />
-                <ScrollView>
-                    <View style={styles.imageContainer}>
-                        <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
-                    </View>
-                    <TouchableOpacity onPress={() => console.log("Favorite!")} style={styles.favoriteButton}>
-                        <Icon type={'FontAwesome'} name='heart' style={{ fontSize: 20, color: 'red' }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={goBack} style={styles.backButton}>
-                        <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={{ fontSize: 29, color: 'white' }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={goHome} style={styles.homeButton}>
-                        <Icon type={'MaterialCommunityIcons'} name='home' style={{ fontSize: 25, color: 'white' }} />
-                    </TouchableOpacity>
-                    <View style={styles.container}>
-                        <View style={styles.titleContainer}>
-                            <Text style={styles.title}>{name}</Text>
-                            <Text note>{selectedCocktail.strGlass}</Text>
+            <Provider>
+                <View style={styles.screen}>
+                    <StatusBar translucent hidden={true} />
+                    <ScrollView>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
                         </View>
-                        <View style={styles.ratingContainer}>
-                            <Text>* ratings *</Text>
-                        </View>
-                    </View>
-                    <Tabs tabBarUnderlineStyle={styles.tabBarUnderline}>
-                        <Tab
-                            heading={'Ingredients'}
-                            tabStyle={styles.whiteBack}
-                            textStyle={styles.textMuted}
-                            activeTabStyle={styles.whiteBack}
-                            activeTextStyle={styles.activeTabText}
-
-                        >
-                            <List>{ingredientAndMeasure}</List>
-                        </Tab>
-                        <Tab
-                            heading={'Details'}
-                            tabStyle={styles.whiteBack}
-                            textStyle={styles.textMuted}
-                            activeTabStyle={styles.whiteBack}
-                            activeTextStyle={styles.activeTabText}
-                        >
-                            <View style={styles.detailsContainer}>                                
-                                <Text style={styles.detailsTitle}>            
-                                    <Text note style={styles.detailsContent}>{selectedCocktail.strInstructions}</Text>
-                                </Text>
+                        <TouchableOpacity onPress={() => console.log("Favorite!")} style={styles.favoriteButton}>
+                            <Icon type={'FontAwesome'} name='heart' style={{ fontSize: 20, color: 'red' }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={goBack} style={styles.backButton}>
+                            <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={{ fontSize: 29, color: 'white' }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={goHome} style={styles.homeButton}>
+                            <Icon type={'MaterialCommunityIcons'} name='home' style={{ fontSize: 25, color: 'white' }} />
+                        </TouchableOpacity>
+                        <View style={styles.container}>
+                            <View style={styles.titleContainer}>
+                                <Text style={styles.title}>{name}</Text>
+                                <Text note>{selectedCocktail.strGlass}</Text>
                             </View>
-                        </Tab>
-                        <Tab
-                            heading={'Reviews'}
-                            tabStyle={styles.whiteBack}
-                            textStyle={styles.textMuted}
-                            activeTabStyle={styles.whiteBack}
-                            activeTextStyle={styles.activeTabText}
-                        >
-                        </Tab>
-                    </Tabs>
-                </ScrollView>
-            </View>
+                            <View style={styles.ratingContainer}>
+                                <Rating
+                                    readonly
+                                    showRating={false}
+                                    imageSize={20}
+                                />
+                            </View>
+                        </View>
+                        <Tabs tabBarUnderlineStyle={styles.tabBarUnderline}>
+                            <Tab
+                                heading={'Ingredients'}
+                                tabStyle={styles.whiteBack}
+                                textStyle={styles.textMuted}
+                                activeTabStyle={styles.whiteBack}
+                                activeTextStyle={styles.activeTabText}
+                            >
+                                <IngredientList selectedCocktail={selectedCocktail} />
+                            </Tab>
+                            <Tab
+                                heading={'Details'}
+                                tabStyle={styles.whiteBack}
+                                textStyle={styles.textMuted}
+                                activeTabStyle={styles.whiteBack}
+                                activeTextStyle={styles.activeTabText}
+                            >
+                                <View style={styles.detailsContainer}>
+                                    <Text style={styles.detailsTitle}>
+                                        <Text note style={styles.detailsContent}>{selectedCocktail.strInstructions}</Text>
+                                    </Text>
+                                </View>
+                            </Tab>
+                            <Tab
+                                heading={'Reviews'}
+                                tabStyle={styles.whiteBack}
+                                textStyle={styles.textMuted}
+                                activeTabStyle={styles.whiteBack}
+                                activeTextStyle={styles.activeTabText}
+                            >
+                                <Reviews />
+                            </Tab>
+                        </Tabs>
+                    </ScrollView>
+                </View>
+            </Provider>
         )
     }
 };
