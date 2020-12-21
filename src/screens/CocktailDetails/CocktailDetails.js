@@ -5,6 +5,7 @@ import { Rating } from 'react-native-elements';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
+import { getReviewsById } from '../../store/actions/ReviewsActions';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import IngredientList from './IngredientList/IngredientList';
@@ -18,11 +19,13 @@ const CocktailDetails = props => {
     const name = props.route.params.name;
 
     const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
-
+    const ratingAvg = useSelector(state => state.reviews.ratingAvg);
+    
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCocktailById(id))
+        dispatch(getReviewsById(id))
     }, [dispatch])
 
     const goBack = () => {
@@ -67,6 +70,7 @@ const CocktailDetails = props => {
                             <View style={styles.ratingContainer}>
                                 <Rating
                                     readonly
+                                    startingValue={ratingAvg}
                                     showRating={false}
                                     imageSize={20}
                                 />
@@ -102,7 +106,7 @@ const CocktailDetails = props => {
                                 activeTabStyle={styles.whiteBack}
                                 activeTextStyle={styles.activeTabText}
                             >
-                                <Reviews />
+                                <Reviews idDrink={selectedCocktail.idDrink} />
                             </Tab>
                         </Tabs>
                     </ScrollView>
