@@ -6,15 +6,15 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     imageContainer: {
-        borderBottomRightRadius: 30,
-        borderBottomLeftRadius: 30,
+        // borderBottomRightRadius: 30,
+        // borderBottomLeftRadius: 30,
         backgroundColor: 'black',
     },
     image: {
         width: "100%",
-        height: 320,
-        borderBottomRightRadius: 30,
-        borderBottomLeftRadius: 30,
+        height: 350,
+        // borderBottomRightRadius: 30,
+        // borderBottomLeftRadius: 30,
         opacity: 0.8
     },
     backButton: {
@@ -40,19 +40,27 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        top: 290,
-        left: 320,
+        top: 310,
+        left: 345,
         width: 45,
         height: 45,
         borderRadius: 50,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        zIndex: 100,
     },
+    // detailsContainer: {
+    //     borderWidth: 1,
+    //     borderTopLeftRadius: 20,
+    //     borderTopRightRadius: 20,
+    //     marginTop: -15,
+    //     backgroundColor: 'white'
+    // },
     container: {
         padding: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
     },
     titleContainer: {
         width: '70%',

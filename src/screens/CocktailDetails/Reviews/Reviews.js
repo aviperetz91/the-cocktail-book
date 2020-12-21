@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View } from 'react-native';
-import { Text, Button, Textarea } from 'native-base';
+import { View, TouchableOpacity, FlatList } from 'react-native';
+import { Text, Button, Textarea, List, ListItem, Left, Right, Body, Thumbnail, Icon } from 'native-base';
 import { Dialog, Portal, Button as Btn } from 'react-native-paper';
-import { AirbnbRating } from 'react-native-elements';
+import { AirbnbRating, Rating } from 'react-native-elements';
 import styles from './style';
 import Colors from '../../../constants/Colors';
 import { leaveFeedback } from '../../../store/actions/ReviewsActions';
@@ -18,6 +18,7 @@ const Reviews = props => {
 
     const token = useSelector(state => state.auth.token)
     const userId = useSelector(state => state.auth.userId)
+    const reviews = useSelector(state => state.reviews.reviews)
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
@@ -31,13 +32,39 @@ const Reviews = props => {
         setRating(3);
     }
 
+    const renderReview = (review) => (
+        <ListItem style={styles.listItem} thumbnail>
+            <Left style={styles.avatarContainer}>
+                <Thumbnail source={{ uri: 'https://www.computerhope.com/jargon/g/guest-user.jpg' }} />
+            </Left>
+            <Body>
+                <Text style={styles.reviewAutor}>username</Text>
+                <Text style={styles.reviewComment}>{review.comment}</Text>
+            </Body>
+            <View style={styles.reviewRatingContainer}>
+                <Rating
+                    readonly
+                    startingValue={review.rating}
+                    showRating={false}
+                    imageSize={15}
+                />
+            </View>
+        </ListItem>
+
+    )
+
     return (
         <View style={styles.screen}>
-            <View style={styles.buttonContainer}>
-                <Button success onPress={() => setShowModal(true)}>
-                    <Text> Add </Text>
-                </Button>
-            </View>
+            <TouchableOpacity style={styles.addButton} onPress={() => setShowModal(true)}>
+                <Icon type={'Ionicons'} name="add" style={{ fontSize: 35, color: 'white' }} />
+            </TouchableOpacity>
+            <List>
+                <FlatList
+                    keyExtractor={(item, index) => index.toString()}
+                    data={reviews}
+                    renderItem={({item}) => renderReview(item)}
+                />
+            </List>
             <Portal>
                 <Dialog visible={showModal} onDismiss={cancelHandler} >
                     <Dialog.Content>
@@ -51,10 +78,10 @@ const Reviews = props => {
                             />
                         </View>
                         <View style={styles.textareaContainer}>
-                            <Textarea 
-                                rowSpan={4} 
-                                bordered 
-                                placeholder="Leave your feedback here...." 
+                            <Textarea
+                                rowSpan={4}
+                                bordered
+                                placeholder="Leave your feedback here...."
                                 onChangeText={input => setComment(input)}
                             />
                         </View>

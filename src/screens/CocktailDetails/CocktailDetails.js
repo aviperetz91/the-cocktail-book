@@ -20,7 +20,7 @@ const CocktailDetails = props => {
 
     const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
     const ratingAvg = useSelector(state => state.reviews.ratingAvg);
-    
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -62,53 +62,60 @@ const CocktailDetails = props => {
                         <TouchableOpacity onPress={goHome} style={styles.homeButton}>
                             <Icon type={'MaterialCommunityIcons'} name='home' style={{ fontSize: 25, color: 'white' }} />
                         </TouchableOpacity>
-                        <View style={styles.container}>
-                            <View style={styles.titleContainer}>
-                                <Text style={styles.title}>{name}</Text>
-                                <Text note>{selectedCocktail.strGlass}</Text>
-                            </View>
-                            <View style={styles.ratingContainer}>
-                                <Rating
-                                    readonly
-                                    startingValue={ratingAvg}
-                                    showRating={false}
-                                    imageSize={20}
-                                />
-                            </View>
-                        </View>
-                        <Tabs tabBarUnderlineStyle={styles.tabBarUnderline}>
-                            <Tab
-                                heading={'Ingredients'}
-                                tabStyle={styles.whiteBack}
-                                textStyle={styles.textMuted}
-                                activeTabStyle={styles.whiteBack}
-                                activeTextStyle={styles.activeTabText}
-                            >
-                                <IngredientList selectedCocktail={selectedCocktail} />
-                            </Tab>
-                            <Tab
-                                heading={'Details'}
-                                tabStyle={styles.whiteBack}
-                                textStyle={styles.textMuted}
-                                activeTabStyle={styles.whiteBack}
-                                activeTextStyle={styles.activeTabText}
-                            >
-                                <View style={styles.detailsContainer}>
-                                    <Text style={styles.detailsTitle}>
-                                        <Text note style={styles.detailsContent}>{selectedCocktail.strInstructions}</Text>
-                                    </Text>
+                        <View style={{
+                            borderTopLeftRadius: 20,
+                            borderTopRightRadius: 20,
+                            marginTop: -15,
+                            backgroundColor: 'white'
+                        }}>
+                            <View style={styles.container}>
+                                <View style={styles.titleContainer}>
+                                    <Text style={styles.title}>{name}</Text>
+                                    <Text note>{selectedCocktail.strGlass}</Text>
                                 </View>
-                            </Tab>
-                            <Tab
-                                heading={'Reviews'}
-                                tabStyle={styles.whiteBack}
-                                textStyle={styles.textMuted}
-                                activeTabStyle={styles.whiteBack}
-                                activeTextStyle={styles.activeTabText}
-                            >
-                                <Reviews idDrink={selectedCocktail.idDrink} />
-                            </Tab>
-                        </Tabs>
+                                <View style={styles.ratingContainer}>
+                                    <Rating
+                                        readonly
+                                        startingValue={ratingAvg}
+                                        showRating={false}
+                                        imageSize={20}
+                                    />
+                                </View>
+                            </View>
+                            <Tabs tabBarUnderlineStyle={styles.tabBarUnderline}>
+                                <Tab
+                                    heading={'Ingredients'}
+                                    tabStyle={styles.whiteBack}
+                                    textStyle={styles.textMuted}
+                                    activeTabStyle={styles.whiteBack}
+                                    activeTextStyle={styles.activeTabText}
+                                >
+                                    <IngredientList selectedCocktail={selectedCocktail} />
+                                </Tab>
+                                <Tab
+                                    heading={'Instructions'}
+                                    tabStyle={styles.whiteBack}
+                                    textStyle={styles.textMuted}
+                                    activeTabStyle={styles.whiteBack}
+                                    activeTextStyle={styles.activeTabText}
+                                >
+                                    <View style={styles.detailsContainer}>
+                                        <Text style={styles.detailsTitle}>
+                                            <Text note style={styles.detailsContent}>{selectedCocktail.strInstructions}</Text>
+                                        </Text>
+                                    </View>
+                                </Tab>
+                                <Tab
+                                    heading={'Reviews'}
+                                    tabStyle={styles.whiteBack}
+                                    textStyle={styles.textMuted}
+                                    activeTabStyle={styles.whiteBack}
+                                    activeTextStyle={styles.activeTabText}
+                                >
+                                    <Reviews idDrink={selectedCocktail.idDrink} />
+                                </Tab>
+                            </Tabs>
+                        </View>
                     </ScrollView>
                 </View>
             </Provider>

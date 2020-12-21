@@ -5,15 +5,41 @@ import Colors from '../../../constants/Colors';
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: Colors.lightGrey,
-        padding: 20
     },
-    buttonContainer: {
+    addButton: {
+        backgroundColor: Colors.success,
         flexDirection: 'row',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 55,
+        width: 55,
+        borderRadius: 50,
+        position: 'absolute',
+        zIndex: 100,
+        bottom: 20,
+        right: 10
     },
     textareaContainer: {
         marginTop: 25,
+    },
+    listItem: {
+        marginVertical: 6,
+        alignItems: 'flex-start'
+    },
+    reviewRatingContainer: {
+        position: 'absolute',
+        right: 10
+    },
+    reviewComment: {
+        color: '#a7a7a7',
+        fontStyle: 'italic',
+        fontSize: 16
+    },
+    reviewAutor: {
+        fontWeight: 'bold'
+    },
+    avatarContainer: {
+        height: '90%'
     },
 })
 
