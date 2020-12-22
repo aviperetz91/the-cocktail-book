@@ -18,11 +18,12 @@ const Reviews = props => {
 
     const token = useSelector(state => state.auth.token)
     const userId = useSelector(state => state.auth.userId)
+    const userName = useSelector(state => state.auth.userName)
     const reviews = useSelector(state => state.reviews.reviews)
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, token, userId, rating, comment))
+        dispatch(leaveFeedback(idDrink, token, userId, userName, rating, comment))
         setShowModal(false);
     }
 
@@ -38,7 +39,7 @@ const Reviews = props => {
                 <Thumbnail source={{ uri: 'https://www.computerhope.com/jargon/g/guest-user.jpg' }} />
             </Left>
             <Body>
-                <Text style={styles.reviewAutor}>username</Text>
+                <Text style={styles.reviewAutor}>{review.autor}</Text>
                 <Text style={styles.reviewComment}>{review.comment}</Text>
             </Body>
             <View style={styles.reviewRatingContainer}>

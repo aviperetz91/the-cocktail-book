@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: "100%",
-        height: 350,
+        height: 330,
         // borderBottomRightRadius: 30,
         // borderBottomLeftRadius: 30,
         opacity: 0.8
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-        top: 310,
-        left: 345,
+        top: 290,
+        left: 325,
         width: 45,
         height: 45,
         borderRadius: 50,

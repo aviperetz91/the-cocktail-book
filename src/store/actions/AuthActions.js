@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { SECRET_KEY } from '@env';
+import { SECRET_KEY, FB_URL } from '@env';
 
 export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
 export const SIGNOUT = 'SIGNOUT';
 
-export const signup = (email, password) => {
+export const signup = (name, email, password) => {
     return async dispatch => {
         try {
             const response = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${SECRET_KEY}`, {
@@ -13,7 +13,10 @@ export const signup = (email, password) => {
                 password: password,
                 returnSecureToken: true
             });
-            dispatch({ type: SIGNUP, token: response.data.idToken, userId: response.data.localId })
+            const userId = response.data.localId;
+            const token = response.data.idToken;
+            await axios.post(`${FB_URL}/users/${userId}.json?auth=${token}`, { userId: userId, userName: name })
+            dispatch({ type: SIGNUP, token: token, userId: userId, userName: name })
             return response.data;
         } catch (err) {
             let errorMessage = '';
@@ -36,7 +39,12 @@ export const login = (email, password) => {
                 password: password,
                 returnSecureToken: true
             })
-            dispatch({ type: LOGIN, token: response.data.idToken, userId: response.data.localId })
+            const userId = response.data.localId;
+            const token = response.data.idToken;
+            const userData = await axios.get(`${FB_URL}/users/${userId}.json`)
+            const keys = Object.keys(userData.data)
+            const userName = userData.data[keys[0]].userName;
+            dispatch({ type: LOGIN, token: token, userId: userId, userName: userName })
             return response.data;
         } catch (err) {
             let errorMessage = '';

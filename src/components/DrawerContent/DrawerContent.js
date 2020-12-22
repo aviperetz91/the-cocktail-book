@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Icon } from 'native-base';
 import { Avatar, Title, Drawer } from 'react-native-paper';
@@ -9,6 +9,7 @@ import styles from './style';
 
 const DrawerContent = (props) => {
 
+  const userName = useSelector(state => state.auth.userName)
   const dispatch = useDispatch();
 
   return (
@@ -24,7 +25,7 @@ const DrawerContent = (props) => {
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: 'column' }}>
-                <Title style={styles.title}>Avi Peretz</Title>
+                <Title style={styles.title}>{userName}</Title>
               </View>
             </View>
           </View>

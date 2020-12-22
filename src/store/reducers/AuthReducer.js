@@ -3,6 +3,7 @@ import { LOGIN, SIGNUP, SIGNOUT } from '../actions/AuthActions';
 const initialState = {
     token: null,
     userId: null,
+    userName: null,
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -10,17 +11,20 @@ const AuthReducer = (state = initialState, action) => {
         case LOGIN:
             return {
                 token: action.token,
-                userId: action.userId
+                userId: action.userId,
+                userName: action.userName
             }
         case SIGNUP:
             return {
                 token: action.token,
-                userId: action.userId
+                userId: action.userId,
+                userName: action.userName
             }
         case SIGNOUT:
             return {
                 token: null,
-                userId: null
+                userId: null,
+                userName: null
             }
         default:
             return state;

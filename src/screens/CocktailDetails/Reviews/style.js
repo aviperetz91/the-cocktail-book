@@ -1,4 +1,3 @@
-import { Right } from 'native-base';
 import { StyleSheet } from 'react-native';
 import Colors from '../../../constants/Colors';
 
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 55,
         width: 55,
-        borderRadius: 50,
+        borderRadius: 30,
         position: 'absolute',
         zIndex: 100,
         bottom: 20,

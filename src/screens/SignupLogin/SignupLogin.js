@@ -14,7 +14,10 @@ const SignupLogin = props => {
     const [info, setInfo] = useState({
         fullName: '',
         email: '',
-        password: ''
+        password: '',
+        // fullName: 'Avi Peretz',
+        // email: 'pavi@gmail.com',
+        // password: '123456',
     });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
@@ -35,7 +38,7 @@ const SignupLogin = props => {
             let res;
             try {
                 if (mode === 'signup') {
-                    res = await dispatch(signup(info.email, info.password))
+                    res = await dispatch(signup(info.fullName, info.email, info.password))
                 } else if (mode === 'login') {
                     res = await dispatch(login(info.email, info.password))
                 }

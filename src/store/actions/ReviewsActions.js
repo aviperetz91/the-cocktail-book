@@ -5,10 +5,11 @@ export const LEAVE_FEEDBACK = 'LEAVE_FEEDBACK';
 export const GET_REVIEWS = 'GET_REVIEWS';
 
 
-export const leaveFeedback = (idDrink, token, userId, rating, comment) => {
+export const leaveFeedback = (idDrink, token, userId, userName, rating, comment) => {
     return async dispatch => {
         const response = await axios.post(`${FB_URL}/reviews/${idDrink}.json?auth=${token}`, {
             userId: userId,
+            autor: userName,
             rating: rating,
             comment: comment
         })
