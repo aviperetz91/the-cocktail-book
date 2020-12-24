@@ -27,15 +27,12 @@ const styles = StyleSheet.create({
     },
     reviewRatingContainer: {
         position: 'absolute',
-        right: 10
-    },
-    reviewTimeContainer: {
-        position: 'absolute',
         right: 10,
-        bottom: -70
     },
     reviewTimeText: {
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        textAlign: 'right',
+        marginTop: 10
     },
     reviewComment: {
         color: '#777',

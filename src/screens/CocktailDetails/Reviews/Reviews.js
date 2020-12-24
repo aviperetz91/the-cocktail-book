@@ -42,6 +42,7 @@ const Reviews = props => {
             <Body>
                 <Text style={styles.reviewAutor}>{review.autor}</Text>
                 <Text style={styles.reviewComment}>{review.comment}</Text>
+                <Text note style={styles.reviewTimeText}>{moment(review.date).fromNow()}</Text>
             </Body>
             <View>
                 <View style={styles.reviewRatingContainer}>
@@ -51,10 +52,7 @@ const Reviews = props => {
                         showRating={false}
                         imageSize={15}
                     />
-                </View>
-                <View style={styles.reviewTimeContainer}>
-                    <Text note style={styles.reviewTimeText}>{moment(review.date).fromNow()}</Text>
-                </View>
+                </View>                
             </View>
         </ListItem>
 
