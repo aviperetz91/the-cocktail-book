@@ -29,9 +29,16 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 10
     },
+    reviewTimeContainer: {
+        position: 'absolute',
+        right: 10,
+        bottom: -70
+    },
+    reviewTimeText: {
+        fontStyle: 'italic'
+    },
     reviewComment: {
-        color: '#a7a7a7',
-        fontStyle: 'italic',
+        color: '#777',
         fontSize: 16
     },
     reviewAutor: {

@@ -11,7 +11,8 @@ export const leaveFeedback = (idDrink, token, userId, userName, rating, comment)
             userId: userId,
             autor: userName,
             rating: rating,
-            comment: comment
+            comment: comment,
+            date: new Date(Date.now())
         })
     }
 }

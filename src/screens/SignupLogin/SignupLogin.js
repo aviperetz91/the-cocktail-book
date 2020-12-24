@@ -12,12 +12,12 @@ const SignupLogin = props => {
     const dispatch = useDispatch();
     const [mode, setMode] = useState('login');
     const [info, setInfo] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-        // fullName: 'Avi Peretz',
-        // email: 'pavi@gmail.com',
-        // password: '123456',
+        // fullName: '',
+        // email: '',
+        // password: '',
+        fullName: 'Avi Peretz',
+        email: 'pavi@gmail.com',
+        password: '123456',
     });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();

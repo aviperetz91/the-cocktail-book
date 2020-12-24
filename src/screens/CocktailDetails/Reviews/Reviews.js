@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableOpacity, FlatList } from 'react-native';
-import { Text, Button, Textarea, List, ListItem, Left, Right, Body, Thumbnail, Icon } from 'native-base';
+import { Text, Textarea, List, ListItem, Left, Body, Thumbnail, Icon } from 'native-base';
 import { Dialog, Portal, Button as Btn } from 'react-native-paper';
 import { AirbnbRating, Rating } from 'react-native-elements';
 import styles from './style';
 import Colors from '../../../constants/Colors';
 import { leaveFeedback } from '../../../store/actions/ReviewsActions';
+import moment from 'moment';
 
 const Reviews = props => {
 
@@ -42,13 +43,18 @@ const Reviews = props => {
                 <Text style={styles.reviewAutor}>{review.autor}</Text>
                 <Text style={styles.reviewComment}>{review.comment}</Text>
             </Body>
-            <View style={styles.reviewRatingContainer}>
-                <Rating
-                    readonly
-                    startingValue={review.rating}
-                    showRating={false}
-                    imageSize={15}
-                />
+            <View>
+                <View style={styles.reviewRatingContainer}>
+                    <Rating
+                        readonly
+                        startingValue={review.rating}
+                        showRating={false}
+                        imageSize={15}
+                    />
+                </View>
+                <View style={styles.reviewTimeContainer}>
+                    <Text note style={styles.reviewTimeText}>{moment(review.date).fromNow()}</Text>
+                </View>
             </View>
         </ListItem>
 
@@ -63,7 +69,7 @@ const Reviews = props => {
                 <FlatList
                     keyExtractor={(item, index) => index.toString()}
                     data={reviews}
-                    renderItem={({item}) => renderReview(item)}
+                    renderItem={({ item }) => renderReview(item)}
                 />
             </List>
             <Portal>
