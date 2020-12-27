@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginTop: 10
     },
-    reviewComment: {
+    reviewContent: {
         color: '#777',
         fontSize: 16
     },

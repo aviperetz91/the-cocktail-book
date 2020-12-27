@@ -14,7 +14,7 @@ const Reviews = props => {
     const { idDrink } = props;
 
     const [showModal, setShowModal] = useState(false);
-    const [comment, setComment] = useState('');
+    const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
 
     const token = useSelector(state => state.auth.token)
@@ -24,13 +24,13 @@ const Reviews = props => {
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, token, userId, userName, rating, comment))
+        dispatch(leaveFeedback(idDrink, token, userId, userName, rating, content))
         setShowModal(false);
     }
 
     const cancelHandler = () => {
         setShowModal(false);
-        setComment('');
+        setContent('');
         setRating(3);
     }
 
@@ -41,7 +41,7 @@ const Reviews = props => {
             </Left>
             <Body>
                 <Text style={styles.reviewAutor}>{review.autor}</Text>
-                <Text style={styles.reviewComment}>{review.comment}</Text>
+                <Text style={styles.reviewContent}>{review.content}</Text>
                 <Text note style={styles.reviewTimeText}>{moment(review.date).fromNow()}</Text>
             </Body>
             <View>
@@ -87,7 +87,7 @@ const Reviews = props => {
                                 rowSpan={4}
                                 bordered
                                 placeholder="Leave your feedback here...."
-                                onChangeText={input => setComment(input)}
+                                onChangeText={input => setContent(input)}
                             />
                         </View>
                     </Dialog.Content>

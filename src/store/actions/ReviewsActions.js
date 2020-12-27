@@ -1,26 +1,26 @@
-import axios from 'axios';
-import { FB_URL } from '@env';
+import database from '@react-native-firebase/database';
 
 export const LEAVE_FEEDBACK = 'LEAVE_FEEDBACK';
 export const GET_REVIEWS = 'GET_REVIEWS';
 
 
-export const leaveFeedback = (idDrink, token, userId, userName, rating, comment) => {
+export const leaveFeedback = (idDrink, token, userId, userName, rating, content) => {
     return async dispatch => {
-        const response = await axios.post(`${FB_URL}/reviews/${idDrink}.json?auth=${token}`, {
+        const dateNow = Date.now()
+        await database().ref(`/reviews/${idDrink}/${userId}_${dateNow}`).set({
             userId: userId,
             autor: userName,
             rating: rating,
-            comment: comment,
-            date: new Date(Date.now())
+            content: content,
+            date: new Date(dateNow)
         })
     }
 }
 
 export const getReviewsById = (idDrink) => {
     return async dispatch => {
-        const response = await axios.get(`${FB_URL}/reviews/${idDrink}.json`)
-        const revObj = response.data;
+        const snapshot = await database().ref(`/reviews/${idDrink}`).once('value');
+        const revObj = snapshot.val();
         const reviews = [];
         for (let i in revObj) {
             reviews.push(revObj[i])
