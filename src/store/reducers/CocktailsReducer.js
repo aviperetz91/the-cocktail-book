@@ -1,12 +1,13 @@
 import {
-    SET_ALL_COCKTAILS,
-    SET_CATEGORIES,
-    SET_CATEGORY_COCKTAILS,
-    SET_COCKTAIL_DETAILS,
-    SET_SEARCH_RESULTS,
-    SET_INGREDIENT_LIST,
-    SET_GLASS_LIST,
-    SET_ALCOHOLIC_LIST,
+    GET_ALL_COCKTAILS,
+    GET_CATEGORIES,
+    GET_CATEGORY_COCKTAILS,
+    GET_COCKTAIL_DETAILS,
+    GET_SEARCH_RESULTS,
+    GET_INGREDIENT_LIST,
+    GET_GLASS_LIST,
+    GET_ALCOHOLIC_LIST,
+    TOGGLE_FAVORITE,
     CLEAR_DATA,
 } from '../actions/CocktailsActions';
 
@@ -20,11 +21,12 @@ const initialState = {
     ingredientList: null,
     glassList: null,
     alcoholicList: null,
+    favorites: null,
 }
 
 const CocktailsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_ALL_COCKTAILS:
+        case GET_ALL_COCKTAILS:
             if (action.cocktails) {
                 const extendedCocktails = []
                 action.cocktails.forEach(cocktail => {
@@ -43,19 +45,19 @@ const CocktailsReducer = (state = initialState, action) => {
                     allCocktails: state.allCocktails
                 }
             }
-        case SET_CATEGORIES:
+        case GET_CATEGORIES:
             const categories = action.categories.map(category => category.strCategory)
             return {
                 ...state,
                 categories: categories,
                 categoriesLength: action.categoriesLength
             }
-        case SET_CATEGORY_COCKTAILS:
+        case GET_CATEGORY_COCKTAILS:
             return {
                 ...state,
                 categoryCocktails: action.categoryCocktails
             }
-        case SET_COCKTAIL_DETAILS:
+        case GET_COCKTAIL_DETAILS:
             const ingredientList = makeIngredientsArray(action.selectedCocktail);
             const measureList = makeMeasureArray(action.selectedCocktail);
             const upgradeSelectedCocktail = extendCocktailObject(action.selectedCocktail, ingredientList, measureList);
@@ -63,18 +65,18 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 selectedCocktail: upgradeSelectedCocktail
             }
-        case SET_SEARCH_RESULTS:
+        case GET_SEARCH_RESULTS:
             return {
                 ...state,
                 searchResults: action.searchResults
             }
-        case SET_INGREDIENT_LIST:
+        case GET_INGREDIENT_LIST:
             const ingredients = action.ingredientList.map(ingredient => ingredient.strIngredient1)
             return {
                 ...state,
                 ingredientList: ingredients
             }
-        case SET_GLASS_LIST:
+        case GET_GLASS_LIST:
             const glasses = [];
             action.glassList.forEach((glass, index) => {
                 if (index !== action.glassList.length - 1) {
@@ -85,11 +87,16 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 glassList: glasses
             }
-        case SET_ALCOHOLIC_LIST:
+        case GET_ALCOHOLIC_LIST:
             const alcoholic = action.alcoholicList.map(alcoholic => alcoholic.strAlcoholic)
             return {
                 ...state,
                 alcoholicList: alcoholic
+            }
+        case TOGGLE_FAVORITE:
+            console.log(TOGGLE_FAVORITE)
+            return {
+                ...state,
             }
         case CLEAR_DATA:
             return {

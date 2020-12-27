@@ -4,13 +4,12 @@ import { Text, Tabs, Tab, Icon, Spinner } from 'native-base';
 import { Rating } from 'react-native-elements';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
+import { getCocktailById, toggleFavorite, clearData } from '../../store/actions/CocktailsActions';
 import { getReviewsById } from '../../store/actions/ReviewsActions';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import IngredientList from './IngredientList/IngredientList';
 import Reviews from './Reviews/Reviews';
-
 
 const CocktailDetails = props => {
 
@@ -20,6 +19,8 @@ const CocktailDetails = props => {
 
     const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
     const ratingAvg = useSelector(state => state.reviews.ratingAvg);
+    const token = useSelector(state => state.auth.token);
+    const userId = useSelector(state => state.auth.userId);
 
     const dispatch = useDispatch();
 
@@ -27,6 +28,10 @@ const CocktailDetails = props => {
         dispatch(getCocktailById(id))
         dispatch(getReviewsById(id))
     }, [dispatch])
+
+    const toggleFavoriteHandler = () => {
+        dispatch(toggleFavorite(selectedCocktail.idDrink, userId, token))
+    }
 
     const goBack = () => {
         dispatch(clearData('selectedCocktail'))
@@ -53,7 +58,7 @@ const CocktailDetails = props => {
                         <View style={styles.imageContainer}>
                             <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
                         </View>
-                        <TouchableOpacity onPress={() => console.log("Favorite!")} style={styles.favoriteButton}>
+                        <TouchableOpacity onPress={toggleFavoriteHandler} style={styles.favoriteButton}>
                             <Icon type={'FontAwesome'} name='heart' style={{ fontSize: 20, color: 'red' }} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goBack} style={styles.backButton}>

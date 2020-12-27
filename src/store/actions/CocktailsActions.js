@@ -1,14 +1,15 @@
 import axios from 'axios';
-import { API_URL } from '@env';
+import { API_URL, FB_URL } from '@env';
 
-export const SET_ALL_COCKTAILS = 'SET_ALL_COCKTAILS';
-export const SET_CATEGORIES = 'SET_CATEGORIES';
-export const SET_CATEGORY_COCKTAILS = 'SET_COCKTAILS';
-export const SET_COCKTAIL_DETAILS = 'SET_COCKTAIL_DETAILS';
-export const SET_SEARCH_RESULTS = 'SET_SEARCH_RESULTS';
-export const SET_INGREDIENT_LIST = 'SET_INGREDIENT_LIST';
-export const SET_GLASS_LIST = 'SET_GLASS_LIST';
-export const SET_ALCOHOLIC_LIST = 'SET_ALCOHOLIC_LIST';
+export const GET_ALL_COCKTAILS = 'GET_ALL_COCKTAILS';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
+export const GET_CATEGORY_COCKTAILS = 'GET_COCKTAILS';
+export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
+export const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
+export const GET_INGREDIENT_LIST = 'GET_INGREDIENT_LIST';
+export const GET_GLASS_LIST = 'GET_GLASS_LIST';
+export const GET_ALCOHOLIC_LIST = 'GET_ALCOHOLIC_LIST';
+export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const CLEAR_DATA = 'CLEAR_DATA';
 
 export const getAllCocktails = () => {
@@ -16,7 +17,7 @@ export const getAllCocktails = () => {
     return async dispatch => {
         letters.forEach(async letter => {
             const response = await axios.get(`${API_URL}/search.php?f=${letter}`)
-            dispatch({ type: SET_ALL_COCKTAILS, cocktails: response.data.drinks })
+            dispatch({ type: GET_ALL_COCKTAILS, cocktails: response.data.drinks })
         })
     }
 }
@@ -28,7 +29,7 @@ export const getCategories = () => {
         response.data.drinks.forEach(async category => {
             const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${category.strCategory}`)
             categoriesLength[category.strCategory] = categoryCocktails.data.drinks.length
-            dispatch({ type: SET_CATEGORIES, categories: response.data.drinks, categoriesLength })
+            dispatch({ type: GET_CATEGORIES, categories: response.data.drinks, categoriesLength })
         })
     }
 }
@@ -36,7 +37,7 @@ export const getCategories = () => {
 export const getCategoryCocktails = category => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/filter.php?c=${category}`)
-        dispatch({ type: SET_CATEGORY_COCKTAILS, categoryCocktails: response.data.drinks })
+        dispatch({ type: GET_CATEGORY_COCKTAILS, categoryCocktails: response.data.drinks })
     }
 }
 
@@ -44,35 +45,41 @@ export const getCocktailById = id => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/lookup.php?i=${id}`)
         const selected = response.data.drinks[0]
-        dispatch({ type: SET_COCKTAIL_DETAILS, selectedCocktail: selected })
+        dispatch({ type: GET_COCKTAIL_DETAILS, selectedCocktail: selected })
     }
 }
 
 export const getCocktailByName = name => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}//search.php?s=${name}`)
-        dispatch({ type: SET_SEARCH_RESULTS, searchResults: response.data.drinks })
+        dispatch({ type: GET_SEARCH_RESULTS, searchResults: response.data.drinks })
     }
 }
 
 export const getIngredientList = () => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/list.php?i=list`)
-        dispatch({ type: SET_INGREDIENT_LIST, ingredientList: response.data.drinks })
+        dispatch({ type: GET_INGREDIENT_LIST, ingredientList: response.data.drinks })
     }
 }
 
 export const getGlassList = () => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/list.php?g=list`)
-        dispatch({ type: SET_GLASS_LIST, glassList: response.data.drinks })
+        dispatch({ type: GET_GLASS_LIST, glassList: response.data.drinks })
     }
 }
 
 export const getAlcoholicList = () => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/list.php?a=list`)
-        dispatch({ type: SET_ALCOHOLIC_LIST, alcoholicList: response.data.drinks })
+        dispatch({ type: GET_ALCOHOLIC_LIST, alcoholicList: response.data.drinks })
+    }
+}
+
+export const toggleFavorite = (idDrink, userId, token) => {
+    return async dispatch => {
+        console.log("toggleFavorite()")
     }
 }
 
