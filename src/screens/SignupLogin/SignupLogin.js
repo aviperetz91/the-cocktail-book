@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer, Spinner } from 'native-base';
 import styles from './style';
 import Colors from '../../constants/Colors';
-import { signup, login } from '../../store/actions/AuthActions';
+import { signup, login, setAuthError } from '../../store/actions/AuthActions';
 
 const SignupLogin = props => {
 
-    const navigation = props.navigation;
     const dispatch = useDispatch();
+    const error = useSelector(state => state.auth.authError)
+
     const [mode, setMode] = useState('login');
+    const [isLoading, setIsLoading] = useState(false);
     const [info, setInfo] = useState({
         fullName: '',
         email: '',
@@ -19,37 +21,26 @@ const SignupLogin = props => {
         // email: 'pavi@gmail.com',
         // password: '123456',
     });
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState();
 
     const changeTextHandler = (key, value) => {
         setInfo({
             ...info,
             [key]: value
         });
-        setError();
+        dispatch(setAuthError(null));
     }
 
-    const authHandler = async () => {
+    const authHandler = () => {
         if (info.email === '' || info.password === '') {
-            setError('Please enter the missing fields')
+            dispatch(setAuthError('Please enter the missing fields'))
         } else {
             setIsLoading(true);
-            let res;
-            try {
-                if (mode === 'signup') {
-                    res = await dispatch(signup(info.fullName, info.email, info.password))
-                } else if (mode === 'login') {
-                    res = await dispatch(login(info.email, info.password))
-                }
-                if (res.idToken) {
-                    navigation.navigate('Categories')
-                }
-            } catch (err) {
-                console.log(err)
-                setError(err)
+            if (mode === 'signup') {
+                dispatch(signup(info.fullName, info.email, info.password))
+            } else if (mode === 'login') {
+                dispatch(login(info.email, info.password))
             }
-            setIsLoading(false)
+            setIsLoading(false)            
         }
     }
 
