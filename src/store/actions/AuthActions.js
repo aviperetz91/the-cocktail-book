@@ -10,10 +10,10 @@ export const signup = (name, email, passowrd) => {
     return async dispatch => {
         let errorMessage;
         try {
-            const userData = await auth().createUserWithEmailAndPassword(email, passowrd)
-            console.log(userData)
-            const token = userData.user._user.refreshToken;
-            const userId = userData.user._user.uid;
+            await auth().createUserWithEmailAndPassword(email, passowrd)
+            const idTokenResult = await auth().currentUser.getIdTokenResult()
+            const token = idTokenResult.token;
+            const userId = idTokenResult.claims.user_id;
             await database().ref(`/users/${userId}`).set({ userId: userId, userName: name })
             dispatch({ type: SIGNUP, token: token, userId: userId, userName: name })
         } catch (error) {
@@ -42,12 +42,12 @@ export const login = (email, password) => {
     return async dispatch => {
         let errorMessage;
         try {
-            const userData = await auth().signInWithEmailAndPassword(email, password)
-            console.log(userData)
-            const token = userData.user._user.refreshToken;
-            const userId = userData.user._user.uid;
+            await auth().signInWithEmailAndPassword(email, password)
+            const idTokenResult = await auth().currentUser.getIdTokenResult()
+            const token = idTokenResult.token;
+            const userId = idTokenResult.claims.user_id;
             const snapshot = await database().ref(`/users/${userId}`).once('value');
-            const user = snapshot.val()
+            const user = snapshot.val();
             dispatch({ type: LOGIN, token: token, userId: userId, userName: user.userName })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
