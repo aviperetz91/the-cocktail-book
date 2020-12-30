@@ -18,8 +18,8 @@ const CocktailDetails = props => {
     const name = props.route.params.name;
 
     const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
+    const favorites = useSelector(state => state.cocktails.favorites);
     const ratingAvg = useSelector(state => state.reviews.ratingAvg);
-    const token = useSelector(state => state.auth.token);
     const userId = useSelector(state => state.auth.userId);
 
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const CocktailDetails = props => {
     }, [dispatch])
 
     const toggleFavoriteHandler = () => {
-        dispatch(toggleFavorite(selectedCocktail.idDrink, userId, token))
+        dispatch(toggleFavorite(favorites, selectedCocktail.idDrink, userId))
     }
 
     const goBack = () => {
@@ -59,7 +59,11 @@ const CocktailDetails = props => {
                             <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
                         </View>
                         <TouchableOpacity onPress={toggleFavoriteHandler} style={styles.favoriteButton}>
-                            <Icon type={'FontAwesome'} name='heart' style={{ fontSize: 20, color: 'red' }} />
+                            <Icon 
+                                type={'MaterialCommunityIcons'} 
+                                name={favorites.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
+                                style={{ fontSize: 26, color: 'red' }} 
+                            />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goBack} style={styles.backButton}>
                             <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={{ fontSize: 29, color: 'white' }} />

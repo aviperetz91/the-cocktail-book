@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { API_URL, FB_URL } from '@env';
+import { API_URL } from '@env';
+import database from '@react-native-firebase/database';
 
 export const GET_ALL_COCKTAILS = 'GET_ALL_COCKTAILS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
@@ -9,6 +10,7 @@ export const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
 export const GET_INGREDIENT_LIST = 'GET_INGREDIENT_LIST';
 export const GET_GLASS_LIST = 'GET_GLASS_LIST';
 export const GET_ALCOHOLIC_LIST = 'GET_ALCOHOLIC_LIST';
+export const GET_FAVORITES = 'GET_FAVORITES';
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const CLEAR_DATA = 'CLEAR_DATA';
 
@@ -77,9 +79,29 @@ export const getAlcoholicList = () => {
     }
 }
 
-export const toggleFavorite = (idDrink, userId, token) => {
+export const getFavorites = (userId) => {
     return async dispatch => {
-        console.log("toggleFavorite()")
+        const snapshot = await database().ref(`users/${userId}/favorites`).once('value')
+        const favoriteObj = snapshot.val()
+        if (favoriteObj) {
+            const favoriteList = Object.keys(favoriteObj);
+            dispatch({ type: GET_FAVORITES, favorites: favoriteList })
+        }
+    }
+}
+
+export const toggleFavorite = (favorites, idDrink, userId) => {
+    return async dispatch => {
+        let updatedFavorites = favorites ? [...favorites] : [];
+        const isExist = updatedFavorites.some(fav => fav === idDrink);
+        if (isExist) {
+            updatedFavorites = favorites.filter(fav => fav !== idDrink)
+            await database().ref(`users/${userId}/favorites/${idDrink}`).remove()
+        } else {
+            updatedFavorites.push(idDrink)
+            await database().ref(`users/${userId}/favorites/${idDrink}`).set({ idDrink: idDrink })
+        }
+        dispatch({ type: TOGGLE_FAVORITE, favorites: updatedFavorites })
     }
 }
 

@@ -7,6 +7,7 @@ import {
     GET_INGREDIENT_LIST,
     GET_GLASS_LIST,
     GET_ALCOHOLIC_LIST,
+    GET_FAVORITES,
     TOGGLE_FAVORITE,
     CLEAR_DATA,
 } from '../actions/CocktailsActions';
@@ -93,10 +94,15 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 alcoholicList: alcoholic
             }
-        case TOGGLE_FAVORITE:
-            console.log(TOGGLE_FAVORITE)
+        case GET_FAVORITES:
             return {
                 ...state,
+                favorites: action.favorites
+            }
+        case TOGGLE_FAVORITE:
+            return {
+                ...state,
+                favorites: action.favorites
             }
         case CLEAR_DATA:
             return {

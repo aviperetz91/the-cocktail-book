@@ -2,7 +2,7 @@ import React, { useEffect, Fragment } from 'react';
 import { View, FlatList } from 'react-native';
 import { Spinner } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCategories } from '../../store/actions/CocktailsActions';
+import { getCategories, getFavorites } from '../../store/actions/CocktailsActions';
 import categoriesImages from '../../constants/categoriesImages';
 import Colors from '../../constants/Colors';
 import Header from '../../components/Header/Header';
@@ -16,11 +16,13 @@ const Categories = props => {
 
     const categories = useSelector(state => state.cocktails.categories);
     const categoriesLength = useSelector(state => state.cocktails.categoriesLength);
+    const userId = useSelector(state => state.auth.userId)
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getCategories());
+        dispatch(getFavorites(userId));
     }, [dispatch])
 
     const navigate = (item) => {

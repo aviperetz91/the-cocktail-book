@@ -17,14 +17,13 @@ const Reviews = props => {
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
 
-    const token = useSelector(state => state.auth.token)
     const userId = useSelector(state => state.auth.userId)
     const userName = useSelector(state => state.auth.userName)
     const reviews = useSelector(state => state.reviews.reviews)
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, token, userId, userName, rating, content))
+        dispatch(leaveFeedback(idDrink, userId, userName, rating, content))
         setShowModal(false);
     }
 

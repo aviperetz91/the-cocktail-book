@@ -14,12 +14,12 @@ const SignupLogin = props => {
     const [mode, setMode] = useState('login');
     const [isLoading, setIsLoading] = useState(false);
     const [info, setInfo] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-        // fullName: 'Avi Peretz',
-        // email: 'pavi@gmail.com',
-        // password: '123456',
+        // fullName: '',
+        // email: '',
+        // password: '',
+        fullName: 'Avi Peretz',
+        email: 'pavi@gmail.com',
+        password: '123456',
     });
 
     const changeTextHandler = (key, value) => {
