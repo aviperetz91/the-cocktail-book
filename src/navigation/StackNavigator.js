@@ -7,6 +7,7 @@ import CocktailDetails from '../screens/CocktailDetails/CocktailDetails';
 import Filters from '../screens/Filters/Filters';
 import Search from '../screens/Search/Search';
 import FilteredCocktails from '../screens/FilteredCocktails/FilteredCocktails';
+import Profile from '../screens/Profile/Profile';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Filters" component={Filters} />
       <Stack.Screen name="FilteredCocktails" component={FilteredCocktails} />
       <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>
   );
 }

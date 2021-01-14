@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     avatarContainer: {
-        height: '90%'
+        height: '70%'
     },
 })
 
