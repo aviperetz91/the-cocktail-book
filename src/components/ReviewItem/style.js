@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     listItem: {
         marginVertical: 6,
+        marginLeft: 0,
         alignItems: 'flex-start'
     },
     reviewRatingContainer: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     avatarContainer: {
-        // height: '70%',
+        height: '70%',
     },
 })
 

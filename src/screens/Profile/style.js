@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
     },
     back: {
         width: '100%',
-        height: '19%',
+        height: '17%',
         backgroundColor: Colors.dark,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25
     },
     card: {
-        marginTop: 28,
+        marginTop: 8,
         width: '85%',
         alignSelf: 'center',
         padding: 16,
@@ -72,7 +72,8 @@ const styles = StyleSheet.create({
     },
     reviewsContainer: {
         padding: 12,
-        marginTop: 16    }
+        paddingRight: 0,
+        marginTop: 6   }
 })
 
 export default styles;

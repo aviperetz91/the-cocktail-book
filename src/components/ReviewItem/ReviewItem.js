@@ -22,7 +22,7 @@ const ReviewItem = props => {
         <ListItem onPress={selectItem} style={styles.listItem} thumbnail>
             <Left style={styles.avatarContainer}>
                 <Thumbnail
-                    style={{ width: 70, height: 70, borderRadius: profileFlag ? 10 : 0 }}
+                    style={{ width: profileFlag ? 70 : 60, height: profileFlag ? 70 : 60, borderRadius: profileFlag ? 10 : 0 }}
                     square={profileFlag ? true : false}
                     source={{ uri: profileFlag ? review.strDrinkThumb : 'https://www.computerhope.com/jargon/g/guest-user.jpg' }}
                 />
@@ -38,7 +38,7 @@ const ReviewItem = props => {
                         readonly
                         startingValue={review.rating}
                         showRating={false}
-                        imageSize={15}
+                        imageSize={16}
                     />
                 </View>
             </View>
