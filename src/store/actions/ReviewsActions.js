@@ -5,10 +5,13 @@ export const GET_REVIEWS = 'GET_REVIEWS';
 export const SET_REVIEWS_ERROR = 'SET_REVIEWS_ERROR';
 
 
-export const leaveFeedback = (idDrink, userId, userName, rating, content) => {
+export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName, rating, content) => {
     return async dispatch => {
         const dateNow = Date.now()
         const review = {
+            idDrink: idDrink,
+            strDrink: strDrink,
+            strDrinkThumb: strDrinkThumb,
             userId: userId,
             autor: userName,
             rating: rating,

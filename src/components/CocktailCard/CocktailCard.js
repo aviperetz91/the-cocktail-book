@@ -4,7 +4,7 @@ import styles from './style';
 
 const CocktailCard = props => {
     return (                     
-        <TouchableOpacity style={styles.itemContainer} onPress={props.onSelect}>
+        <TouchableOpacity style={styles.itemContainer} onPress={props.selectHandler}>
             <View>
                 <Image style={styles.itemImage} square source={{ uri: props.image }} />
             </View>

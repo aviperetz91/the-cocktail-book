@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableOpacity, FlatList } from 'react-native';
-import { Text, Textarea, List, ListItem, Left, Body, Thumbnail, Icon } from 'native-base';
+import { Textarea, List, Icon } from 'native-base';
 import { Dialog, Portal, Button as Btn } from 'react-native-paper';
-import { AirbnbRating, Rating } from 'react-native-elements';
+import { AirbnbRating } from 'react-native-elements';
+import ReviewItem from '../../../components/ReviewItem/ReviewItem';
 import styles from './style';
 import Colors from '../../../constants/Colors';
 import { leaveFeedback } from '../../../store/actions/ReviewsActions';
-import moment from 'moment';
 
 const Reviews = props => {
 
-    const { idDrink } = props;
+    const { idDrink, strDrink, strDrinkThumb } = props;
 
     const [showModal, setShowModal] = useState(false);
     const [content, setContent] = useState('');
@@ -23,7 +23,7 @@ const Reviews = props => {
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, userId, userName, rating, content))
+        dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
         setShowModal(false);
     }
 
@@ -32,30 +32,6 @@ const Reviews = props => {
         setContent('');
         setRating(3);
     }
-
-    const renderReview = (review) => (
-        <ListItem style={styles.listItem} thumbnail>
-            <Left style={styles.avatarContainer}>
-                <Thumbnail source={{ uri: 'https://www.computerhope.com/jargon/g/guest-user.jpg' }} />
-            </Left>
-            <Body>
-                <Text style={styles.reviewAutor}>{review.autor}</Text>
-                <Text style={styles.reviewContent}>{review.content}</Text>
-                <Text note style={styles.reviewTimeText}>{moment(review.date).fromNow()}</Text>
-            </Body>
-            <View>
-                <View style={styles.reviewRatingContainer}>
-                    <Rating
-                        readonly
-                        startingValue={review.rating}
-                        showRating={false}
-                        imageSize={15}
-                    />
-                </View>                
-            </View>
-        </ListItem>
-
-    )
 
     return (
         <View style={styles.screen}>
@@ -66,7 +42,7 @@ const Reviews = props => {
                 <FlatList
                     keyExtractor={(item, index) => index.toString()}
                     data={reviews}
-                    renderItem={({ item }) => renderReview(item)}
+                    renderItem={({ item }) => <ReviewItem review={item} />}
                 />
             </List>
             <Portal>

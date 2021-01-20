@@ -8,7 +8,9 @@ import Colors from '../../constants/Colors';
 import { API_URL } from '@env';
 import axios from 'axios'
 import database from '@react-native-firebase/database';
-import CocktailCard from '../../components/CocktailCard/CocktailCard';             
+import CocktailCard from '../../components/CocktailCard/CocktailCard';
+import ReviewItem from '../../components/ReviewItem/ReviewItem';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Profile = props => {
@@ -31,14 +33,14 @@ const Profile = props => {
             savedPromises.push(axios.get(`${API_URL}/lookup.php?i=${id}`))
         })
         Promise.all(savedPromises)
-        .then(res => {
-            res.forEach(item => {
-                favTemp.push(item.data.drinks[0])
+            .then(res => {
+                res.forEach(item => {
+                    favTemp.push(item.data.drinks[0])
+                })
+                console.log(favTemp)
+                setFavorites(favTemp)
             })
-            console.log(favTemp)
-            setFavorites(favTemp)
-        })
-        .catch(err => console.log(err))
+            .catch(err => console.log(err))
     }
 
     const getUserReviews = async () => {
@@ -57,7 +59,11 @@ const Profile = props => {
     const getRatingAvg = () => {
         let sum = 0;
         reviews.forEach(rev => sum += rev.rating);
-        return sum / reviews.length
+        if (reviews.length > 0) {
+            return sum / reviews.length
+        } else {
+            return 0
+        }
     }
 
     const navigate = (item) => {
@@ -68,7 +74,7 @@ const Profile = props => {
     }
 
     return (
-        <Fragment>
+        <ScrollView contentContainerStyle={{ backgroundColor: 'white' }}>
             <Header
                 headerBackground={Colors.dark}
                 statusBarColor={Colors.dark}
@@ -103,17 +109,17 @@ const Profile = props => {
                                 <View>
                                     <Text style={styles.statusNote}>Favorites</Text>
                                     <Text style={styles.statusVal}>
-                                        {favorites && favorites.length ?  favorites.length : 0}
+                                        {favorites && favorites.length ? favorites.length : 0}
                                     </Text>
                                 </View>
                             </View>
                         </View>
                     </View>
-                    <Button 
-                        bordered 
-                        block 
+                    <Button
+                        bordered
+                        block
                         dark
-                        style={{ marginTop: 16 }} 
+                        style={{ marginTop: 16 }}
                         onPress={() => console.log("Edit")}
                     >
                         <Text>Edit</Text>
@@ -124,7 +130,7 @@ const Profile = props => {
                 <View>
                     <Text style={styles.title}>Favorites</Text>
                 </View>
-                <FlatList 
+                <FlatList
                     keyExtractor={(item, index) => item.idDrink}
                     data={favorites}
                     horizontal
@@ -134,12 +140,28 @@ const Profile = props => {
                             image={item.strDrinkThumb}
                             tags={item.strTags}
                             category={item.strCategory}
-                            onSelect={() => navigate(item)}
+                            selectHandler={() => navigate(item)}
                         />
                     )}
                 />
             </View>
-        </Fragment>
+            <View style={styles.reviewsContainer}>
+                <View>
+                    <Text style={styles.title}>Reviews</Text>
+                </View>
+                <FlatList
+                    keyExtractor={(item, index) => item.idDrink}
+                    data={reviews}
+                    renderItem={({ item }) => (
+                        <ReviewItem
+                            review={item}
+                            selectHandler={() => navigate(item)}
+                            profileFlag
+                        />
+                    )}
+                />
+            </View>
+        </ScrollView>
     );
 }
 

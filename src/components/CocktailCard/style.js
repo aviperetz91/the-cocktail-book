@@ -5,10 +5,6 @@ const styles = StyleSheet.create({
         width: 150,
         marginTop: 20,
         marginRight: 20
-        // padding: 10,
-        // flexDirection: 'row',
-        // justifyContent: 'flex-start',
-        // alignItems: 'center',
     },
     itemImage: {
         width: '100%', 

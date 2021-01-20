@@ -61,7 +61,7 @@ const CocktailDetails = props => {
                         <TouchableOpacity onPress={toggleFavoriteHandler} style={styles.favoriteButton}>
                             <Icon 
                                 type={'MaterialCommunityIcons'} 
-                                name={favorites.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
+                                name={favorites && favorites.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
                                 style={{ fontSize: 26, color: 'red' }} 
                             />
                         </TouchableOpacity>
@@ -121,7 +121,11 @@ const CocktailDetails = props => {
                                     activeTabStyle={styles.whiteBack}
                                     activeTextStyle={styles.activeTabText}
                                 >
-                                    <Reviews idDrink={selectedCocktail.idDrink} />
+                                    <Reviews 
+                                        idDrink={selectedCocktail.idDrink} 
+                                        strDrink={selectedCocktail.strDrink}    
+                                        strDrinkThumb={selectedCocktail.strDrinkThumb}
+                                    />
                                 </Tab>
                             </Tabs>
                         </View>
