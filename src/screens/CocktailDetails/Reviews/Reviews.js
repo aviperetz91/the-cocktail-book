@@ -11,9 +11,8 @@ import { leaveFeedback } from '../../../store/actions/ReviewsActions';
 
 const Reviews = props => {
 
-    const { idDrink, strDrink, strDrinkThumb } = props;
+    const { idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal } = props;
 
-    const [showModal, setShowModal] = useState(false);
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
 
@@ -24,20 +23,17 @@ const Reviews = props => {
 
     const leaveFeedbackHandler = () => {
         dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
-        setShowModal(false);
+        setShowAddModal(false);
     }
 
     const cancelHandler = () => {
-        setShowModal(false);
+        setShowAddModal(false);
         setContent('');
         setRating(3);
     }
 
     return (
         <View style={styles.screen}>
-            <TouchableOpacity style={styles.addButton} onPress={() => setShowModal(true)}>
-                <Icon type={'Ionicons'} name="add" style={{ fontSize: 35, color: 'white' }} />
-            </TouchableOpacity>
             <List>
                 <FlatList
                     keyExtractor={(item, index) => index.toString()}
@@ -46,7 +42,7 @@ const Reviews = props => {
                 />
             </List>
             <Portal>
-                <Dialog visible={showModal} onDismiss={cancelHandler} >
+                <Dialog visible={showAddModal} onDismiss={cancelHandler} >
                     <Dialog.Content>
                         <View>
                             <AirbnbRating

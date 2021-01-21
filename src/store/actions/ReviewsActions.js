@@ -35,8 +35,7 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
 
 export const getReviewsById = (idDrink) => {
     return async dispatch => {
-        try {
-            const snapshot = await database().ref(`/reviews/${idDrink}`).once('value');
+        database().ref(`/reviews/${idDrink}`).on('value', (snapshot) => {
             const revObj = snapshot.val();
             const reviews = [];
             for (let i in revObj) {
@@ -50,8 +49,6 @@ export const getReviewsById = (idDrink) => {
             } else {
                 dispatch({ type: GET_REVIEWS, reviews })
             }
-        } catch (err) {
-            dispatch({ type: SET_REVIEWS_ERROR, error: err.message })
-        }
+        });
     }
 }

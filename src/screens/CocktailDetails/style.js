@@ -1,20 +1,17 @@
 import { StyleSheet } from 'react-native';
+import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
         backgroundColor: 'white',
     },
-    imageContainer: {
-        // borderBottomRightRadius: 30,
-        // borderBottomLeftRadius: 30,
+    imageContainer: {        
         backgroundColor: 'black',
     },
     image: {
         width: "100%",
         height: 330,
-        // borderBottomRightRadius: 30,
-        // borderBottomLeftRadius: 30,
         opacity: 0.8
     },
     backButton: {
@@ -49,13 +46,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         zIndex: 100,
     },
-    // detailsContainer: {
-    //     borderWidth: 1,
-    //     borderTopLeftRadius: 20,
-    //     borderTopRightRadius: 20,
-    //     marginTop: -15,
-    //     backgroundColor: 'white'
-    // },
     container: {
         padding: 20,
         flexDirection: 'row',
@@ -121,7 +111,20 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    addButton: {
+        backgroundColor: Colors.success,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 68,
+        width: 68,
+        borderRadius: 50,
+        position: 'absolute',
+        zIndex: 100,
+        top: '90%',
+        right: 15
+    },
 })
 
 export default styles;

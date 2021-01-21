@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
     back: {
         width: '100%',
-        height: '17%',
+        height: 180,
         backgroundColor: Colors.dark,
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25

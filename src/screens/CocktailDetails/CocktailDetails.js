@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-native';
 import { Text, Tabs, Tab, Icon, Spinner } from 'native-base';
 import { Rating } from 'react-native-elements';
@@ -21,6 +21,8 @@ const CocktailDetails = props => {
     const favorites = useSelector(state => state.cocktails.favorites);
     const ratingAvg = useSelector(state => state.reviews.ratingAvg);
     const userId = useSelector(state => state.auth.userId);
+    const [activeTab, setActiveTab] = useState(0);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -31,6 +33,11 @@ const CocktailDetails = props => {
 
     const toggleFavoriteHandler = () => {
         dispatch(toggleFavorite(favorites, selectedCocktail.idDrink, userId))
+    }
+
+    const changeTabHandler = (tabIndex) => {
+        const newIndex = parseInt(tabIndex.split('.')[1])
+        setActiveTab(newIndex)
     }
 
     const goBack = () => {
@@ -59,10 +66,10 @@ const CocktailDetails = props => {
                             <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
                         </View>
                         <TouchableOpacity onPress={toggleFavoriteHandler} style={styles.favoriteButton}>
-                            <Icon 
-                                type={'MaterialCommunityIcons'} 
+                            <Icon
+                                type={'MaterialCommunityIcons'}
                                 name={favorites && favorites.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
-                                style={{ fontSize: 26, color: 'red' }} 
+                                style={{ fontSize: 26, color: 'red' }}
                             />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goBack} style={styles.backButton}>
@@ -91,7 +98,10 @@ const CocktailDetails = props => {
                                     />
                                 </View>
                             </View>
-                            <Tabs tabBarUnderlineStyle={styles.tabBarUnderline}>
+                            <Tabs
+                                tabBarUnderlineStyle={styles.tabBarUnderline} page={activeTab}
+                                onChangeTab={({ ref }) => changeTabHandler(ref.key)}
+                            >
                                 <Tab
                                     heading={'Ingredients'}
                                     tabStyle={styles.whiteBack}
@@ -121,15 +131,22 @@ const CocktailDetails = props => {
                                     activeTabStyle={styles.whiteBack}
                                     activeTextStyle={styles.activeTabText}
                                 >
-                                    <Reviews 
-                                        idDrink={selectedCocktail.idDrink} 
-                                        strDrink={selectedCocktail.strDrink}    
+                                    <Reviews
+                                        idDrink={selectedCocktail.idDrink}
+                                        strDrink={selectedCocktail.strDrink}
                                         strDrinkThumb={selectedCocktail.strDrinkThumb}
+                                        showAddModal={showAddModal}
+                                        setShowAddModal={setShowAddModal}
                                     />
                                 </Tab>
                             </Tabs>
                         </View>
                     </ScrollView>
+                    {activeTab === 2 ?
+                        <TouchableOpacity style={styles.addButton} onPress={() => setShowAddModal(true)}>
+                            <Icon type={'Ionicons'} name="add" style={{ fontSize: 42, color: 'white' }} />
+                        </TouchableOpacity>
+                    : null}
                 </View>
             </Provider>
         )

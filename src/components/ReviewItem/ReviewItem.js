@@ -18,11 +18,18 @@ const ReviewItem = props => {
         }
     }
 
+    const thumbnailStyles = {
+        marginLeft: profileFlag ? 0 : 8,
+        width: profileFlag ? 70 : 60,
+        height: profileFlag ? 70 : 60,
+        borderRadius: profileFlag ? 10 : 0,
+    }
+
     return (
         <ListItem onPress={selectItem} style={styles.listItem} thumbnail>
             <Left style={styles.avatarContainer}>
                 <Thumbnail
-                    style={{ width: profileFlag ? 70 : 60, height: profileFlag ? 70 : 60, borderRadius: profileFlag ? 10 : 0 }}
+                    style={thumbnailStyles}
                     square={profileFlag ? true : false}
                     source={{ uri: profileFlag ? review.strDrinkThumb : 'https://www.computerhope.com/jargon/g/guest-user.jpg' }}
                 />
