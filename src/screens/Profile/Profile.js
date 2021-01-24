@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect } from 'react';
-import { View, TouchableOpacity, FlatList } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { Container, Card, CardItem, Thumbnail, Text, Title, Body, Content, Left, Right, Button, Label, Input, Item, Icon, Footer, Spinner } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { useSelector } from 'react-redux';
+import { Card, Thumbnail, Text, Button, Icon, Badge, Input } from 'native-base';
 import Header from '../../components/Header/Header';
 import styles from './style';
 import Colors from '../../constants/Colors';
@@ -11,20 +11,40 @@ import database from '@react-native-firebase/database';
 import CocktailCard from '../../components/CocktailCard/CocktailCard';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import { ScrollView } from 'react-native-gesture-handler';
+import ImagePicker from 'react-native-image-picker';
 
 
 const Profile = props => {
 
     const navigation = props.navigation;
     const favoriteIds = useSelector(state => state.cocktails.favorites);
-    const userData = useSelector(state => state.auth);
+    const userId = useSelector(state => state.auth.userId);
     const [favorites, setFavorites] = useState([]);
     const [reviews, setReviews] = useState([]);
+    const [userName, setUserName] = useState();
+    const [newName, setNewName] = useState();
+    const [userPhoto, setUserPhoto] = useState();
+    const [newPhoto, setNewPhoto] = useState();
+    const [editMode, setEditMode] = useState(false);
 
     useEffect(() => {
+        getUserInfo();
         getUserFavorites();
         getUserReviews();
     }, [])
+
+    const getUserInfo = async () => {
+        const snapshot = await database().ref(`users/${userId}`).once('value');
+        const data = snapshot.val();
+        if (data) {
+            setUserName(data.userName)
+            setNewName(data.userName)
+            if (data.userPhoto) {
+                setUserPhoto(data.userPhoto)
+                setNewPhoto(data.userPhoto)
+            }
+        }
+    }
 
     const getUserFavorites = () => {
         let favTemp = [];
@@ -37,7 +57,7 @@ const Profile = props => {
                 res.forEach(item => {
                     favTemp.push(item.data.drinks[0])
                 })
-                console.log(favTemp)
+                // console.log(favTemp)
                 setFavorites(favTemp)
             })
             .catch(err => console.log(err))
@@ -45,15 +65,36 @@ const Profile = props => {
 
     const getUserReviews = async () => {
         let revTemp = [];
-        const snapshot = await database().ref(`users/${userData.userId}/reviews`).once('value')
+        const snapshot = await database().ref(`users/${userId}/reviews`).once('value')
         const reviewsObj = snapshot.val()
         if (reviewsObj) {
             for (let index in reviewsObj) {
                 revTemp.push(reviewsObj[index])
             }
-            console.log(revTemp)
+            // console.log(revTemp)
             setReviews(revTemp)
         }
+    }
+
+    const choosePhotoHandler = () => {
+        const options = {};
+        ImagePicker.launchImageLibrary(options, response => {
+            // console.log(response)
+            if (response) {
+                setNewPhoto(response.data)
+            }
+        });
+    }
+
+    const buttonPressHandler = () => {
+        if (newPhoto !== userPhoto || newName !== userName) {
+            saveHandler()
+        }
+        setEditMode(!editMode)
+    }
+
+    const saveHandler = async () => {
+        await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto  })
     }
 
     const getRatingAvg = () => {
@@ -90,11 +131,39 @@ const Profile = props => {
             <View style={styles.back}>
                 <Card style={styles.card}>
                     <View style={styles.container}>
-                        <View style={styles.cardLeft}>
-                            <Thumbnail style={styles.thumbnail} square large source={{ uri: 'https://cdn.onlinewebfonts.com/svg/img_149464.png' }} />
+                        <View style={styles.cardLeft} onPress={choosePhotoHandler}>
+                            <Thumbnail
+                                style={styles.thumbnail}
+                                square
+                                large
+                                source={{ uri: newPhoto ? 'data:image/jpeg;base64,' + newPhoto : 'https://cdn.onlinewebfonts.com/svg/img_149464.png' }}
+                            />
+                            {editMode ?
+                                <Badge style={styles.badge}>
+                                    <TouchableOpacity onPress={choosePhotoHandler}>
+                                        <Icon name="camera" style={{ fontSize: 18, color: "#fff" }} />
+                                    </TouchableOpacity>
+                                </Badge>
+                                : null}
                         </View>
                         <View style={styles.cardRight}>
-                            <Text style={styles.title}>{userData.userName}</Text>
+                            <View style={styles.rowSpaceBetween}>
+                                {editMode ?
+                                    <TextInput
+                                        style={{ ...styles.title, padding: 0, margin: 0 }}
+                                        value={newName}
+                                        onChangeText={input => setNewName(input)}                                        
+                                    />
+                                    :
+                                    <Text style={styles.title}>{userName}</Text>
+                                }
+                                {editMode ?
+                                    <Icon
+                                        name={'pencil-outline'}
+                                        style={{ fontSize: 18 }}
+                                    />
+                                    : null}
+                            </View>
                             <View style={styles.status}>
                                 <View style={{ marginRight: 8 }}>
                                     <Text style={styles.statusNote}>Reviews</Text>
@@ -120,9 +189,11 @@ const Profile = props => {
                         block
                         dark
                         style={{ marginTop: 16 }}
-                        onPress={() => console.log("Edit")}
+                        onPress={buttonPressHandler}
                     >
-                        <Text>Edit</Text>
+                        {newPhoto !== userPhoto || newName !== userName ? <Text>Save</Text> :
+                            editMode ? <Text>Cancel</Text> :
+                                <Text>Edit</Text>}
                     </Button>
                 </Card>
             </View>

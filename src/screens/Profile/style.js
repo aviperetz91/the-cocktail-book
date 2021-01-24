@@ -43,7 +43,22 @@ const styles = StyleSheet.create({
     },
     thumbnail: {
         width: 100,
-        height: 100
+        height: 100,
+        borderRadius: 10
+    },
+    badge: {
+        backgroundColor: 'black',
+        position: 'absolute',
+        bottom: -5,
+        right: 0,
+        width: 32,
+        height: 32,
+        alignItems: 'center'
+    },
+    rowSpaceBetween: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     title: {
         fontSize: 18,
