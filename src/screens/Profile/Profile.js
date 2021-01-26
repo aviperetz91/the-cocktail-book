@@ -14,7 +14,7 @@ import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
-
+import ImageResizer from 'react-native-image-resizer';
 
 const Profile = props => {
 
@@ -89,8 +89,9 @@ const Profile = props => {
                     path: response.uri,
                     includeBase64: true
                 }).then(image => {
-                    // console.log(image)
                     setNewPhoto(image.data)
+                    // ImageResizer.createResizedImage('data:image/jpeg;base64,' + image.data, 200, 200, 'JPEG', 100)
+                    // .then(resized => {})
                 })
             }
         });
