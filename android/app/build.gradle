@@ -133,8 +133,11 @@ android {
         applicationId "com.the_cocktail_book"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+
     }
     splits {
         abi {
@@ -193,6 +196,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    implementation "androidx.multidex:multidex:2.0.1"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

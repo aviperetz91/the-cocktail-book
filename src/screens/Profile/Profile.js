@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Card, Thumbnail, Text, Button, Icon, Badge, Input } from 'native-base';
+import { Card, Thumbnail, Text, Button, Icon, Badge, Spinner } from 'native-base';
+import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
 import Header from '../../components/Header/Header';
 import styles from './style';
 import Colors from '../../constants/Colors';
@@ -12,6 +13,7 @@ import CocktailCard from '../../components/CocktailCard/CocktailCard';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
+import ImageCropper from 'react-native-image-crop-picker';
 
 
 const Profile = props => {
@@ -26,6 +28,8 @@ const Profile = props => {
     const [userPhoto, setUserPhoto] = useState();
     const [newPhoto, setNewPhoto] = useState();
     const [editMode, setEditMode] = useState(false);
+    const [isSavePressed, setIsSavePressed] = useState(false);
+    const [isLoadiing, setIsLoading] = useState(false);
 
     useEffect(() => {
         getUserInfo();
@@ -33,17 +37,18 @@ const Profile = props => {
         getUserReviews();
     }, [])
 
-    const getUserInfo = async () => {
-        const snapshot = await database().ref(`users/${userId}`).once('value');
-        const data = snapshot.val();
-        if (data) {
-            setUserName(data.userName)
-            setNewName(data.userName)
-            if (data.userPhoto) {
-                setUserPhoto(data.userPhoto)
-                setNewPhoto(data.userPhoto)
+    const getUserInfo = () => {
+        database().ref(`users/${userId}`).on('value', snapshot => {
+            const data = snapshot.val();
+            if (data) {
+                setUserName(data.userName)
+                setNewName(data.userName)
+                if (data.userPhoto) {
+                    setUserPhoto(data.userPhoto)
+                    setNewPhoto(data.userPhoto)
+                }
             }
-        }
+        });
     }
 
     const getUserFavorites = () => {
@@ -79,9 +84,14 @@ const Profile = props => {
     const choosePhotoHandler = () => {
         const options = {};
         ImagePicker.launchImageLibrary(options, response => {
-            // console.log(response)
-            if (response) {
-                setNewPhoto(response.data)
+            if (response.uri) {
+                ImageCropper.openCropper({
+                    path: response.uri,
+                    includeBase64: true
+                }).then(image => {
+                    // console.log(image)
+                    setNewPhoto(image.data)
+                })
             }
         });
     }
@@ -94,7 +104,10 @@ const Profile = props => {
     }
 
     const saveHandler = async () => {
-        await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto  })
+        setIsSavePressed(true);
+        setIsLoading(true);
+        await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto });
+        setIsLoading(false);
     }
 
     const getRatingAvg = () => {
@@ -115,124 +128,141 @@ const Profile = props => {
     }
 
     return (
-        <ScrollView contentContainerStyle={{ backgroundColor: 'white' }}>
-            <Header
-                headerBackground={Colors.dark}
-                statusBarColor={Colors.dark}
-                iosBarStyle={'light-content'}
-                pressHandler={props.navigation.openDrawer}
-                iconType={'Ionicons'}
-                iconName={'menu-outline'}
-                iconColor={'white'}
-                iconSize={32}
-                titleColor={'white'}
-                letterSpacing={4}
-            />
-            <View style={styles.back}>
-                <Card style={styles.card}>
-                    <View style={styles.container}>
-                        <View style={styles.cardLeft} onPress={choosePhotoHandler}>
-                            <Thumbnail
-                                style={styles.thumbnail}
-                                square
-                                large
-                                source={{ uri: newPhoto ? 'data:image/jpeg;base64,' + newPhoto : 'https://cdn.onlinewebfonts.com/svg/img_149464.png' }}
-                            />
-                            {editMode ?
-                                <Badge style={styles.badge}>
-                                    <TouchableOpacity onPress={choosePhotoHandler}>
-                                        <Icon name="camera" style={{ fontSize: 18, color: "#fff" }} />
-                                    </TouchableOpacity>
-                                </Badge>
-                                : null}
-                        </View>
-                        <View style={styles.cardRight}>
-                            <View style={styles.rowSpaceBetween}>
+        <Provider>
+            <ScrollView contentContainerStyle={{ backgroundColor: 'white' }}>
+                <Header
+                    headerBackground={Colors.dark}
+                    statusBarColor={Colors.dark}
+                    iosBarStyle={'light-content'}
+                    pressHandler={props.navigation.openDrawer}
+                    iconType={'Ionicons'}
+                    iconName={'menu-outline'}
+                    iconColor={'white'}
+                    iconSize={32}
+                    titleColor={'white'}
+                    letterSpacing={4}
+                />
+                <View style={styles.back}>
+                    <Card style={styles.card}>
+                        <View style={styles.container}>
+                            <View style={styles.cardLeft} onPress={choosePhotoHandler}>
+                                <Thumbnail
+                                    style={styles.thumbnail}
+                                    square
+                                    large
+                                    source={{ uri: newPhoto ? 'data:image/jpeg;base64,' + newPhoto : 'https://cdn.onlinewebfonts.com/svg/img_149464.png' }}
+                                />
                                 {editMode ?
-                                    <TextInput
-                                        style={{ ...styles.title, padding: 0, margin: 0 }}
-                                        value={newName}
-                                        onChangeText={input => setNewName(input)}                                        
-                                    />
-                                    :
-                                    <Text style={styles.title}>{userName}</Text>
-                                }
-                                {editMode ?
-                                    <Icon
-                                        name={'pencil-outline'}
-                                        style={{ fontSize: 18 }}
-                                    />
+                                    <Badge style={styles.badge}>
+                                        <TouchableOpacity onPress={choosePhotoHandler}>
+                                            <Icon name="camera" style={{ fontSize: 18, color: "#fff" }} />
+                                        </TouchableOpacity>
+                                    </Badge>
                                     : null}
                             </View>
-                            <View style={styles.status}>
-                                <View style={{ marginRight: 8 }}>
-                                    <Text style={styles.statusNote}>Reviews</Text>
-                                    <Text style={styles.statusVal}>
-                                        {reviews && reviews.length ? reviews.length : 0}
-                                    </Text>
+                            <View style={styles.cardRight}>
+                                <View style={styles.rowSpaceBetween}>
+                                    {editMode ?
+                                        <TextInput
+                                            style={{ ...styles.title, padding: 0, margin: 0 }}
+                                            value={newName}
+                                            onChangeText={input => setNewName(input)}
+                                        />
+                                        :
+                                        <Text style={styles.title}>{userName}</Text>
+                                    }
+                                    {editMode ?
+                                        <Icon
+                                            name={'pencil-outline'}
+                                            style={{ fontSize: 18 }}
+                                        />
+                                        : null}
                                 </View>
-                                <View style={{ marginRight: 8 }}>
-                                    <Text style={styles.statusNote}>Rating</Text>
-                                    <Text style={styles.statusVal}>{getRatingAvg().toFixed(1)}</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.statusNote}>Favorites</Text>
-                                    <Text style={styles.statusVal}>
-                                        {favorites && favorites.length ? favorites.length : 0}
-                                    </Text>
+                                <View style={styles.status}>
+                                    <View style={{ marginRight: 8 }}>
+                                        <Text style={styles.statusNote}>Reviews</Text>
+                                        <Text style={styles.statusVal}>
+                                            {reviews && reviews.length ? reviews.length : 0}
+                                        </Text>
+                                    </View>
+                                    <View style={{ marginRight: 8 }}>
+                                        <Text style={styles.statusNote}>Rating</Text>
+                                        <Text style={styles.statusVal}>{getRatingAvg().toFixed(1)}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.statusNote}>Favorites</Text>
+                                        <Text style={styles.statusVal}>
+                                            {favorites && favorites.length ? favorites.length : 0}
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
                         </View>
+                        <Button
+                            bordered
+                            block
+                            dark
+                            style={{ marginTop: 16 }}
+                            onPress={buttonPressHandler}
+                        >
+                            {newPhoto !== userPhoto || newName !== userName ? <Text>Save</Text> :
+                                editMode ? <Text>Cancel</Text> :
+                                    <Text>Edit</Text>}
+                        </Button>
+                    </Card>
+                    <Portal>
+                        <Dialog visible={isSavePressed} onDismiss={() => setIsSavePressed(false)}>
+                            <Dialog.Content>
+                                {isLoadiing ?
+                                    <Spinner color={Colors.dark} />
+                                    :
+                                    <Paragraph>Your info was saved successfully</Paragraph>
+                                }
+                            </Dialog.Content>
+                            {!isLoadiing ? 
+                            <Dialog.Actions>
+                                <Btn onPress={() => setIsSavePressed(false)}>Great!</Btn>
+                            </Dialog.Actions> : null}
+                        </Dialog>
+                    </Portal>
+                </View>
+                <View style={styles.favoritsContainer}>
+                    <View>
+                        <Text style={styles.title}>Favorites</Text>
                     </View>
-                    <Button
-                        bordered
-                        block
-                        dark
-                        style={{ marginTop: 16 }}
-                        onPress={buttonPressHandler}
-                    >
-                        {newPhoto !== userPhoto || newName !== userName ? <Text>Save</Text> :
-                            editMode ? <Text>Cancel</Text> :
-                                <Text>Edit</Text>}
-                    </Button>
-                </Card>
-            </View>
-            <View style={styles.favoritsContainer}>
-                <View>
-                    <Text style={styles.title}>Favorites</Text>
+                    <FlatList
+                        keyExtractor={(item, index) => item.idDrink}
+                        data={favorites}
+                        horizontal
+                        renderItem={({ item }) => (
+                            <CocktailCard
+                                title={item.strDrink}
+                                image={item.strDrinkThumb}
+                                tags={item.strTags}
+                                category={item.strCategory}
+                                selectHandler={() => navigate(item)}
+                            />
+                        )}
+                    />
                 </View>
-                <FlatList
-                    keyExtractor={(item, index) => item.idDrink}
-                    data={favorites}
-                    horizontal
-                    renderItem={({ item }) => (
-                        <CocktailCard
-                            title={item.strDrink}
-                            image={item.strDrinkThumb}
-                            tags={item.strTags}
-                            category={item.strCategory}
-                            selectHandler={() => navigate(item)}
-                        />
-                    )}
-                />
-            </View>
-            <View style={styles.reviewsContainer}>
-                <View>
-                    <Text style={styles.title}>Reviews</Text>
+                <View style={styles.reviewsContainer}>
+                    <View>
+                        <Text style={styles.title}>Reviews</Text>
+                    </View>
+                    <FlatList
+                        keyExtractor={(item, index) => item.idDrink}
+                        data={reviews}
+                        renderItem={({ item }) => (
+                            <ReviewItem
+                                review={item}
+                                selectHandler={() => navigate(item)}
+                                profileFlag
+                            />
+                        )}
+                    />
                 </View>
-                <FlatList
-                    keyExtractor={(item, index) => item.idDrink}
-                    data={reviews}
-                    renderItem={({ item }) => (
-                        <ReviewItem
-                            review={item}
-                            selectHandler={() => navigate(item)}
-                            profileFlag
-                        />
-                    )}
-                />
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </Provider>
     );
 }
 
