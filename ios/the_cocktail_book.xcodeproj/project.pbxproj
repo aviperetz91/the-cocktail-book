@@ -20,6 +20,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A2A4EBFA280739F19DF1D299 /* libPods-the_cocktail_book.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B62FD78C4DC10314D778A4F2 /* libPods-the_cocktail_book.a */; };
 		E7330FCB2597E35D00FB9713 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E7330FCA2597E35D00FB9713 /* GoogleService-Info.plist */; };
+		E75A900025C37BA30021C459 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = E75A8FFF25C37BA30021C459 /* main.jsbundle */; };
 		F6A9C76BD8BDEB9B48D07B87 /* libPods-the_cocktail_book-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DEC494DEF0533B422E5A04A6 /* libPods-the_cocktail_book-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -41,7 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* the_cocktail_bookTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = the_cocktail_bookTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* the_cocktail_bookTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = the_cocktail_bookTests.m; sourceTree = "<group>"; };
@@ -66,6 +66,7 @@
 		D86E51913BAFC418D543FBBE /* libPods-the_cocktail_book-the_cocktail_bookTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-the_cocktail_book-the_cocktail_bookTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEC494DEF0533B422E5A04A6 /* libPods-the_cocktail_book-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-the_cocktail_book-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7330FCA2597E35D00FB9713 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E75A8FFF25C37BA30021C459 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		EFD5B227D2C5781E73F422EB /* Pods-the_cocktail_book.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-the_cocktail_book.release.xcconfig"; path = "Target Support Files/Pods-the_cocktail_book/Pods-the_cocktail_book.release.xcconfig"; sourceTree = "<group>"; };
@@ -127,7 +128,7 @@
 		13B07FAE1A68108700A75B9A /* the_cocktail_book */ = {
 			isa = PBXGroup;
 			children = (
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				E75A8FFF25C37BA30021C459 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -302,10 +303,13 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 7K5X34Z968;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 7K5X34Z968;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -354,6 +358,7 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				E7330FCB2597E35D00FB9713 /* GoogleService-Info.plist in Resources */,
+				E75A900025C37BA30021C459 /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,6 +710,7 @@
 			baseConfigurationReference = 28BA5AC54FF5635DBDEAB320 /* Pods-the_cocktail_book-the_cocktail_bookTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 7K5X34Z968;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -729,6 +735,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 7K5X34Z968;
 				INFOPLIST_FILE = the_cocktail_bookTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -749,7 +756,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7K5X34Z968;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = the_cocktail_book/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -760,6 +770,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = the_cocktail_book;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -772,7 +783,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7K5X34Z968;
 				INFOPLIST_FILE = the_cocktail_book/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -782,6 +796,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = the_cocktail_book;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
