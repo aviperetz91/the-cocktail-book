@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Card, Thumbnail, Text, Button, Icon, Badge, Spinner } from 'native-base';
 import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
 import Header from '../../components/Header/Header';
@@ -14,7 +14,8 @@ import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
-import ImageResizer from 'react-native-image-resizer';
+import { setPhoto } from '../../store/actions/AuthActions';
+import avatar from '../../assets/images/avatar2.png'
 
 const Profile = props => {
 
@@ -30,6 +31,8 @@ const Profile = props => {
     const [editMode, setEditMode] = useState(false);
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         getUserInfo();
@@ -62,7 +65,6 @@ const Profile = props => {
                 res.forEach(item => {
                     favTemp.push(item.data.drinks[0])
                 })
-                // console.log(favTemp)
                 setFavorites(favTemp)
             })
             .catch(err => console.log(err))
@@ -76,7 +78,6 @@ const Profile = props => {
             for (let index in reviewsObj) {
                 revTemp.push(reviewsObj[index])
             }
-            // console.log(revTemp)
             setReviews(revTemp)
         }
     }
@@ -90,8 +91,6 @@ const Profile = props => {
                     includeBase64: true
                 }).then(image => {
                     setNewPhoto(image.data)
-                    // ImageResizer.createResizedImage('data:image/jpeg;base64,' + image.data, 200, 200, 'JPEG', 100)
-                    // .then(resized => {})
                 })
             }
         });
@@ -108,6 +107,7 @@ const Profile = props => {
         setIsSavePressed(true);
         setIsLoading(true);
         await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto });
+        dispatch(setPhoto(newPhoto))
         setIsLoading(false);
     }
 
@@ -151,7 +151,7 @@ const Profile = props => {
                                     style={styles.thumbnail}
                                     square
                                     large
-                                    source={{ uri: newPhoto ? 'data:image/jpeg;base64,' + newPhoto : 'https://cdn.onlinewebfonts.com/svg/img_149464.png' }}
+                                    source={newPhoto ? { uri: 'data:image/jpeg;base64,' + newPhoto  } :  avatar}                        
                                 />
                                 {editMode ?
                                     <Badge style={styles.badge}>
@@ -251,7 +251,7 @@ const Profile = props => {
                         <Text style={styles.title}>Reviews</Text>
                     </View>
                     <FlatList
-                        keyExtractor={(item, index) => item.idDrink}
+                        keyExtractor={(item, index) => item.idDrink + item.date}
                         data={reviews}
                         renderItem={({ item }) => (
                             <ReviewItem

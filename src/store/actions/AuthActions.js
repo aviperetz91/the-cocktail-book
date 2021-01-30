@@ -5,6 +5,7 @@ export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
 export const SIGNOUT = 'SIGNOUT';
 export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
+export const SET_PHOTO = 'SET_PHOTO';
 
 export const signup = (name, email, passowrd) => {
     return async dispatch => {
@@ -48,7 +49,7 @@ export const login = (email, password) => {
             const userId = idTokenResult.claims.user_id;
             const snapshot = await database().ref(`/users/${userId}`).once('value');
             const user = snapshot.val();
-            dispatch({ type: LOGIN, token: token, userId: userId, userName: user.userName })
+            dispatch({ type: LOGIN, token: token, userId: userId, userName: user.userName, userPhoto: user.userPhoto })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is already in use!';
@@ -80,4 +81,8 @@ export const signout = () => {
         await auth().signOut()
         dispatch({ type: SIGNOUT })
     }
+}
+
+export const setPhoto = (photo) => {
+    return { type: SET_PHOTO, photo: photo }
 }

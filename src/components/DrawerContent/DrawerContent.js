@@ -5,11 +5,12 @@ import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Icon } from 'native-base';
 import { Avatar, Title, Drawer } from 'react-native-paper';
 import { signout } from '../../store/actions/AuthActions';
+import avatar from '../../assets/images/avatar.jpg'
 import styles from './style';
 
 const DrawerContent = (props) => {
 
-  const userName = useSelector(state => state.auth.userName)
+  const { userName, userPhoto } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   return (
@@ -19,9 +20,7 @@ const DrawerContent = (props) => {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
               <Avatar.Image
-                source={{
-                  uri: 'https://www.computerhope.com/jargon/g/guest-user.jpg'
-                }}
+                source={userPhoto ? { uri: 'data:image/jpeg;base64,' + userPhoto } : avatar}
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: 'column' }}>

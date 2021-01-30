@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, TouchableOpacity, FlatList } from 'react-native';
-import { Textarea, List, Icon } from 'native-base';
+import { View, FlatList } from 'react-native';
+import { Textarea, List } from 'native-base';
 import { Dialog, Portal, Button as Btn } from 'react-native-paper';
 import { AirbnbRating } from 'react-native-elements';
 import ReviewItem from '../../../components/ReviewItem/ReviewItem';
@@ -16,13 +16,13 @@ const Reviews = props => {
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
 
-    const userId = useSelector(state => state.auth.userId)
-    const userName = useSelector(state => state.auth.userName)
+    const { userId, userName, userPhoto } = useSelector(state => state.auth);
+    
     const reviews = useSelector(state => state.reviews.reviews)
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
+        dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, userPhoto, rating, content))
         setShowAddModal(false);
     }
 

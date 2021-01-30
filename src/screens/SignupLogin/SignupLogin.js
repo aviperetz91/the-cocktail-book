@@ -30,15 +30,15 @@ const SignupLogin = props => {
         dispatch(setAuthError(null));
     }
 
-    const authHandler = () => {
+    const authHandler = async () => {
         if (info.email === '' || info.password === '') {
             dispatch(setAuthError('Please enter the missing fields'))
         } else {
             setIsLoading(true);
             if (mode === 'signup') {
-                dispatch(signup(info.fullName, info.email, info.password))
+                await dispatch(signup(info.fullName, info.email, info.password))
             } else if (mode === 'login') {
-                dispatch(login(info.email, info.password))
+                await dispatch(login(info.email, info.password))
             }
             setIsLoading(false)            
         }

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { Text, ListItem, Left, Body, Thumbnail } from 'native-base';
 import { Rating } from 'react-native-elements';
 import moment from 'moment';
+import avatar from '../../assets/images/avatar.jpg';
 import styles from './style';
 
 
@@ -22,7 +23,7 @@ const ReviewItem = props => {
         marginLeft: profileFlag ? 0 : 8,
         width: profileFlag ? 70 : 60,
         height: profileFlag ? 70 : 60,
-        borderRadius: profileFlag ? 10 : 0,
+        borderRadius: profileFlag ? 10 : 30,
     }
 
     return (
@@ -30,8 +31,11 @@ const ReviewItem = props => {
             <Left style={styles.avatarContainer}>
                 <Thumbnail
                     style={thumbnailStyles}
-                    square={profileFlag ? true : false}
-                    source={{ uri: profileFlag ? review.strDrinkThumb : 'https://www.computerhope.com/jargon/g/guest-user.jpg' }}
+                    source={
+                        profileFlag ? { uri: review.strDrinkThumb } :
+                        review.autorPhoto ? { uri: 'data:image/jpeg;base64,' + review.autorPhoto } :
+                        avatar
+                    }
                 />
             </Left>
             <Body>

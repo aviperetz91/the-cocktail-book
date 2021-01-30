@@ -14,11 +14,8 @@ import Reviews from './Reviews/Reviews';
 const CocktailDetails = props => {
 
     const navigation = props.navigation;
-    const id = props.route.params.id;
-    const name = props.route.params.name;
-
-    const selectedCocktail = useSelector(state => state.cocktails.selectedCocktail);
-    const favorites = useSelector(state => state.cocktails.favorites);
+    const { id, name } = props.route.params;
+    const { selectedCocktail, favorites }  = useSelector(state => state.cocktails);
     const ratingAvg = useSelector(state => state.reviews.ratingAvg);
     const userId = useSelector(state => state.auth.userId);
     const [activeTab, setActiveTab] = useState(0);
