@@ -33,7 +33,7 @@ const ReviewItem = props => {
                     style={thumbnailStyles}
                     source={
                         profileFlag ? { uri: review.strDrinkThumb } :
-                        review.autorPhoto ? { uri: 'data:image/jpeg;base64,' + review.autorPhoto } :
+                        review.autorPhoto ? { uri: review.autorPhoto } :
                         avatar
                     }
                 />

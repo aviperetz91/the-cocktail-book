@@ -20,7 +20,7 @@ const DrawerContent = (props) => {
           <View style={styles.userInfoSection}>
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
               <Avatar.Image
-                source={userPhoto ? { uri: 'data:image/jpeg;base64,' + userPhoto } : avatar}
+                source={userPhoto ? { uri: userPhoto } : avatar}
                 size={50}
               />
               <View style={{ marginLeft: 15, flexDirection: 'column' }}>

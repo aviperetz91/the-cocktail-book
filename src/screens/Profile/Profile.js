@@ -9,25 +9,24 @@ import Colors from '../../constants/Colors';
 import { API_URL } from '@env';
 import axios from 'axios'
 import database from '@react-native-firebase/database';
+import storage from '@react-native-firebase/storage';
 import CocktailCard from '../../components/CocktailCard/CocktailCard';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
-import { setPhoto } from '../../store/actions/AuthActions';
+import { updateName, updatePhoto } from '../../store/actions/AuthActions';
 import avatar from '../../assets/images/avatar2.png'
 
 const Profile = props => {
 
     const navigation = props.navigation;
     const favoriteIds = useSelector(state => state.cocktails.favorites);
-    const userId = useSelector(state => state.auth.userId);
+    const { userId, userName, userPhoto } = useSelector(state => state.auth);
+    const [newName, setNewName] = useState(userName);
+    const [newPhoto, setNewPhoto] = useState(userPhoto);
     const [favorites, setFavorites] = useState([]);
     const [reviews, setReviews] = useState([]);
-    const [userName, setUserName] = useState();
-    const [newName, setNewName] = useState();
-    const [userPhoto, setUserPhoto] = useState();
-    const [newPhoto, setNewPhoto] = useState();
     const [editMode, setEditMode] = useState(false);
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
@@ -35,24 +34,9 @@ const Profile = props => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        getUserInfo();
         getUserFavorites();
         getUserReviews();
     }, [])
-
-    const getUserInfo = () => {
-        database().ref(`users/${userId}`).on('value', snapshot => {
-            const data = snapshot.val();
-            if (data) {
-                setUserName(data.userName)
-                setNewName(data.userName)
-                if (data.userPhoto) {
-                    setUserPhoto(data.userPhoto)
-                    setNewPhoto(data.userPhoto)
-                }
-            }
-        });
-    }
 
     const getUserFavorites = () => {
         let favTemp = [];
@@ -90,7 +74,7 @@ const Profile = props => {
                     path: response.uri,
                     includeBase64: true
                 }).then(image => {
-                    setNewPhoto(image.data)
+                    setNewPhoto(image.path)
                 })
             }
         });
@@ -104,11 +88,21 @@ const Profile = props => {
     }
 
     const saveHandler = async () => {
+        console.log("SAVE!")
         setIsSavePressed(true);
-        setIsLoading(true);
-        await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto });
-        dispatch(setPhoto(newPhoto))
-        setIsLoading(false);
+        setIsLoading(true)
+        if (newPhoto !== userPhoto) {
+            await storage().ref(`/images/users/${userId}`).putFile(newPhoto);
+            const url = await storage().ref(`/images/users/${userId}`).getDownloadURL();
+            await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: url });
+            setNewPhoto(url)
+            dispatch(updatePhoto(url))
+            dispatch(updateName(newName))
+        } else {
+            await database().ref(`users/${userId}`).update({ userName: newName });
+            dispatch(updateName(newName))
+        }
+        setIsLoading(false)
     }
 
     const getRatingAvg = () => {
@@ -151,7 +145,7 @@ const Profile = props => {
                                     style={styles.thumbnail}
                                     square
                                     large
-                                    source={newPhoto ? { uri: 'data:image/jpeg;base64,' + newPhoto  } :  avatar}                        
+                                    source={newPhoto ? { uri: newPhoto } : avatar}
                                 />
                                 {editMode ?
                                     <Badge style={styles.badge}>
@@ -170,7 +164,7 @@ const Profile = props => {
                                             onChangeText={input => setNewName(input)}
                                         />
                                         :
-                                        <Text style={styles.title}>{userName}</Text>
+                                        <Text style={styles.title}>{newName}</Text>
                                     }
                                     {editMode ?
                                         <Icon
@@ -220,10 +214,10 @@ const Profile = props => {
                                     <Paragraph>Your info was saved successfully</Paragraph>
                                 }
                             </Dialog.Content>
-                            {!isLoadiing ? 
-                            <Dialog.Actions>
-                                <Btn onPress={() => setIsSavePressed(false)}>Great!</Btn>
-                            </Dialog.Actions> : null}
+                            {!isLoadiing ?
+                                <Dialog.Actions>
+                                    <Btn onPress={() => setIsSavePressed(false)}>Great!</Btn>
+                                </Dialog.Actions> : null}
                         </Dialog>
                     </Portal>
                 </View>

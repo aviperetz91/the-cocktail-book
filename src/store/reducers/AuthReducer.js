@@ -1,4 +1,4 @@
-import { LOGIN, SIGNUP, SIGNOUT, SET_AUTH_ERROR, SET_PHOTO } from '../actions/AuthActions';
+import { LOGIN, SIGNUP, SIGNOUT, SET_AUTH_ERROR, UPDATE_NAME, UPDATE_PHOTO } from '../actions/AuthActions';
 
 const initialState = {
     token: null,
@@ -33,17 +33,21 @@ const AuthReducer = (state = initialState, action) => {
                 userName: null,
                 userPhoto: null,
             }
-        case SET_AUTH_ERROR: 
+        case SET_AUTH_ERROR:
             return {
                 ...state,
                 authError: action.error
             }
-        case SET_PHOTO:
+        case UPDATE_NAME:
+            return {
+                ...state,
+                userName: action.name
+            }
+        case UPDATE_PHOTO:
             return {
                 ...state,
                 userPhoto: action.photo
             }
-        
         default:
             return state;
     }
