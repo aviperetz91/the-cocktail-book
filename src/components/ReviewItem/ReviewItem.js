@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Text, ListItem, Left, Body, Thumbnail } from 'native-base';
 import { Rating } from 'react-native-elements';
 import moment from 'moment';
 import avatar from '../../assets/images/avatar.jpg';
 import styles from './style';
+import storage from '@react-native-firebase/storage';
 
 
 const ReviewItem = props => {
 
-    const { review, profileFlag, selectHandler } = props;
+    const { review, userId, profileFlag, selectHandler } = props;
+    const [autorPhoto, setAutorPhoto] = useState();
+
+    useEffect(() => {
+        getAutorPhoto()
+    }, [])
+
+    const getAutorPhoto = async () => {
+        if (!profileFlag) {
+            const url = await storage().ref(`/images/users/${userId}`).getDownloadURL();
+            setAutorPhoto(url);
+        }
+    }
 
     const selectItem = () => {
         if (profileFlag) {
@@ -33,8 +46,7 @@ const ReviewItem = props => {
                     style={thumbnailStyles}
                     source={
                         profileFlag ? { uri: review.strDrinkThumb } :
-                        review.autorPhoto ? { uri: review.autorPhoto } :
-                        avatar
+                        autorPhoto ? { uri: autorPhoto } : avatar
                     }
                 />
             </Left>

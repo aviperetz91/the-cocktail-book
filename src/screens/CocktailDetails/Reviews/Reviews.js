@@ -16,13 +16,13 @@ const Reviews = props => {
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
 
-    const { userId, userName, userPhoto } = useSelector(state => state.auth);
+    const { userId, userName } = useSelector(state => state.auth);
     
     const reviews = useSelector(state => state.reviews.reviews)
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, userPhoto, rating, content))
+        dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
         setShowAddModal(false);
     }
 
@@ -38,7 +38,7 @@ const Reviews = props => {
                 <FlatList
                     keyExtractor={(item, index) => index.toString()}
                     data={reviews}
-                    renderItem={({ item }) => <ReviewItem review={item} />}
+                    renderItem={({ item }) => <ReviewItem review={item} userId={userId} />}
                 />
             </List>
             <Portal>

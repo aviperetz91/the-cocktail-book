@@ -3,10 +3,7 @@ import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
     screen: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: 'white',
     },
     back: {
         width: '100%',
@@ -88,7 +85,18 @@ const styles = StyleSheet.create({
     reviewsContainer: {
         padding: 12,
         paddingRight: 0,
-        marginTop: 6   }
+        marginTop: 6   
+    },
+    msgContainer: {
+        paddingVertical: 32,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center' 
+    },
+    msgText: {
+        color: '#a83236',
+        fontSize: 18
+    }
 })
 
 export default styles;

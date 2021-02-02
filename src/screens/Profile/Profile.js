@@ -124,7 +124,7 @@ const Profile = props => {
 
     return (
         <Provider>
-            <ScrollView contentContainerStyle={{ backgroundColor: 'white' }}>
+            <ScrollView contentContainerStyle={styles.screen}>
                 <Header
                     headerBackground={Colors.dark}
                     statusBarColor={Colors.dark}
@@ -221,41 +221,46 @@ const Profile = props => {
                         </Dialog>
                     </Portal>
                 </View>
-                <View style={styles.favoritsContainer}>
-                    <View>
-                        <Text style={styles.title}>Favorites</Text>
+                {favorites && favorites.length > 0 ?
+                    <View style={styles.favoritsContainer}>
+                        <View>
+                            <Text style={styles.title}>Favorites</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => item.idDrink}
+                            data={favorites}
+                            horizontal
+                            renderItem={({ item }) => (
+                                <CocktailCard
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
+                                    category={item.strCategory}
+                                    selectHandler={() => navigate(item)}
+                                />
+                            )}
+                        />
+
                     </View>
-                    <FlatList
-                        keyExtractor={(item, index) => item.idDrink}
-                        data={favorites}
-                        horizontal
-                        renderItem={({ item }) => (
-                            <CocktailCard
-                                title={item.strDrink}
-                                image={item.strDrinkThumb}
-                                tags={item.strTags}
-                                category={item.strCategory}
-                                selectHandler={() => navigate(item)}
-                            />
-                        )}
-                    />
-                </View>
-                <View style={styles.reviewsContainer}>
-                    <View>
-                        <Text style={styles.title}>Reviews</Text>
+                : null}
+                {reviews && reviews.length > 0 ?
+                    <View style={styles.reviewsContainer}>
+                        <View>
+                            <Text style={styles.title}>Reviews</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => item.idDrink + item.date}
+                            data={reviews}
+                            renderItem={({ item }) => (
+                                <ReviewItem
+                                    review={item}
+                                    selectHandler={() => navigate(item)}
+                                    profileFlag
+                                />
+                            )}
+                        />
                     </View>
-                    <FlatList
-                        keyExtractor={(item, index) => item.idDrink + item.date}
-                        data={reviews}
-                        renderItem={({ item }) => (
-                            <ReviewItem
-                                review={item}
-                                selectHandler={() => navigate(item)}
-                                profileFlag
-                            />
-                        )}
-                    />
-                </View>
+                : null}
             </ScrollView>
         </Provider>
     );
