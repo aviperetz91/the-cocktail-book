@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer, Spinner } from 'native-base';
 import styles from './style';
 import Colors from '../../constants/Colors';
-import { signup, login, setAuthError } from '../../store/actions/AuthActions';
+import { signup, login, setAuthError } from '../../store/actions/UserActions';
 
 const SignupLogin = props => {
 
     const dispatch = useDispatch();
-    const error = useSelector(state => state.auth.authError)
+    const error = useSelector(state => state.user.authError)
 
     const [mode, setMode] = useState('login');
     const [isLoading, setIsLoading] = useState(false);

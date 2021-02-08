@@ -7,11 +7,10 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY_COCKTAILS = 'GET_COCKTAILS';
 export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
 export const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
+export const GET_COCKTAIL_REVIEWS = 'GET_COCKTAIL_REVIEWS';
 export const GET_INGREDIENT_LIST = 'GET_INGREDIENT_LIST';
 export const GET_GLASS_LIST = 'GET_GLASS_LIST';
 export const GET_ALCOHOLIC_LIST = 'GET_ALCOHOLIC_LIST';
-export const GET_FAVORITES = 'GET_FAVORITES';
-export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
 export const CLEAR_DATA = 'CLEAR_DATA';
 
 export const getAllCocktails = () => {
@@ -58,6 +57,26 @@ export const getCocktailByName = name => {
     }
 }
 
+export const getReviewsByCocktailId = (idDrink) => {
+    return async dispatch => {
+        database().ref(`/reviews/${idDrink}`).on('value', (snapshot) => {
+            const revObj = snapshot.val();
+            const reviews = [];
+            for (let i in revObj) {
+                reviews.push(revObj[i])
+            }
+            let ratingSum = 0, ratingAvg = 0;
+            if (reviews.length > 0) {
+                reviews.forEach(rev => ratingSum += rev.rating);
+                ratingAvg = ratingSum / reviews.length;
+                dispatch({ type: GET_COCKTAIL_REVIEWS, reviews, ratingAvg })
+            } else {
+                dispatch({ type: GET_COCKTAIL_REVIEWS, reviews })
+            }
+        });
+    }
+}
+
 export const getIngredientList = () => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/list.php?i=list`)
@@ -76,32 +95,6 @@ export const getAlcoholicList = () => {
     return async dispatch => {
         const response = await axios.get(`${API_URL}/list.php?a=list`)
         dispatch({ type: GET_ALCOHOLIC_LIST, alcoholicList: response.data.drinks })
-    }
-}
-
-export const getFavorites = (userId) => {
-    return async dispatch => {
-        const snapshot = await database().ref(`users/${userId}/favorites`).once('value')
-        const favoriteObj = snapshot.val()
-        if (favoriteObj) {
-            const favoriteList = Object.keys(favoriteObj);
-            dispatch({ type: GET_FAVORITES, favorites: favoriteList })
-        }
-    }
-}
-
-export const toggleFavorite = (favorites, idDrink, userId) => {
-    return async dispatch => {
-        let updatedFavorites = favorites ? [...favorites] : [];
-        const isExist = updatedFavorites.some(fav => fav === idDrink);
-        if (isExist) {
-            updatedFavorites = favorites.filter(fav => fav !== idDrink)
-            await database().ref(`users/${userId}/favorites/${idDrink}`).remove()
-        } else {
-            updatedFavorites.push(idDrink)
-            await database().ref(`users/${userId}/favorites/${idDrink}`).set({ idDrink: idDrink })
-        }
-        dispatch({ type: TOGGLE_FAVORITE, favorites: updatedFavorites })
     }
 }
 

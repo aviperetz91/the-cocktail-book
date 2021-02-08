@@ -9,9 +9,9 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
 
-    const token = useSelector(state => state.auth.token)
+    const userId = useSelector(state => state.user.userId)
 
-    if (!token) {
+    if (!userId) {
         return <SignupLogin />
     } else {
         return (

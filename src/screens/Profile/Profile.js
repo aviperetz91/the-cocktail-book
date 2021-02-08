@@ -7,7 +7,7 @@ import Header from '../../components/Header/Header';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { API_URL } from '@env';
-import axios from 'axios'
+import axios from 'axios';
 import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
 import CocktailCard from '../../components/CocktailCard/CocktailCard';
@@ -15,18 +15,18 @@ import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
-import { updateName, updatePhoto } from '../../store/actions/AuthActions';
-import avatar from '../../assets/images/avatar2.png'
+import { updateName, updatePhoto } from '../../store/actions/UserActions';
+import avatar from '../../assets/images/avatar2.png';
+
+
 
 const Profile = props => {
 
     const navigation = props.navigation;
-    const favoriteIds = useSelector(state => state.cocktails.favorites);
-    const { userId, userName, userPhoto } = useSelector(state => state.auth);
+    const { userId, userName, userPhoto, userFavoriteIds, userReviews } = useSelector(state => state.user);
+    const [favorites, setFavorites] = useState();
     const [newName, setNewName] = useState(userName);
     const [newPhoto, setNewPhoto] = useState(userPhoto);
-    const [favorites, setFavorites] = useState([]);
-    const [reviews, setReviews] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
@@ -34,35 +34,17 @@ const Profile = props => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        getUserFavorites();
-        getUserReviews();
-    }, [])
+        getFavoritesByIds()
+    }, [userFavoriteIds])
 
-    const getUserFavorites = () => {
-        let favTemp = [];
-        const savedPromises = [];
-        favoriteIds.forEach(id => {
-            savedPromises.push(axios.get(`${API_URL}/lookup.php?i=${id}`))
-        })
-        Promise.all(savedPromises)
-            .then(res => {
-                res.forEach(item => {
-                    favTemp.push(item.data.drinks[0])
-                })
-                setFavorites(favTemp)
-            })
-            .catch(err => console.log(err))
-    }
-
-    const getUserReviews = async () => {
-        let revTemp = [];
-        const snapshot = await database().ref(`users/${userId}/reviews`).once('value')
-        const reviewsObj = snapshot.val()
-        if (reviewsObj) {
-            for (let index in reviewsObj) {
-                revTemp.push(reviewsObj[index])
+    getFavoritesByIds = async () => {
+        const favorites = [];
+        if (userFavoriteIds && userFavoriteIds.length > 0) {
+            for (let i = 0; i < userFavoriteIds.length; i++) {
+                const favItem = await axios.get(`${API_URL}/lookup.php?i=${userFavoriteIds[i]}`)
+                favorites.push(favItem.data.drinks[0])
             }
-            setReviews(revTemp)
+            setFavorites(favorites)
         }
     }
 
@@ -88,7 +70,6 @@ const Profile = props => {
     }
 
     const saveHandler = async () => {
-        console.log("SAVE!")
         setIsSavePressed(true);
         setIsLoading(true)
         if (newPhoto !== userPhoto) {
@@ -107,9 +88,9 @@ const Profile = props => {
 
     const getRatingAvg = () => {
         let sum = 0;
-        reviews.forEach(rev => sum += rev.rating);
-        if (reviews.length > 0) {
-            return sum / reviews.length
+        if (userReviews && userReviews.length > 0) {
+            userReviews.forEach(rev => sum += rev.rating);
+            return sum / userReviews.length
         } else {
             return 0
         }
@@ -177,7 +158,7 @@ const Profile = props => {
                                     <View style={{ marginRight: 8 }}>
                                         <Text style={styles.statusNote}>Reviews</Text>
                                         <Text style={styles.statusVal}>
-                                            {reviews && reviews.length ? reviews.length : 0}
+                                            {userReviews && userReviews.length ? userReviews.length : 0}
                                         </Text>
                                     </View>
                                     <View style={{ marginRight: 8 }}>
@@ -227,7 +208,7 @@ const Profile = props => {
                             <Text style={styles.title}>Favorites</Text>
                         </View>
                         <FlatList
-                            keyExtractor={(item, index) => item.idDrink}
+                            keyExtractor={(item, index) => index.toString()}
                             data={favorites}
                             horizontal
                             renderItem={({ item }) => (
@@ -242,15 +223,16 @@ const Profile = props => {
                         />
 
                     </View>
-                : null}
-                {reviews && reviews.length > 0 ?
+                    : null}
+                {userReviews && userReviews.length > 0 ?
                     <View style={styles.reviewsContainer}>
                         <View>
                             <Text style={styles.title}>Reviews</Text>
                         </View>
                         <FlatList
-                            keyExtractor={(item, index) => item.idDrink + item.date}
-                            data={reviews}
+                            // keyExtractor={(item, index) => item.idDrink + item.date}
+                            keyExtractor={(item, index) => index.toString()}
+                            data={userReviews}
                             renderItem={({ item }) => (
                                 <ReviewItem
                                     review={item}
@@ -260,7 +242,7 @@ const Profile = props => {
                             )}
                         />
                     </View>
-                : null}
+                    : null}
             </ScrollView>
         </Provider>
     );

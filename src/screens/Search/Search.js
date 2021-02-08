@@ -6,7 +6,6 @@ import CocktailItem from '../../components/CocktailItem/CocktailItem';
 import { SearchBar } from 'react-native-elements';
 import { getCocktailByName, clearData } from '../../store/actions/CocktailsActions';
 import styles from './style';
-import Colors from '../../constants/Colors'
 
 const Search = props => {
 

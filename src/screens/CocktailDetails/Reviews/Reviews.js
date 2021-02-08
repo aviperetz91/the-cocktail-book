@@ -7,18 +7,16 @@ import { AirbnbRating } from 'react-native-elements';
 import ReviewItem from '../../../components/ReviewItem/ReviewItem';
 import styles from './style';
 import Colors from '../../../constants/Colors';
-import { leaveFeedback } from '../../../store/actions/ReviewsActions';
+import { leaveFeedback } from '../../../store/actions/UserActions';
 
 const Reviews = props => {
 
     const { idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal } = props;
-
+    const { userId, userName } = useSelector(state => state.user);
+    const { cocktailReviews } = useSelector(state => state.cocktails);
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
 
-    const { userId, userName } = useSelector(state => state.auth);
-    
-    const reviews = useSelector(state => state.reviews.reviews)
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {
@@ -37,7 +35,7 @@ const Reviews = props => {
             <List>
                 <FlatList
                     keyExtractor={(item, index) => index.toString()}
-                    data={reviews}
+                    data={cocktailReviews}
                     renderItem={({ item }) => <ReviewItem review={item} userId={userId} />}
                 />
             </List>

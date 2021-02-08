@@ -4,11 +4,10 @@ import {
     GET_CATEGORY_COCKTAILS,
     GET_COCKTAIL_DETAILS,
     GET_SEARCH_RESULTS,
+    GET_COCKTAIL_REVIEWS,
     GET_INGREDIENT_LIST,
     GET_GLASS_LIST,
     GET_ALCOHOLIC_LIST,
-    GET_FAVORITES,
-    TOGGLE_FAVORITE,
     CLEAR_DATA,
 } from '../actions/CocktailsActions';
 
@@ -19,10 +18,11 @@ const initialState = {
     categoryCocktails: null,
     selectedCocktail: null,
     searchResults: null,
+    cocktailReviews: null,
+    cocktailRatingAvg: 0,
     ingredientList: null,
     glassList: null,
     alcoholicList: null,
-    favorites: null,
 }
 
 const CocktailsReducer = (state = initialState, action) => {
@@ -94,15 +94,11 @@ const CocktailsReducer = (state = initialState, action) => {
                 ...state,
                 alcoholicList: alcoholic
             }
-        case GET_FAVORITES:
+        case GET_COCKTAIL_REVIEWS:
             return {
                 ...state,
-                favorites: action.favorites
-            }
-        case TOGGLE_FAVORITE:
-            return {
-                ...state,
-                favorites: action.favorites
+                cocktailReviews: action.reviews,
+                cocktailRatingAvg: action.ratingAvg ? action.ratingAvg : 0
             }
         case CLEAR_DATA:
             return {

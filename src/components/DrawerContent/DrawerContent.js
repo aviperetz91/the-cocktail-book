@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Icon } from 'native-base';
 import { Avatar, Title, Drawer } from 'react-native-paper';
-import { signout } from '../../store/actions/AuthActions';
+import { signout } from '../../store/actions/UserActions';
 import avatar from '../../assets/images/avatar.jpg'
 import styles from './style';
 
 const DrawerContent = (props) => {
 
-  const { userName, userPhoto } = useSelector(state => state.auth);
+  const { userName, userPhoto } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   return (

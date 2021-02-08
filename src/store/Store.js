@@ -1,13 +1,11 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import CocktailsReducer from '../store/reducers/CocktailsReducer';
-import AuthReducer from '../store/reducers/AuthReducer';
-import ReviewsReducer from './reducers/ReviewsReducer';
+import UserReducer from '../store/reducers/UserReducer';
 
 const rootReducer = combineReducers({
-    auth: AuthReducer,
+    user: UserReducer,
     cocktails: CocktailsReducer,
-    reviews: ReviewsReducer
 })
 
 const Store = createStore(
