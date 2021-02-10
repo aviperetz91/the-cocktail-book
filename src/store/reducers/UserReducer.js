@@ -28,7 +28,6 @@ const AuthReducer = (state = initialState, action) => {
                 userName: action.userName
             }
         case LOGIN:
-            console.log(action)
             return {
                 ...state,
                 userId: action.userId,
@@ -44,7 +43,7 @@ const AuthReducer = (state = initialState, action) => {
                 userName: null,
                 userPhoto: null,
                 userFavoriteIds: null,
-                userReveiws: null,
+                userReviews: null,
             }
         case SET_AUTH_ERROR:
             return {

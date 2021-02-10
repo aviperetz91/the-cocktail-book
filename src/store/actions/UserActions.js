@@ -52,7 +52,7 @@ export const login = (email, password) => {
             const userId = idTokenResult.claims.user_id;
             const snapshot = await database().ref(`/users/${userId}`).once('value');
             const user = snapshot.val();
-            let favoriteIds = []
+            let favoriteIds;
             if (user.favorites) {
                 favoriteIds = Object.keys(user.favorites);
             }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import { View, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, Thumbnail, Text, Button, Icon, Badge, Spinner } from 'native-base';
 import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
@@ -12,7 +12,6 @@ import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
 import CocktailCard from '../../components/CocktailCard/CocktailCard';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
-import { ScrollView } from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
 import { updateName, updatePhoto } from '../../store/actions/UserActions';
@@ -225,7 +224,7 @@ const Profile = props => {
                     </View>
                     : null}
                 {userReviews && userReviews.length > 0 ?
-                    <View style={styles.reviewsContainer}>
+                    <View style={userFavoriteIds ? styles.reviewsContainer : { ...styles.reviewsContainer, marginTop: 52 }}>
                         <View>
                             <Text style={styles.title}>Reviews</Text>
                         </View>

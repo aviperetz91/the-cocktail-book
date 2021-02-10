@@ -4,6 +4,7 @@ import Colors from '../../constants/Colors';
 const styles = StyleSheet.create({
     screen: {
         backgroundColor: 'white',
+        flexGrow: 1
     },
     back: {
         width: '100%',
