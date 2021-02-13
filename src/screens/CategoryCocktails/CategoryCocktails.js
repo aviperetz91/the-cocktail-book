@@ -12,15 +12,14 @@ const CategoryCocktails = props => {
 
     const navigation = props.navigation;
     const categoryTitle = props.route.params.title;
-
-    const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
+    const categoryCocktails = props.route.params.categoryCocktails;
+    // const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getCategoryCocktails(categoryTitle))
-    }, [dispatch])
-
+    // useEffect(() => {
+    //     dispatch(getCategoryCocktails(categoryTitle))
+    // }, [dispatch])
 
     const goBack = () => {
         dispatch(clearData('categoryCocktails'));

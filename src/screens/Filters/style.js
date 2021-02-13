@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.dark 
     },
     container: {    
-        paddingBottom: 60,
+        paddingBottom: 200,
         paddingHorizontal: 30,
         justifyContent: 'center',
     },

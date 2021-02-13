@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer, Spinner } from 'native-base';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
+import { getAllCocktails } from '../../store/actions/CocktailsActions';
 
 const SignupLogin = props => {
 
@@ -21,6 +22,10 @@ const SignupLogin = props => {
         email: 'pavi@gmail.com',
         password: '123456',
     });
+
+    useEffect(() => {
+        dispatch(getAllCocktails())
+    }, [])
 
     const changeTextHandler = (key, value) => {
         setInfo({
@@ -40,7 +45,7 @@ const SignupLogin = props => {
             } else if (mode === 'login') {
                 await dispatch(login(info.email, info.password))
             }
-            setIsLoading(false)            
+            setIsLoading(false)
         }
     }
 

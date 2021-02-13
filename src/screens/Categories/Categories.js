@@ -13,9 +13,7 @@ import styles from './style';
 const Categories = props => {
 
     const navigation = props.navigation;
-
-    const categories = useSelector(state => state.cocktails.categories);
-    const categoriesLength = useSelector(state => state.cocktails.categoriesLength);
+    const { allCocktails, categories, categoriesLength } = useSelector(state => state.cocktails)
 
     const dispatch = useDispatch();
 
@@ -23,8 +21,8 @@ const Categories = props => {
         dispatch(getCategories());
     }, [dispatch])
 
-    const navigate = (item) => {
-        navigation.navigate("CategoryCocktails", { title: item })
+    const navigate = (item, categoryCocktails) => {
+        navigation.navigate("CategoryCocktails", { title: item, categoryCocktails: categoryCocktails })
     }
 
     if (!categories) {
@@ -55,12 +53,14 @@ const Categories = props => {
                     data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
                     numColumns={2}
                     renderItem={({ item }) => {
+                        const categoryCocktails = allCocktails.filter(cocktail => cocktail.strCategory === item)
                         return (
                             <CategoryBox
                                 title={item}
-                                subTitle={categoriesLength[item]}
+                                // subTitle={categoriesLength[item]}
+                                subTitle={categoryCocktails.length}
                                 image={categoriesImages[categories.findIndex(el => el === item)]}
-                                onSelect={() => navigate(item)}
+                                onSelect={() => navigate(item, categoryCocktails)}
                             />
                         )
                     }}
