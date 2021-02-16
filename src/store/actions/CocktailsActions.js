@@ -13,47 +13,48 @@ export const GET_GLASS_LIST = 'GET_GLASS_LIST';
 export const GET_ALCOHOLIC_LIST = 'GET_ALCOHOLIC_LIST';
 export const CLEAR_DATA = 'CLEAR_DATA';
 
-export const getAllCocktails = () => {
-    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+export const getCocktails = () => {
     return async dispatch => {
+        const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
         letters.forEach(async letter => {
-            const response = await axios.get(`${API_URL}/search.php?f=${letter}`)
-            dispatch({ type: GET_ALL_COCKTAILS, cocktails: response.data.drinks })
+            const letterCocktails = await axios.get(`${API_URL}/search.php?f=${letter}`)
+            dispatch({ type: GET_ALL_COCKTAILS, cocktails: letterCocktails.data.drinks })
         })
     }
 }
 
 export const getCategories = () => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}/list.php?c=list`)
+        let categorylist = await axios.get(`${API_URL}/list.php?c=list`)
+        categorylist = categorylist.data.drinks;
+        const categories = categorylist && categorylist.length > 0 ? categorylist.map(category => category.strCategory) : null;
         let categoriesLength = {};
-        response.data.drinks.forEach(async category => {
-            const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${category.strCategory}`)
-            categoriesLength[category.strCategory] = categoryCocktails.data.drinks.length
-            dispatch({ type: GET_CATEGORIES, categories: response.data.drinks, categoriesLength })
+        categories.forEach(async category => {
+            const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${category}`)
+            categoriesLength[category] = categoryCocktails.data.drinks.length
+            dispatch({ type: GET_CATEGORIES, categories, categoriesLength })
         })
     }
 }
 
 export const getCategoryCocktails = category => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}/filter.php?c=${category}`)
-        dispatch({ type: GET_CATEGORY_COCKTAILS, categoryCocktails: response.data.drinks })
+        const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${category}`)
+        dispatch({ type: GET_CATEGORY_COCKTAILS, categoryCocktails: categoryCocktails.data.drinks })
     }
 }
 
 export const getCocktailById = id => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}/lookup.php?i=${id}`)
-        const selected = response.data.drinks[0]
-        dispatch({ type: GET_COCKTAIL_DETAILS, selectedCocktail: selected })
+        const selected = await axios.get(`${API_URL}/lookup.php?i=${id}`)
+        dispatch({ type: GET_COCKTAIL_DETAILS, selectedCocktail: selected.data.drinks[0] })
     }
 }
 
 export const getCocktailByName = name => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}//search.php?s=${name}`)
-        dispatch({ type: GET_SEARCH_RESULTS, searchResults: response.data.drinks })
+        const results = await axios.get(`${API_URL}//search.php?s=${name}`)
+        dispatch({ type: GET_SEARCH_RESULTS, searchResults: results.data.drinks })
     }
 }
 
@@ -79,22 +80,35 @@ export const getReviewsByCocktailId = (idDrink) => {
 
 export const getIngredientList = () => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}/list.php?i=list`)
-        dispatch({ type: GET_INGREDIENT_LIST, ingredientList: response.data.drinks })
+        let ingredientList = await axios.get(`${API_URL}/list.php?i=list`)
+        ingredientList = ingredientList.data.drinks;
+        ingredientList = ingredientList && ingredientList.length > 0 ? ingredientList.map(ingredient => ingredient.strIngredient1) : null;
+        dispatch({ type: GET_INGREDIENT_LIST, ingredientList })
     }
 }
 
 export const getGlassList = () => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}/list.php?g=list`)
-        dispatch({ type: GET_GLASS_LIST, glassList: response.data.drinks })
+        let glassList = await axios.get(`${API_URL}/list.php?g=list`)
+        glassList = glassList.data.drinks;
+        const glasses = []
+        if (glassList && glassList.length > 0) {
+            glassList.forEach((glass, index) => {
+                if (index !== glassList.length - 1) {
+                    glasses.push(glass.strGlass);
+                } 
+            })
+        }
+        dispatch({ type: GET_GLASS_LIST, glassList: glasses })
     }
 }
 
 export const getAlcoholicList = () => {
     return async dispatch => {
-        const response = await axios.get(`${API_URL}/list.php?a=list`)
-        dispatch({ type: GET_ALCOHOLIC_LIST, alcoholicList: response.data.drinks })
+        let alcoholicList = await axios.get(`${API_URL}/list.php?a=list`)
+        alcoholicList = alcoholicList.data.drinks;
+        alcoholicList = alcoholicList && alcoholicList.length > 0 ? alcoholicList.map(alcoholic => alcoholic.strAlcoholic) : null;
+        dispatch({ type: GET_ALCOHOLIC_LIST, alcoholicList })
     }
 }
 

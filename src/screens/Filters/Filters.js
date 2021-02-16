@@ -13,7 +13,7 @@ const Filters = props => {
 
     const navigation = props.navigation;
 
-    const allCocktails = useSelector(state => state.cocktails.allCocktails);
+    const cocktails = useSelector(state => state.cocktails.cocktails);
     const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
     const categories = useSelector(state => state.cocktails.categories);
     const glassList = useSelector(state => state.cocktails.glassList);
@@ -59,7 +59,7 @@ const Filters = props => {
 
     const filterCocktails = () => {
         const filtered = [];
-        allCocktails.forEach((drink, index) => {
+        cocktails.forEach((drink, index) => {
             if (
                 (drink.strAlcoholic === selectedAlcoholic || selectedAlcoholic === '') &&
                 (checkedCategories.some(category => category === drink.strCategory) || checkedCategories.length === 0) &&

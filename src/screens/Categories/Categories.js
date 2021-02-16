@@ -13,7 +13,7 @@ import styles from './style';
 const Categories = props => {
 
     const navigation = props.navigation;
-    const { allCocktails, categories, categoriesLength } = useSelector(state => state.cocktails)
+    const { cocktails, categories, categoriesLength } = useSelector(state => state.cocktails)
 
     const dispatch = useDispatch();
 
@@ -25,7 +25,7 @@ const Categories = props => {
         navigation.navigate("CategoryCocktails", { title: item, categoryCocktails: categoryCocktails })
     }
 
-    if (!categories) {
+    if (!(categories && cocktails)) {
         return (
             <View style={styles.spinnerContainer}>
                 <Spinner color={Colors.darkPrimary} />
@@ -53,7 +53,7 @@ const Categories = props => {
                     data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
                     numColumns={2}
                     renderItem={({ item }) => {
-                        const categoryCocktails = allCocktails.filter(cocktail => cocktail.strCategory === item)
+                        const categoryCocktails = cocktails.filter(cocktail => cocktail.strCategory === item)
                         return (
                             <CategoryBox
                                 title={item}

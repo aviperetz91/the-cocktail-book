@@ -12,7 +12,7 @@ import {
 } from '../actions/CocktailsActions';
 
 const initialState = {
-    allCocktails: null,
+    cocktails: null,
     categories: null,
     categoriesLength: null,
     categoryCocktails: null,
@@ -38,19 +38,18 @@ const CocktailsReducer = (state = initialState, action) => {
                 })
                 return {
                     ...state,
-                    allCocktails: state.allCocktails ? [...state.allCocktails, ...extendedCocktails] : extendedCocktails
+                    cocktails: state.cocktails ? [...state.cocktails, ...extendedCocktails] : extendedCocktails
                 }
             } else {
                 return {
                     ...state,
-                    allCocktails: state.allCocktails
+                    cocktails: state.cocktails
                 }
             }
         case GET_CATEGORIES:
-            const categories = action.categories.map(category => category.strCategory)
             return {
                 ...state,
-                categories: categories,
+                categories: action.categories,
                 categoriesLength: action.categoriesLength
             }
         case GET_CATEGORY_COCKTAILS:
@@ -72,27 +71,19 @@ const CocktailsReducer = (state = initialState, action) => {
                 searchResults: action.searchResults
             }
         case GET_INGREDIENT_LIST:
-            const ingredients = action.ingredientList.map(ingredient => ingredient.strIngredient1)
             return {
                 ...state,
-                ingredientList: ingredients
+                ingredientList: action.ingredientList
             }
         case GET_GLASS_LIST:
-            const glasses = [];
-            action.glassList.forEach((glass, index) => {
-                if (index !== action.glassList.length - 1) {
-                    glasses.push(glass.strGlass)
-                }
-            })
             return {
                 ...state,
-                glassList: glasses
+                glassList: action.glassList
             }
         case GET_ALCOHOLIC_LIST:
-            const alcoholic = action.alcoholicList.map(alcoholic => alcoholic.strAlcoholic)
             return {
                 ...state,
-                alcoholicList: alcoholic
+                alcoholicList: action.alcoholicList
             }
         case GET_COCKTAIL_REVIEWS:
             return {

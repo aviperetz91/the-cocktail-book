@@ -5,7 +5,7 @@ import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Ic
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
-import { getAllCocktails } from '../../store/actions/CocktailsActions';
+import { getCocktails } from '../../store/actions/CocktailsActions';
 
 const SignupLogin = props => {
 
@@ -24,7 +24,7 @@ const SignupLogin = props => {
     });
 
     useEffect(() => {
-        dispatch(getAllCocktails())
+        dispatch(getCocktails())
     }, [])
 
     const changeTextHandler = (key, value) => {
