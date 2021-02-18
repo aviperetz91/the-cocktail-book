@@ -1,17 +1,26 @@
 import React from 'react';
-import { Image, View, Text, TouchableOpacity } from 'react-native'
+import { Image, View, TouchableOpacity, Text } from 'react-native';
+import { Rating } from 'react-native-elements';
 import styles from './style';
 
 const CocktailItem = props => {
-    return (                     
-        <TouchableOpacity style={styles.itemContainer} onPress={props.onSelect}>
+    const { onSelect, image, title, alcoholic, category, glass, rating } = props;
+    return (
+        <TouchableOpacity style={styles.itemContainer} onPress={onSelect}>
             <View>
-                <Image style={styles.itemImage} square source={{ uri: props.image }} />
+                <Image style={styles.itemImage} square source={{ uri: image }} />
             </View>
-            <View style={{ marginLeft: 15 }}>
-                <Text style={styles.itemTitle}>{props.title}</Text>
-                <Text style={styles.itemNote}>* Some Tags *</Text>
-                <Text>* Ratings *</Text>
+            <View style={styles.textContainer}>
+                <Text style={styles.itemTitle}>{title}</Text>
+                <Text style={styles.itemNote}>{`${alcoholic}, ${category}, ${glass}`}</Text>
+            </View>
+            <View style={styles.ratingContainer}>
+                <Rating
+                    readonly
+                    startingValue={rating ? rating : 0}
+                    showRating={false}
+                    imageSize={16}
+                />
             </View>
         </TouchableOpacity>
     );

@@ -5,7 +5,7 @@ import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Ic
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
-import { getCocktails } from '../../store/actions/CocktailsActions';
+import { getCocktails, mapRatingToCocktail } from '../../store/actions/CocktailsActions';
 
 const SignupLogin = props => {
 
@@ -25,7 +25,11 @@ const SignupLogin = props => {
 
     useEffect(() => {
         dispatch(getCocktails())
+        dispatch(mapRatingToCocktail())
     }, [])
+
+        
+    
 
     const changeTextHandler = (key, value) => {
         setInfo({

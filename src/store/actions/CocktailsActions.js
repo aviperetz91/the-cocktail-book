@@ -2,7 +2,8 @@ import axios from 'axios';
 import { API_URL } from '@env';
 import database from '@react-native-firebase/database';
 
-export const GET_ALL_COCKTAILS = 'GET_ALL_COCKTAILS';
+export const GET_COCKTAILS = 'GET_COCKTAILS';
+export const MAP_RATING_TO_COCKTAIL = 'MAP_RATING_TO_COCKTAIL';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY_COCKTAILS = 'GET_COCKTAILS';
 export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
@@ -18,8 +19,33 @@ export const getCocktails = () => {
         const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
         letters.forEach(async letter => {
             const letterCocktails = await axios.get(`${API_URL}/search.php?f=${letter}`)
-            dispatch({ type: GET_ALL_COCKTAILS, cocktails: letterCocktails.data.drinks })
+            dispatch({ type: GET_COCKTAILS, cocktails: letterCocktails.data.drinks })
         })
+    }
+}
+
+export const mapRatingToCocktail = () => {
+    return async dispatch => {
+        database().ref(`/reviews`).on('value', snapshot => {
+            const reviews = snapshot.val()
+            let sum, ratingAvg, ratingCocktailMap = {};
+            if (reviews) {
+                for (let idDrink in reviews) {
+                    sum = 0, ratingAvg = 0;
+                    if (reviews[idDrink]) {
+                        for (let rev in reviews[idDrink]) {
+                            if (reviews[idDrink][rev] && reviews[idDrink][rev].rating) {
+                                sum += reviews[idDrink][rev].rating;
+                            }
+                        }
+                        ratingAvg = sum / Object.keys(reviews[idDrink]).length
+                        ratingCocktailMap[idDrink] = ratingAvg
+                    }
+                }
+                console.log(ratingCocktailMap)
+            }
+            dispatch({ type: MAP_RATING_TO_COCKTAIL, reviews, ratingCocktailMap })
+        });
     }
 }
 

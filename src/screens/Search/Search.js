@@ -13,6 +13,7 @@ const Search = props => {
     const [searchInput, setSearchInput] = useState('');
     const searchResults = useSelector(state => state.cocktails.searchResults)
     const searchBarRef = React.createRef();
+    const ratingCocktailMap = useSelector(state => state.cocktails.ratingCocktailMap)
 
     const dispatch = useDispatch();
 
@@ -44,9 +45,9 @@ const Search = props => {
 
     return (
         <View style={styles.screen}>
-            <Header 
-                style={styles.header} 
-                androidStatusBarColor={"white"} 
+            <Header
+                style={styles.header}
+                androidStatusBarColor={"white"}
                 iosBarStyle={"dark-content"}
             />
             <SearchBar
@@ -54,6 +55,7 @@ const Search = props => {
                 placeholder="Search..."
                 onChangeText={(input) => changeTextHandler(input)}
                 value={searchInput}
+                autoFocus
                 searchIcon={
                     <TouchableOpacity onPress={goBack}>
                         <Icon name='arrow-back' style={styles.arrowBack} />
@@ -70,7 +72,10 @@ const Search = props => {
                     <CocktailItem
                         title={item.strDrink}
                         image={item.strDrinkThumb}
-                        tags={item.strTags}
+                        alcoholic={item.strAlcoholic}
+                        category={item.strCategory}
+                        glass={item.strGlass}
+                        rating={ratingCocktailMap[item.idDrink]}
                         onSelect={() => navigate(item)}
                     />
                 )}

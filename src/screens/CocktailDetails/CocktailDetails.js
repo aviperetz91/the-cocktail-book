@@ -83,7 +83,7 @@ const CocktailDetails = props => {
                             <View style={styles.container}>
                                 <View style={styles.titleContainer}>
                                     <Text style={styles.title}>{name}</Text>
-                                    <Text note>{selectedCocktail.strGlass}</Text>
+                                    <Text note>{`${selectedCocktail.strAlcoholic}, ${selectedCocktail.strCategory}, ${selectedCocktail.strGlass}`}</Text>
                                 </View>
                                 <View style={styles.ratingContainer}>
                                     <Rating

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Spinner, Card } from 'native-base';
+import { useSelector } from 'react-redux';
 import Header from '../../components/Header/Header';
 import CocktailItem from '../../components/CocktailItem/CocktailItem';
 import Colors from '../../constants/Colors';
@@ -10,6 +11,7 @@ const FilteredCocktails = props => {
 
     const navigation = props.navigation;
     const filteredCocktails = props.route.params.filteredCocktails;
+    const ratingCocktailMap = useSelector(state => state.cocktails.ratingCocktailMap)
 
     const goBack = () => {
         navigation.goBack()
@@ -54,7 +56,10 @@ const FilteredCocktails = props => {
                             <CocktailItem
                                 title={item.strDrink}
                                 image={item.strDrinkThumb}
-                                tags={item.strTags}
+                                alcoholic={item.strAlcoholic}
+                                category={item.strCategory}
+                                glass={item.strGlass}
+                                rating={ratingCocktailMap[item.idDrink]}
                                 onSelect={() => navigate(item)}
                             />
                         )}

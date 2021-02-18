@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 20,
+        marginBottom: 3,
         color: 'black',
         fontWeight: 'bold',
         letterSpacing: 1

@@ -14,12 +14,22 @@ const styles = StyleSheet.create({
     },
     itemTitle: { 
         fontSize: 17, 
+        marginBottom: 2,
         fontWeight: '700',
         letterSpacing: 0.5
     },
+    textContainer: {
+        marginLeft: 15,
+        width: '75%'
+    },
     itemNote: { 
         color: '#6c757d' 
-    }
+    },
+    ratingContainer: {
+        position: 'absolute',
+        right: 15,
+        bottom: 10,
+    },
 })
 
 export default styles;

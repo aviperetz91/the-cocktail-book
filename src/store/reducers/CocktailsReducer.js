@@ -1,5 +1,6 @@
 import {
-    GET_ALL_COCKTAILS,
+    GET_COCKTAILS,
+    MAP_RATING_TO_COCKTAIL,
     GET_CATEGORIES,
     GET_CATEGORY_COCKTAILS,
     GET_COCKTAIL_DETAILS,
@@ -13,6 +14,7 @@ import {
 
 const initialState = {
     cocktails: null,
+    ratingCocktailMap: null,
     categories: null,
     categoriesLength: null,
     categoryCocktails: null,
@@ -27,7 +29,7 @@ const initialState = {
 
 const CocktailsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_ALL_COCKTAILS:
+        case GET_COCKTAILS:
             if (action.cocktails) {
                 const extendedCocktails = []
                 action.cocktails.forEach(cocktail => {
@@ -45,6 +47,11 @@ const CocktailsReducer = (state = initialState, action) => {
                     ...state,
                     cocktails: state.cocktails
                 }
+            }
+        case MAP_RATING_TO_COCKTAIL:
+            return {
+                ...state,
+                ratingCocktailMap: action.ratingCocktailMap       
             }
         case GET_CATEGORIES:
             return {
