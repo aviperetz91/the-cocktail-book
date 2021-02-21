@@ -5,6 +5,7 @@ export const SIGNUP = 'SIGNUP';
 export const LOGIN = 'LOGIN';
 export const SIGNOUT = 'SIGNOUT';
 export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
+export const SET_USER_DETAILS = 'SET_USER_DETAILS';
 export const UPDATE_NAME = 'UPDATE_NAME';
 export const UPDATE_PHOTO = 'UPDATE_PHOTO';
 export const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
@@ -43,7 +44,7 @@ export const signup = (name, email, passowrd) => {
     }
 }
 
-export const login = (email, password) => {
+export const login = (email, password, uid) => {
     return async dispatch => {
         let errorMessage;
         try {
@@ -93,6 +94,28 @@ export const signout = () => {
     return async dispatch => {
         await auth().signOut()
         dispatch({ type: SIGNOUT })
+    }
+}
+
+export const setUserDetails = (userId) => {
+    return async dispatch => {
+        try {
+            const snapshot = await database().ref(`/users/${userId}`).once('value');
+            const user = snapshot.val();
+            let favoriteIds;
+            if (user.favorites) {
+                favoriteIds = Object.keys(user.favorites);
+            }
+            let reviews = []
+            if (user.reviews) {
+                for (let index in user.reviews) {
+                    reviews.push(user.reviews[index])
+                }
+            }
+            dispatch({ type: SET_USER_DETAILS, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: reviews })
+        } catch (error) {
+            dispatch({ type: SET_AUTH_ERROR, error: errorMessage })
+        }
     }
 }
 

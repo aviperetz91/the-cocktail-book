@@ -3,6 +3,7 @@ import {
     SIGNUP,
     SIGNOUT,
     SET_AUTH_ERROR,
+    SET_USER_DETAILS,
     UPDATE_NAME,
     UPDATE_PHOTO,
     GET_USER_FAVORITES,
@@ -49,6 +50,15 @@ const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 authError: action.error
+            }
+        case SET_USER_DETAILS:
+            return {
+                ...state,
+                userId: action.userId,
+                userName: action.userName,
+                userPhoto: action.userPhoto,
+                userFavoriteIds: action.userFavoriteIds,
+                userReviews: action.userReviews
             }
         case UPDATE_NAME:
             return {
