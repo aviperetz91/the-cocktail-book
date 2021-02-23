@@ -27,22 +27,25 @@ export const getCocktails = () => {
 export const mapRatingToCocktail = () => {
     return async dispatch => {
         database().ref(`/reviews`).on('value', snapshot => {
-            const reviews = snapshot.val()
+            const reviewsObj = snapshot.val();
+            const reviews = [];
             let sum, ratingAvg, ratingCocktailMap = {};
-            if (reviews) {
-                for (let idDrink in reviews) {
+            if (reviewsObj) {
+                for (let idDrink in reviewsObj) {
                     sum = 0, ratingAvg = 0;
-                    if (reviews[idDrink]) {
-                        for (let rev in reviews[idDrink]) {
-                            if (reviews[idDrink][rev] && reviews[idDrink][rev].rating) {
-                                sum += reviews[idDrink][rev].rating;
+                    if (reviewsObj[idDrink]) {
+                        for (let rev in reviewsObj[idDrink]) {
+                            if (reviewsObj[idDrink][rev]) {
+                                reviews.push(reviewsObj[idDrink][rev])
+                                sum += reviewsObj[idDrink][rev].rating;
                             }
                         }
-                        ratingAvg = sum / Object.keys(reviews[idDrink]).length
+                        ratingAvg = sum / Object.keys(reviewsObj[idDrink]).length
                         ratingCocktailMap[idDrink] = ratingAvg
                     }
                 }
                 console.log(ratingCocktailMap)
+                reviews.sort((a,b) => new Date(b.date) - new Date(a.date))
             }
             dispatch({ type: MAP_RATING_TO_COCKTAIL, reviews, ratingCocktailMap })
         });

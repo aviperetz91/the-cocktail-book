@@ -10,6 +10,7 @@ import styles from './style';
 
 const DrawerContent = (props) => {
 
+  console.log(props)
   const { userName, userPhoto } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
@@ -39,7 +40,10 @@ const DrawerContent = (props) => {
                 />
               )}
               label="Home"
-              onPress={() => props.navigation.navigate('Home')}
+              onPress={() => {
+                console.log("asdasd")
+                props.navigation.navigate('Home')
+              }}
             />
             <DrawerItem
               icon={({ color, size }) => (

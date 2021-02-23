@@ -14,6 +14,7 @@ import {
 
 const initialState = {
     cocktails: null,
+    reviews: null,
     ratingCocktailMap: null,
     categories: null,
     categoriesLength: null,
@@ -51,7 +52,8 @@ const CocktailsReducer = (state = initialState, action) => {
         case MAP_RATING_TO_COCKTAIL:
             return {
                 ...state,
-                ratingCocktailMap: action.ratingCocktailMap       
+                reviews: action.reviews,       
+                ratingCocktailMap: action.ratingCocktailMap,
             }
         case GET_CATEGORIES:
             return {

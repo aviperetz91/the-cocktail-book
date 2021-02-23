@@ -32,7 +32,7 @@ const DrawerNavigator = () => {
     } else {
         return (
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-                <Drawer.Screen name="Home" component={StackNavigator} />
+                <Drawer.Screen name="StackNavigator" component={StackNavigator} />
             </Drawer.Navigator>
         );
     }
