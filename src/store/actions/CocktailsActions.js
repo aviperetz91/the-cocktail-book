@@ -3,7 +3,7 @@ import { API_URL } from '@env';
 import database from '@react-native-firebase/database';
 
 export const GET_COCKTAILS = 'GET_COCKTAILS';
-export const MAP_RATING_TO_COCKTAIL = 'MAP_RATING_TO_COCKTAIL';
+export const GET_REVIEWS = 'GET_REVIEWS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY_COCKTAILS = 'GET_COCKTAILS';
 export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
@@ -24,7 +24,7 @@ export const getCocktails = () => {
     }
 }
 
-export const mapRatingToCocktail = () => {
+export const getReviews = () => {
     return async dispatch => {
         database().ref(`/reviews`).on('value', snapshot => {
             const reviewsObj = snapshot.val();
@@ -47,7 +47,7 @@ export const mapRatingToCocktail = () => {
                 console.log(ratingCocktailMap)
                 reviews.sort((a,b) => new Date(b.date) - new Date(a.date))
             }
-            dispatch({ type: MAP_RATING_TO_COCKTAIL, reviews, ratingCocktailMap })
+            dispatch({ type: GET_REVIEWS, reviews, ratingCocktailMap })
         });
     }
 }

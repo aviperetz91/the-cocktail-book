@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, ScrollView, ImageBackground } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { Provider, Text, Searchbar } from 'react-native-paper';
+import { Spinner } from 'native-base';
+import { useSelector } from 'react-redux';
+import { Text, Searchbar } from 'react-native-paper';
 import Header from '../../components/Header/Header';
 import styles from './style';
 import Colors from '../../constants/Colors';
-import { API_URL } from '@env';
-import axios from 'axios';
 import CocktailCard from '../../components/CocktailCard/CocktailCard';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import collage from '../../assets/images/collage.jpg';
@@ -14,11 +13,8 @@ import collage from '../../assets/images/collage.jpg';
 const Home = props => {
 
     const navigation = props.navigation;
-    const { userFavoriteIds, userReviews } = useSelector(state => state.user);
     const { cocktails, ratingCocktailMap, reviews } = useSelector(state => state.cocktails);
     const [highestRated, setHighestRated] = useState();
-
-    const dispatch = useDispatch()
 
     useEffect(() => {
         makeHighestRatedList()
@@ -56,8 +52,14 @@ const Home = props => {
         })
     }
 
-    return (
-        <Provider>
+    if (!(reviews && reviews.length > 0) || !(highestRated && highestRated.length > 0)) {
+        return (
+            <View style={styles.spinnerContainer}>
+                <Spinner color={'#343434'} />
+            </View>
+        )
+    } else {
+        return (
             <ScrollView contentContainerStyle={styles.screen}>
                 <View style={styles.imageContainer}>
                     <ImageBackground source={collage} style={styles.image}>
@@ -76,7 +78,8 @@ const Home = props => {
                             />
                             <View style={styles.searchBarContainer}>
                                 <Searchbar
-                                    placeholder="Search"
+                                    inputStyle={{ marginVertical: 20 }}
+                                    placeholder="Search..."
                                     onFocus={goToSearch}
                                 />
                             </View>
@@ -84,50 +87,46 @@ const Home = props => {
                     </ImageBackground>
                 </View>
 
-
-                {highestRated && highestRated.length > 0 ?
-                    <View style={styles.favoritsContainer}>
-                        <View>
-                            <Text style={styles.title}>Highest rated</Text>
-                        </View>
-                        <FlatList
-                            keyExtractor={(item, index) => index.toString()}
-                            data={highestRated}
-                            horizontal
-                            renderItem={({ item }) => (
-                                <CocktailCard
-                                    title={item.strDrink}
-                                    image={item.strDrinkThumb}
-                                    tags={item.strTags}
-                                    category={item.strCategory}
-                                    selectHandler={() => navigate(item)}
-                                />
-                            )}
-                        />
-
+                <View style={styles.highestRatedContainer}>
+                    <View>
+                        <Text style={styles.title}>Highest rated</Text>
                     </View>
-                    : null}
-                {reviews && reviews.length > 0 ?
-                    <View style={styles.reviewsContainer}>
-                        <View>
-                            <Text style={styles.title}>Last Reviews</Text>
-                        </View>
-                        <FlatList
-                            keyExtractor={(item, index) => index.toString()}
-                            data={reviews.slice(0,5)}
-                            renderItem={({ item }) => (
-                                <ReviewItem
-                                    review={item}
-                                    selectHandler={() => navigate(item)}
-                                    profileFlag
-                                />
-                            )}
-                        />
+                    <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        data={highestRated}
+                        horizontal
+                        renderItem={({ item }) => (
+                            <CocktailCard
+                                title={item.strDrink}
+                                image={item.strDrinkThumb}
+                                tags={item.strTags}
+                                category={item.strCategory}
+                                selectHandler={() => navigate(item)}
+                            />
+                        )}
+                    />
+
+                </View>
+                <View style={styles.reviewsContainer}>
+                    <View>
+                        <Text style={styles.title}>Last Reviews</Text>
                     </View>
-                    : null}
+                    <FlatList
+                        keyExtractor={(item, index) => index.toString()}
+                        data={reviews.slice(0, 5)}
+                        renderItem={({ item }) => (
+                            <ReviewItem
+                                review={item}
+                                selectHandler={() => navigate(item)}
+                                profileFlag
+                            />
+                        )}
+                    />
+                </View>
             </ScrollView>
-        </Provider>
-    );
+        );
+
+    }
 }
 
 export default Home;

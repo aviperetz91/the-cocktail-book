@@ -15,12 +15,6 @@ const Categories = props => {
     const navigation = props.navigation;
     const { cocktails, categories, categoriesLength } = useSelector(state => state.cocktails)
 
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getCategories());
-    }, [dispatch])
-
     const navigate = (item, categoryCocktails) => {
         navigation.navigate("CategoryCocktails", { title: item, categoryCocktails: categoryCocktails })
     }

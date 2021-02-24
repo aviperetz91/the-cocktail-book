@@ -1,6 +1,6 @@
 import {
     GET_COCKTAILS,
-    MAP_RATING_TO_COCKTAIL,
+    GET_REVIEWS,
     GET_CATEGORIES,
     GET_CATEGORY_COCKTAILS,
     GET_COCKTAIL_DETAILS,
@@ -49,7 +49,7 @@ const CocktailsReducer = (state = initialState, action) => {
                     cocktails: state.cocktails
                 }
             }
-        case MAP_RATING_TO_COCKTAIL:
+        case GET_REVIEWS:
             return {
                 ...state,
                 reviews: action.reviews,       
