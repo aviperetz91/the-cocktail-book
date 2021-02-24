@@ -13,10 +13,12 @@ const Reviews = props => {
 
     const { idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal } = props;
     const { userId, userName } = useSelector(state => state.user);
-    const { cocktailReviews } = useSelector(state => state.cocktails);
+    const { reviews } = useSelector(state => state.cocktails);
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
-
+    
+    const cocktailReviews = reviews.filter(rev => rev.idDrink === idDrink);
+    
     const dispatch = useDispatch();
 
     const leaveFeedbackHandler = () => {

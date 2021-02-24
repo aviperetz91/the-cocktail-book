@@ -7,7 +7,6 @@ import {
     UPDATE_NAME,
     UPDATE_PHOTO,
     GET_USER_FAVORITES,
-    GET_USER_REVIEWS,
     LEAVE_FEEDBACK,
 } from '../actions/UserActions';
 
@@ -17,7 +16,6 @@ const initialState = {
     userPhoto: null,
     authError: null,
     userFavoriteIds: null,
-    userReviews: null,
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -35,7 +33,6 @@ const AuthReducer = (state = initialState, action) => {
                 userName: action.userName,
                 userPhoto: action.userPhoto,
                 userFavoriteIds: action.userFavoriteIds,
-                userReviews: action.userReviews
             }
         case SIGNOUT:
             return {
@@ -74,18 +71,6 @@ const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userFavoriteIds: action.favorites
-            }
-        case GET_USER_REVIEWS:
-            return {
-                ...state,
-                userReviews: action.reviews
-            }
-        case LEAVE_FEEDBACK:
-            const reviews = state.userReviews ? [...state.userReviews] : [];
-            reviews.push(action.review)
-            return {
-                ...state,
-                userReviews: reviews
             }
         default:
             return state;

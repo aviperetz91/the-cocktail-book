@@ -13,19 +13,19 @@ import collage from '../../assets/images/collage.jpg';
 const Home = props => {
 
     const navigation = props.navigation;
-    const { cocktails, ratingCocktailMap, reviews } = useSelector(state => state.cocktails);
+    const { cocktails, cocktailRatingMap, reviews } = useSelector(state => state.cocktails);
     const [highestRated, setHighestRated] = useState();
 
     useEffect(() => {
         makeHighestRatedList()
-    }, [ratingCocktailMap])
+    }, [cocktailRatingMap])
 
     const makeHighestRatedList = () => {
         const drinkIdRating = [];
-        for (let id in ratingCocktailMap) {
+        for (let id in cocktailRatingMap) {
             drinkIdRating.push({
                 idDrink: id,
-                rating: ratingCocktailMap[id]
+                rating: cocktailRatingMap[id]
             })
         }
         drinkIdRating.sort((a, b) => b.rating - a.rating);

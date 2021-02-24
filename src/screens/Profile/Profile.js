@@ -22,14 +22,17 @@ import avatar from '../../assets/images/avatar2.png';
 const Profile = props => {
 
     const navigation = props.navigation;
-    const { userId, userName, userPhoto, userFavoriteIds, userReviews } = useSelector(state => state.user);
+    const { userId, userName, userPhoto, userFavoriteIds } = useSelector(state => state.user);
+    const { reviews } = useSelector(state => state.cocktails)
     const [favorites, setFavorites] = useState();
     const [newName, setNewName] = useState(userName);
     const [newPhoto, setNewPhoto] = useState(userPhoto);
     const [editMode, setEditMode] = useState(false);
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
-
+    
+    const userReviews = reviews.filter(rev => rev.userId === userId);
+    
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -85,7 +88,7 @@ const Profile = props => {
         setIsLoading(false)
     }
 
-    const getRatingAvg = () => {
+    const getUserRatingAvg = () => {
         let sum = 0;
         if (userReviews && userReviews.length > 0) {
             userReviews.forEach(rev => sum += rev.rating);
@@ -94,7 +97,6 @@ const Profile = props => {
             return 0
         }
     }
-
     const navigate = (item) => {
         navigation.navigate('CocktailDetails', {
             id: item.idDrink,
@@ -162,7 +164,7 @@ const Profile = props => {
                                     </View>
                                     <View style={{ marginRight: 8 }}>
                                         <Text style={styles.statusNote}>Rating</Text>
-                                        <Text style={styles.statusVal}>{getRatingAvg().toFixed(1)}</Text>
+                                        <Text style={styles.statusVal}>{getUserRatingAvg().toFixed(1)}</Text>
                                     </View>
                                     <View>
                                         <Text style={styles.statusNote}>Favorites</Text>

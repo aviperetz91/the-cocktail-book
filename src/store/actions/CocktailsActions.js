@@ -8,7 +8,6 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY_COCKTAILS = 'GET_COCKTAILS';
 export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
 export const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
-export const GET_COCKTAIL_REVIEWS = 'GET_COCKTAIL_REVIEWS';
 export const GET_INGREDIENT_LIST = 'GET_INGREDIENT_LIST';
 export const GET_GLASS_LIST = 'GET_GLASS_LIST';
 export const GET_ALCOHOLIC_LIST = 'GET_ALCOHOLIC_LIST';
@@ -29,7 +28,7 @@ export const getReviews = () => {
         database().ref(`/reviews`).on('value', snapshot => {
             const reviewsObj = snapshot.val();
             const reviews = [];
-            let sum, ratingAvg, ratingCocktailMap = {};
+            let sum, ratingAvg, cocktailRatingMap = {};
             if (reviewsObj) {
                 for (let idDrink in reviewsObj) {
                     sum = 0, ratingAvg = 0;
@@ -41,13 +40,13 @@ export const getReviews = () => {
                             }
                         }
                         ratingAvg = sum / Object.keys(reviewsObj[idDrink]).length
-                        ratingCocktailMap[idDrink] = ratingAvg
+                        cocktailRatingMap[idDrink] = ratingAvg
                     }
                 }
-                console.log(ratingCocktailMap)
+                console.log(cocktailRatingMap)
                 reviews.sort((a,b) => new Date(b.date) - new Date(a.date))
             }
-            dispatch({ type: GET_REVIEWS, reviews, ratingCocktailMap })
+            dispatch({ type: GET_REVIEWS, reviews, cocktailRatingMap })
         });
     }
 }
@@ -82,28 +81,8 @@ export const getCocktailById = id => {
 
 export const getCocktailByName = name => {
     return async dispatch => {
-        const results = await axios.get(`${API_URL}//search.php?s=${name}`)
+        const results = await axios.get(`${API_URL}/search.php?s=${name}`)
         dispatch({ type: GET_SEARCH_RESULTS, searchResults: results.data.drinks })
-    }
-}
-
-export const getReviewsByCocktailId = (idDrink) => {
-    return async dispatch => {
-        database().ref(`/reviews/${idDrink}`).on('value', (snapshot) => {
-            const revObj = snapshot.val();
-            const reviews = [];
-            for (let i in revObj) {
-                reviews.push(revObj[i])
-            }
-            let ratingSum = 0, ratingAvg = 0;
-            if (reviews.length > 0) {
-                reviews.forEach(rev => ratingSum += rev.rating);
-                ratingAvg = ratingSum / reviews.length;
-                dispatch({ type: GET_COCKTAIL_REVIEWS, reviews, ratingAvg })
-            } else {
-                dispatch({ type: GET_COCKTAIL_REVIEWS, reviews })
-            }
-        });
     }
 }
 

@@ -13,7 +13,7 @@ const Search = props => {
     const [searchInput, setSearchInput] = useState('');
     const searchResults = useSelector(state => state.cocktails.searchResults)
     const searchBarRef = React.createRef();
-    const ratingCocktailMap = useSelector(state => state.cocktails.ratingCocktailMap)
+    const cocktailRatingMap = useSelector(state => state.cocktails.cocktailRatingMap)
 
     const dispatch = useDispatch();
 
@@ -75,7 +75,7 @@ const Search = props => {
                         alcoholic={item.strAlcoholic}
                         category={item.strCategory}
                         glass={item.strGlass}
-                        rating={ratingCocktailMap[item.idDrink]}
+                        rating={cocktailRatingMap[item.idDrink]}
                         onSelect={() => navigate(item)}
                     />
                 )}

@@ -4,7 +4,7 @@ import { Text, Tabs, Tab, Icon, Spinner } from 'native-base';
 import { Rating } from 'react-native-elements';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { getCocktailById, getReviewsByCocktailId, clearData } from '../../store/actions/CocktailsActions';
+import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import { toggleFavorite } from '../../store/actions/UserActions';
 import styles from './style';
 import Colors from '../../constants/Colors';
@@ -15,7 +15,7 @@ const CocktailDetails = props => {
 
     const navigation = props.navigation;
     const { id, name } = props.route.params;
-    const { selectedCocktail, cocktailRatingAvg } = useSelector(state => state.cocktails);
+    const { selectedCocktail, cocktailRatingMap } = useSelector(state => state.cocktails);
     const { userId, userFavoriteIds } = useSelector(state => state.user);
     const [activeTab, setActiveTab] = useState(0);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -24,7 +24,6 @@ const CocktailDetails = props => {
 
     useEffect(() => {
         dispatch(getCocktailById(id))
-        dispatch(getReviewsByCocktailId(id))
     }, [dispatch])
 
     const toggleFavoriteHandler = () => {
@@ -88,7 +87,7 @@ const CocktailDetails = props => {
                                 <View style={styles.ratingContainer}>
                                     <Rating
                                         readonly
-                                        startingValue={cocktailRatingAvg}
+                                        startingValue={cocktailRatingMap[id] ? cocktailRatingMap[id] : 0}
                                         showRating={false}
                                         imageSize={20}
                                     />

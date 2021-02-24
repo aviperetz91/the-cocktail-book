@@ -1,9 +1,8 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button as Btn } from 'react-native-elements';
 import styles from './style';
-import { getGlassList, getAlcoholicList } from '../../store/actions/CocktailsActions';
 import Header from '../../components/Header/Header';
 import Accordion from '../../components/Accordion/Accordion';
 import Colors from '../../constants/Colors';
@@ -12,22 +11,10 @@ import Colors from '../../constants/Colors';
 const Filters = props => {
 
     const navigation = props.navigation;
-
-    const cocktails = useSelector(state => state.cocktails.cocktails);
-    const alcoholicList = useSelector(state => state.cocktails.alcoholicList);
-    const categories = useSelector(state => state.cocktails.categories);
-    const glassList = useSelector(state => state.cocktails.glassList);
-
+    const { cocktails, alcoholicList, categories, glassList } = useSelector(state => state.cocktails);
     const [selectedAlcoholic, setSelectedAlcoholic] = useState('');
     const [checkedCategories, setCheckedCategories] = useState([]);
     const [checkedGlasses, setCheckedGlasses] = useState([]);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getAlcoholicList());
-        dispatch(getGlassList());
-    }, [dispatch])
 
     const updateCheckedList = (type, item) => {
         let checkedList;

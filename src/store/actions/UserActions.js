@@ -9,9 +9,6 @@ export const SET_USER_DETAILS = 'SET_USER_DETAILS';
 export const UPDATE_NAME = 'UPDATE_NAME';
 export const UPDATE_PHOTO = 'UPDATE_PHOTO';
 export const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
-export const GET_USER_REVIEWS = 'GET-USER_REVIEWS';
-export const LEAVE_FEEDBACK = 'LEAVE_FEEDBACK';
-
 
 export const signup = (name, email, passowrd) => {
     return async dispatch => {
@@ -53,17 +50,8 @@ export const login = (email, password, uid) => {
             const userId = idTokenResult.claims.user_id;
             const snapshot = await database().ref(`/users/${userId}`).once('value');
             const user = snapshot.val();
-            let favoriteIds;
-            if (user.favorites) {
-                favoriteIds = Object.keys(user.favorites);
-            }
-            let reviews = []
-            if (user.reviews) {
-                for (let index in user.reviews) {
-                    reviews.push(user.reviews[index])
-                }
-            }
-            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: reviews })
+            const favoriteIds = user.favorites ? Object.keys(user.favorites) : null;
+            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is already in use!';
@@ -145,20 +133,6 @@ export const toggleFavorite = (favorites, idDrink, userId) => {
     }
 }
 
-export const getUserReviews = (userId) => {
-    return async dispatch => {
-        const reviews = [];
-        const snapshot = await database().ref(`users/${userId}/reviews`).once('value')
-        const reviewsObj = snapshot.val()
-        if (reviewsObj) {
-            for (let index in reviewsObj) {
-                reviews.push(reviewsObj[index])
-            }
-            dispatch({ type: GET_USER_REVIEWS, reviews: reviews })
-        }
-    }
-}
-
 export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName, rating, content) => {
     return async dispatch => {
         const dateNow = Date.now()
@@ -175,7 +149,6 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
         try {
             await database().ref(`/reviews/${idDrink}/${dateNow}`).set(review)
             await database().ref(`/users/${userId}/reviews/${dateNow}`).set(review)
-            dispatch({ type: LEAVE_FEEDBACK, review: review })
         } catch (err) {
             let error;
             if (err.code === 'database/permission-denied') {
