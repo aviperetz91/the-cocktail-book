@@ -15,7 +15,16 @@ const Home = props => {
     const navigation = props.navigation;
     const { cocktails, cocktailRatingMap, reviews } = useSelector(state => state.cocktails);
     const [highestRated, setHighestRated] = useState();
-
+    // TEMPORARY
+    const popular = cocktails.filter(c => {
+        return (
+            c.strDrink === 'Mojito'  ||
+            c.strDrink === 'Old Fashioned' ||
+            c.strDrink === 'Margarita' ||
+            c.strDrink === 'Manhattan' || 
+            c.strDrink === 'Whiskey Sour'
+        )
+    })
     useEffect(() => {
         makeHighestRatedList()
     }, [cocktailRatingMap])
@@ -61,7 +70,7 @@ const Home = props => {
     } else {
         return (
             <ScrollView contentContainerStyle={styles.screen}>
-                <View style={styles.imageContainer}>
+                <View>
                     <ImageBackground source={collage} style={styles.image}>
                         <View style={styles.imageInnerContent}>
                             <Header
@@ -76,52 +85,76 @@ const Home = props => {
                                 titleColor={'white'}
                                 letterSpacing={4}
                             />
-                            <View style={styles.searchBarContainer}>
-                                <Searchbar
-                                    inputStyle={{ marginVertical: 20 }}
-                                    placeholder="Search..."
-                                    onFocus={goToSearch}
-                                />
+                            <View style={styles.titleContainer}>
+                                <Text style={styles.mainTitle}>{`The Cocktail\nBook`}</Text>
                             </View>
                         </View>
                     </ImageBackground>
                 </View>
 
-                <View style={styles.highestRatedContainer}>
-                    <View>
-                        <Text style={styles.title}>Highest rated</Text>
+                <View style={styles.contentContainer}>
+                    <View style={styles.searchBarContainer}>
+                        <Searchbar
+                            inputStyle={{ marginVertical: 0 }}
+                            placeholder="Search cocktail..."
+                            onFocus={goToSearch}
+                        />
                     </View>
-                    <FlatList
-                        keyExtractor={(item, index) => index.toString()}
-                        data={highestRated}
-                        horizontal
-                        renderItem={({ item }) => (
-                            <CocktailCard
-                                title={item.strDrink}
-                                image={item.strDrinkThumb}
-                                tags={item.strTags}
-                                category={item.strCategory}
-                                selectHandler={() => navigate(item)}
-                            />
-                        )}
-                    />
-
-                </View>
-                <View style={styles.reviewsContainer}>
-                    <View>
-                        <Text style={styles.title}>Last Reviews</Text>
+                    <View style={{ marginTop: 28 }}></View>
+                    <View style={styles.horizontalListContainer}>
+                        <View>
+                            <Text style={styles.title}>Highest Rated</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            data={highestRated}
+                            horizontal
+                            renderItem={({ item }) => (
+                                <CocktailCard
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
+                                    category={item.strCategory}
+                                    selectHandler={() => navigate(item)}
+                                />
+                            )}
+                        />
                     </View>
-                    <FlatList
-                        keyExtractor={(item, index) => index.toString()}
-                        data={reviews.slice(0, 5)}
-                        renderItem={({ item }) => (
-                            <ReviewItem
-                                review={item}
-                                selectHandler={() => navigate(item)}
-                                profileFlag
-                            />
-                        )}
-                    />
+                    <View style={styles.horizontalListContainer}>
+                        <View>
+                            <Text style={styles.title}>Popular Cocktails</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            data={popular}
+                            horizontal
+                            renderItem={({ item }) => (
+                                <CocktailCard
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
+                                    category={item.strCategory}
+                                    selectHandler={() => navigate(item)}
+                                />
+                            )}
+                        />
+                    </View>
+                    <View style={styles.listContainer}>
+                        <View>
+                            <Text style={styles.title}>Last Reviews</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            data={reviews.slice(0, 5)}
+                            renderItem={({ item }) => (
+                                <ReviewItem
+                                    review={item}
+                                    selectHandler={() => navigate(item)}
+                                    profileFlag
+                                />
+                            )}
+                        />
+                    </View>
                 </View>
             </ScrollView>
         );

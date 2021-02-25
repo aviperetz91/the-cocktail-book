@@ -12,26 +12,34 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flexGrow: 1
     },
-    imageContainer: {
-
-    },
     image: {
         width: '100%',
-        height: 300,
+        height: 320,
     },
     imageInnerContent: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
-    }, 
-    searchBarContainer: { 
-        paddingHorizontal: 36, 
-        position: 'absolute', 
-        bottom: -18, 
-        width: '100%' 
     },
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center',
+    mainTitle: {
+        color: 'white',
+        fontSize: 40,
+        textAlign: 'center',
+        letterSpacing: 10,
+        textShadowColor: 'rgba(0, 0, 0, 01)',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 20,
+    },
+    searchBarContainer: {
+        paddingHorizontal: 44,
+        position: 'absolute',
+        top: -26,
+        width: '100%'
+    },
+    contentContainer: {
+        backgroundColor: 'white',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        marginTop: -15,
     },
     rowSpaceBetween: {
         flexDirection: 'row',
@@ -43,14 +51,14 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         letterSpacing: 2
     },
-    highestRatedContainer: {
+    horizontalListContainer: {
         padding: 12,
-        marginTop: 42
+        marginTop: 12
     },
-    reviewsContainer: {
+    listContainer: {
         padding: 12,
         paddingRight: 0,
-        marginTop: 18 
+        marginTop: 12
     },
 })
 

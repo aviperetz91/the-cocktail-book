@@ -52,7 +52,7 @@ const Search = props => {
             />
             <SearchBar
                 ref={searchBarRef}
-                placeholder="Search..."
+                placeholder="Search cocktail..."
                 onChangeText={(input) => changeTextHandler(input)}
                 value={searchInput}
                 autoFocus
