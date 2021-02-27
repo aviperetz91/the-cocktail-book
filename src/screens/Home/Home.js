@@ -10,21 +10,20 @@ import CocktailCard from '../../components/CocktailCard/CocktailCard';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import collage from '../../assets/images/collage.jpg';
 
+
 const Home = props => {
 
     const navigation = props.navigation;
-    const { cocktails, cocktailRatingMap, reviews } = useSelector(state => state.cocktails);
+    const { 
+        cocktails, 
+        latestCocktails, 
+        popularCocktails, 
+        randomCocktails, 
+        cocktailRatingMap, 
+        reviews 
+    } = useSelector(state => state.cocktails);
     const [highestRated, setHighestRated] = useState();
-    // TEMPORARY
-    const popular = cocktails.filter(c => {
-        return (
-            c.strDrink === 'Mojito'  ||
-            c.strDrink === 'Old Fashioned' ||
-            c.strDrink === 'Margarita' ||
-            c.strDrink === 'Manhattan' || 
-            c.strDrink === 'Whiskey Sour'
-        )
-    })
+
     useEffect(() => {
         makeHighestRatedList()
     }, [cocktailRatingMap])
@@ -103,6 +102,63 @@ const Home = props => {
                     <View style={{ marginTop: 28 }}></View>
                     <View style={styles.horizontalListContainer}>
                         <View>
+                            <Text style={styles.title}>Latest Drinks</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            data={latestCocktails}
+                            horizontal
+                            renderItem={({ item }) => (
+                                <CocktailCard
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
+                                    category={item.strCategory}
+                                    selectHandler={() => navigate(item)}
+                                />
+                            )}
+                        />
+                    </View>
+                    <View style={styles.horizontalListContainer}>
+                        <View>
+                            <Text style={styles.title}>Popular Drinks</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            data={popularCocktails}
+                            horizontal
+                            renderItem={({ item }) => (
+                                <CocktailCard
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
+                                    category={item.strCategory}
+                                    selectHandler={() => navigate(item)}
+                                />
+                            )}
+                        />
+                    </View>
+                    <View style={styles.horizontalListContainer}>
+                        <View>
+                            <Text style={styles.title}>Random Drinks</Text>
+                        </View>
+                        <FlatList
+                            keyExtractor={(item, index) => index.toString()}
+                            data={randomCocktails}
+                            horizontal
+                            renderItem={({ item }) => (
+                                <CocktailCard
+                                    title={item.strDrink}
+                                    image={item.strDrinkThumb}
+                                    tags={item.strTags}
+                                    category={item.strCategory}
+                                    selectHandler={() => navigate(item)}
+                                />
+                            )}
+                        />
+                    </View>
+                    <View style={styles.horizontalListContainer}>
+                        <View>
                             <Text style={styles.title}>Highest Rated</Text>
                         </View>
                         <FlatList
@@ -120,26 +176,7 @@ const Home = props => {
                             )}
                         />
                     </View>
-                    <View style={styles.horizontalListContainer}>
-                        <View>
-                            <Text style={styles.title}>Popular Cocktails</Text>
-                        </View>
-                        <FlatList
-                            keyExtractor={(item, index) => index.toString()}
-                            data={popular}
-                            horizontal
-                            renderItem={({ item }) => (
-                                <CocktailCard
-                                    title={item.strDrink}
-                                    image={item.strDrinkThumb}
-                                    tags={item.strTags}
-                                    category={item.strCategory}
-                                    selectHandler={() => navigate(item)}
-                                />
-                            )}
-                        />
-                    </View>
-                    <View style={styles.listContainer}>
+                    {/* <View style={styles.listContainer}>
                         <View>
                             <Text style={styles.title}>Last Reviews</Text>
                         </View>
@@ -154,12 +191,11 @@ const Home = props => {
                                 />
                             )}
                         />
-                    </View>
+                    </View> */}
                 </View>
             </ScrollView>
         );
 
     }
 }
-
 export default Home;

@@ -1,5 +1,8 @@
 import {
     GET_COCKTAILS,
+    GET_LATEST_COCKTAILS,
+    GET_POPULAR_COCKTAILS,
+    GET_RANDOM_COCKTAILS,
     GET_REVIEWS,
     GET_CATEGORIES,
     GET_CATEGORY_COCKTAILS,
@@ -13,6 +16,9 @@ import {
 
 const initialState = {
     cocktails: null,
+    latestCocktails: null,
+    popularCocktails: null,
+    randomCocktails: null,
     reviews: null,
     cocktailRatingMap: null,
     categories: null,
@@ -46,10 +52,25 @@ const CocktailsReducer = (state = initialState, action) => {
                     cocktails: state.cocktails
                 }
             }
+        case GET_LATEST_COCKTAILS:
+            return {
+                ...state,
+                latestCocktails: action.latestList
+            }
+        case GET_POPULAR_COCKTAILS:
+            return {
+                ...state,
+                popularCocktails: action.popularList
+            }
+        case GET_RANDOM_COCKTAILS:
+            return {
+                ...state,
+                randomCocktails: action.randomList
+            }
         case GET_REVIEWS:
             return {
                 ...state,
-                reviews: action.reviews,       
+                reviews: action.reviews,
                 cocktailRatingMap: action.cocktailRatingMap,
             }
         case GET_CATEGORIES:

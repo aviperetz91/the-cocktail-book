@@ -8,6 +8,7 @@ import CocktailItem from '../../components/CocktailItem/CocktailItem';
 import Colors from '../../constants/Colors';
 import styles from './style';
 
+
 const CategoryCocktails = props => {
 
     const navigation = props.navigation;
@@ -15,14 +16,14 @@ const CategoryCocktails = props => {
     const categoryCocktails = props.route.params.categoryCocktails;  // const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
     const cocktailRatingMap = useSelector(state => state.cocktails.cocktailRatingMap)
 
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     // useEffect(() => {
     //     dispatch(getCategoryCocktails(categoryTitle))
     // }, [dispatch])
 
     const goBack = () => {
-        dispatch(clearData('categoryCocktails'));
+        // dispatch(clearData('categoryCocktails'));
         navigation.goBack()
     }
 

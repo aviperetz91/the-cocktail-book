@@ -1,8 +1,7 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { View, FlatList } from 'react-native';
 import { Spinner } from 'native-base';
-import { useSelector, useDispatch } from 'react-redux';
-import { getCategories } from '../../store/actions/CocktailsActions';
+import { useSelector } from 'react-redux';
 import categoriesImages from '../../constants/categoriesImages';
 import Colors from '../../constants/Colors';
 import Header from '../../components/Header/Header';
@@ -51,8 +50,7 @@ const Categories = props => {
                         return (
                             <CategoryBox
                                 title={item}
-                                // subTitle={categoriesLength[item]}
-                                subTitle={categoryCocktails.length}
+                                subTitle={categoryCocktails.length}  // subTitle={categoriesLength[item]}
                                 image={categoriesImages[categories.findIndex(el => el === item)]}
                                 onSelect={() => navigate(item, categoryCocktails)}
                             />

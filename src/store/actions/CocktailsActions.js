@@ -3,9 +3,12 @@ import { API_URL } from '@env';
 import database from '@react-native-firebase/database';
 
 export const GET_COCKTAILS = 'GET_COCKTAILS';
+export const GET_LATEST_COCKTAILS = 'GET_LATEST_COCKTAILS';
+export const GET_POPULAR_COCKTAILS = 'GET_POPULAR_COCKTAILS';
+export const GET_RANDOM_COCKTAILS = 'GET_RANDOM_COCKTAILS';
 export const GET_REVIEWS = 'GET_REVIEWS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
-export const GET_CATEGORY_COCKTAILS = 'GET_COCKTAILS';
+export const GET_CATEGORY_COCKTAILS = 'GET_CATEGORY_COCKTAILS';
 export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
 export const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
 export const GET_INGREDIENT_LIST = 'GET_INGREDIENT_LIST';
@@ -20,6 +23,27 @@ export const getCocktails = () => {
             const letterCocktails = await axios.get(`${API_URL}/search.php?f=${letter}`)
             dispatch({ type: GET_COCKTAILS, cocktails: letterCocktails.data.drinks })
         })
+    }
+}
+
+export const getLatestCocktails = () => {
+    return async dispatch => {
+        const latest = await axios.get(`${API_URL}/latest.php?`)
+        dispatch({ type: GET_LATEST_COCKTAILS, latestList: latest.data.drinks })
+    }
+}
+
+export const getPopularCocktails = () => {
+    return async dispatch => {
+        const popular = await axios.get(`${API_URL}/popular.php?`)
+        dispatch({ type: GET_POPULAR_COCKTAILS, popularList: popular.data.drinks })
+    }
+}
+
+export const getRandomCocktails = () => {
+    return async dispatch => {
+        const random = await axios.get(`${API_URL}/randomselection.php?`)
+        dispatch({ type: GET_RANDOM_COCKTAILS, randomList: random.data.drinks })
     }
 }
 

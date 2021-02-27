@@ -10,7 +10,6 @@ import styles from './style';
 
 const DrawerContent = (props) => {
 
-  console.log(props)
   const { userName, userPhoto } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
@@ -41,7 +40,6 @@ const DrawerContent = (props) => {
               )}
               label="Home"
               onPress={() => {
-                console.log("asdasd")
                 props.navigation.navigate('Home')
               }}
             />
@@ -88,18 +86,7 @@ const DrawerContent = (props) => {
               )}
               label="Search"
               onPress={() => props.navigation.navigate('Search')}
-            />    
-            <DrawerItem
-              icon={({ color, size }) => (
-                <Icon
-                  type={'MaterialCommunityIcons'}
-                  name="heart-outline"
-                  style={{ fontSize: size - 1, color: color }}
-                />
-              )}
-              label="Favorites"
-              onPress={() => props.navigation.navigate('Favorites')}
-            />                        
+            />                          
           </Drawer.Section>
 
         </View>
