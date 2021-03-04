@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         marginTop: -15,
+        marginBottom: 30
     },
     rowSpaceBetween: {
         flexDirection: 'row',
@@ -52,8 +53,8 @@ const styles = StyleSheet.create({
         letterSpacing: 2
     },
     horizontalListContainer: {
-        padding: 12,
-        marginTop: 12
+        paddingHorizontal: 12,
+        paddingTop: 12
     },
     listContainer: {
         padding: 12,

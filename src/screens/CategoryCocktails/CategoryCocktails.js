@@ -14,7 +14,6 @@ const CategoryCocktails = props => {
     const navigation = props.navigation;
     const categoryTitle = props.route.params.title;
     const categoryCocktails = props.route.params.categoryCocktails;  // const categoryCocktails = useSelector(state => state.cocktails.categoryCocktails)
-    const cocktailRatingMap = useSelector(state => state.cocktails.cocktailRatingMap)
 
     // const dispatch = useDispatch();
 
@@ -62,12 +61,12 @@ const CategoryCocktails = props => {
                     style={styles.listStyle}
                     renderItem={({ item }) => (
                         <CocktailItem
+                            idDrink={item.idDrink}
                             title={item.strDrink}
                             image={item.strDrinkThumb}
                             alcoholic={item.strAlcoholic}
                             category={item.strCategory}
                             glass={item.strGlass}
-                            rating={cocktailRatingMap[item.idDrink]}
                             onSelect={() => navigate(item)}
                         />
                     )}

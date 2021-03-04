@@ -1,10 +1,16 @@
 import React from 'react';
-import { Image, View, TouchableOpacity, Text } from 'react-native';
-import { Rating } from 'react-native-elements';
+import { Image, View, TouchableOpacity } from 'react-native';
+import { useSelector } from 'react-redux';
+import { Text } from 'native-base';
+import Rating from '../Rating/Rating';
 import styles from './style';
 
 const CocktailItem = props => {
-    const { onSelect, image, title, alcoholic, category, glass, rating } = props;
+
+    const { onSelect, idDrink, image, title, alcoholic, category, glass } = props;
+    const { reviews, cocktailRatingMap } = useSelector(state => state.cocktails);
+    const reviewsCounter = reviews.filter(rev => rev.idDrink === idDrink).length
+
     return (
         <TouchableOpacity style={styles.itemContainer} onPress={onSelect}>
             <View>
@@ -12,15 +18,8 @@ const CocktailItem = props => {
             </View>
             <View style={styles.textContainer}>
                 <Text style={styles.itemTitle}>{title}</Text>
-                <Text style={styles.itemNote}>{`${alcoholic}, ${category}, ${glass}`}</Text>
-            </View>
-            <View style={styles.ratingContainer}>
-                <Rating
-                    readonly
-                    startingValue={rating ? rating : 0}
-                    showRating={false}
-                    imageSize={16}
-                />
+                <Text note style={styles.itemNote}>{`${alcoholic}, ${category}, ${glass}`}</Text>
+                <Rating rating={cocktailRatingMap[idDrink]} counter={reviewsCounter}  />
             </View>
         </TouchableOpacity>
     );

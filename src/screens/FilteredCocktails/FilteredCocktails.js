@@ -11,7 +11,6 @@ const FilteredCocktails = props => {
 
     const navigation = props.navigation;
     const filteredCocktails = props.route.params.filteredCocktails;
-    const cocktailRatingMap = useSelector(state => state.cocktails.cocktailRatingMap)
 
     const goBack = () => {
         navigation.goBack()
@@ -54,12 +53,12 @@ const FilteredCocktails = props => {
                         style={styles.listStyle}
                         renderItem={({ item }) => (
                             <CocktailItem
+                                idDrink={item.idDrink}
                                 title={item.strDrink}
                                 image={item.strDrinkThumb}
                                 alcoholic={item.strAlcoholic}
                                 category={item.strCategory}
                                 glass={item.strGlass}
-                                rating={cocktailRatingMap[item.idDrink]}
                                 onSelect={() => navigate(item)}
                             />
                         )}

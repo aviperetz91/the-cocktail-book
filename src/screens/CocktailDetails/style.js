@@ -46,18 +46,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         zIndex: 100,
     },
-    container: {
+    // detailsContainer: {
+    //     borderTopLeftRadius: 20,
+    //     borderTopRightRadius: 20,
+    //     marginTop: -15,
+    //     backgroundColor: 'white'
+    // },
+    info: {
         padding: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-    },
-    titleContainer: {
-        width: '70%',
-    },
-    ratingContainer: {
-        width: '30%',
-        alignItems: 'flex-end'
     },
     title: {
         fontSize: 20,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-native';
 import { Text, Tabs, Tab, Icon, Spinner } from 'native-base';
-import { Rating } from 'react-native-elements';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
@@ -10,15 +9,17 @@ import styles from './style';
 import Colors from '../../constants/Colors';
 import IngredientList from './IngredientList/IngredientList';
 import Reviews from './Reviews/Reviews';
+import Rating from '../../components/Rating/Rating';
 
 const CocktailDetails = props => {
 
     const navigation = props.navigation;
     const { id, name } = props.route.params;
-    const { selectedCocktail, cocktailRatingMap } = useSelector(state => state.cocktails);
+    const { selectedCocktail, cocktailRatingMap, reviews } = useSelector(state => state.cocktails);
     const { userId, userFavoriteIds } = useSelector(state => state.user);
     const [activeTab, setActiveTab] = useState(0);
     const [showAddModal, setShowAddModal] = useState(false);
+    const reviewsCounter = reviews.filter(rev => rev.idDrink === id).length
 
     const dispatch = useDispatch();
 
@@ -79,19 +80,10 @@ const CocktailDetails = props => {
                             marginTop: -15,
                             backgroundColor: 'white'
                         }}>
-                            <View style={styles.container}>
-                                <View style={styles.titleContainer}>
-                                    <Text style={styles.title}>{name}</Text>
-                                    <Text note>{`${selectedCocktail.strAlcoholic}, ${selectedCocktail.strCategory}, ${selectedCocktail.strGlass}`}</Text>
-                                </View>
-                                <View style={styles.ratingContainer}>
-                                    <Rating
-                                        readonly
-                                        startingValue={cocktailRatingMap[id] ? cocktailRatingMap[id] : 0}
-                                        showRating={false}
-                                        imageSize={20}
-                                    />
-                                </View>
+                            <View style={styles.info}>
+                                <Text style={styles.title}>{name}</Text>
+                                <Text note>{`${selectedCocktail.strAlcoholic}, ${selectedCocktail.strCategory}, ${selectedCocktail.strGlass}`}</Text>
+                                <Rating rating={cocktailRatingMap[id]} counter={reviewsCounter} large={true} />
                             </View>
                             <Tabs
                                 tabBarUnderlineStyle={styles.tabBarUnderline} page={activeTab}
@@ -141,7 +133,7 @@ const CocktailDetails = props => {
                         <TouchableOpacity style={styles.addButton} onPress={() => setShowAddModal(true)}>
                             <Icon type={'Ionicons'} name="add" style={{ fontSize: 42, color: 'white' }} />
                         </TouchableOpacity>
-                    : null}
+                        : null}
                 </View>
             </Provider>
         )

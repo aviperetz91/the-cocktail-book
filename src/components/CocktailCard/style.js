@@ -7,19 +7,24 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     itemImage: {
-        width: '100%', 
-        height: 115, 
+        width: '100%',
+        height: 115,
         borderRadius: 5
     },
-    itemTitle: { 
-        fontSize: 17, 
+    textContainer: {
+        marginTop: 12,
+        marginLeft: 4
+    },
+    itemTitle: {
+        fontSize: 15,
         fontWeight: '700',
         letterSpacing: 0.5,
     },
-    itemNote: { 
+    itemNote: {
         marginTop: 4,
-        color: '#6c757d' 
-    }
+        // fontSize: 13,
+        // color: '#6c757d'
+    },
 })
 
 export default styles;

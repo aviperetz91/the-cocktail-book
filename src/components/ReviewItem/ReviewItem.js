@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Text, ListItem, Left, Body, Thumbnail } from 'native-base';
-import { Rating } from 'react-native-elements';
+import Rating from '../Rating/Rating';
 import moment from 'moment';
 import avatar from '../../assets/images/avatar.jpg';
 import styles from './style';
@@ -57,12 +57,7 @@ const ReviewItem = props => {
             </Body>
             <View>
                 <View style={styles.reviewRatingContainer}>
-                    <Rating
-                        readonly
-                        startingValue={review.rating}
-                        showRating={false}
-                        imageSize={16}
-                    />
+                    <Rating rating={review.rating} hideCounter/>
                 </View>
             </View>
         </ListItem>

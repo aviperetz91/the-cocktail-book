@@ -22,14 +22,6 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         width: '75%'
     },
-    itemNote: { 
-        color: '#6c757d' 
-    },
-    ratingContainer: {
-        position: 'absolute',
-        right: 15,
-        bottom: 10,
-    },
 })
 
 export default styles;

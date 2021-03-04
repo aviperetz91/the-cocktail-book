@@ -30,9 +30,9 @@ const Profile = props => {
     const [editMode, setEditMode] = useState(false);
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
-    
+
     const userReviews = reviews.filter(rev => rev.userId === userId);
-    
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -206,7 +206,7 @@ const Profile = props => {
                 {favorites && favorites.length > 0 ?
                     <View style={styles.favoritsContainer}>
                         <View>
-                            <Text style={styles.title}>Favorites</Text>
+                            <Text style={styles.title}>My Favorites</Text>
                         </View>
                         <FlatList
                             keyExtractor={(item, index) => index.toString()}
@@ -214,9 +214,9 @@ const Profile = props => {
                             horizontal
                             renderItem={({ item }) => (
                                 <CocktailCard
+                                    idDrink={item.idDrink}
                                     title={item.strDrink}
                                     image={item.strDrinkThumb}
-                                    tags={item.strTags}
                                     category={item.strCategory}
                                     selectHandler={() => navigate(item)}
                                 />
@@ -228,12 +228,12 @@ const Profile = props => {
                 {userReviews && userReviews.length > 0 ?
                     <View style={userFavoriteIds ? styles.reviewsContainer : { ...styles.reviewsContainer, marginTop: 52 }}>
                         <View>
-                            <Text style={styles.title}>Reviews</Text>
+                            <Text style={styles.title}>My Last Reviews</Text>
                         </View>
                         <FlatList
                             // keyExtractor={(item, index) => item.idDrink + item.date}
                             keyExtractor={(item, index) => index.toString()}
-                            data={userReviews}
+                            data={userReviews.slice(0, 5)}
                             renderItem={({ item }) => (
                                 <ReviewItem
                                     review={item}
