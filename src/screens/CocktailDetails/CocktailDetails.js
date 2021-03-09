@@ -65,14 +65,14 @@ const CocktailDetails = props => {
                             <Icon
                                 type={'MaterialCommunityIcons'}
                                 name={userFavoriteIds && userFavoriteIds.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
-                                style={{ fontSize: 26, color: 'red' }}
+                                style={styles.heartIcon}
                             />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goBack} style={styles.backButton}>
-                            <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={{ fontSize: 29, color: 'white' }} />
+                            <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={styles.arrowBackIcon} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={goHome} style={styles.homeButton}>
-                            <Icon type={'MaterialCommunityIcons'} name='home' style={{ fontSize: 25, color: 'white' }} />
+                            <Icon type={'MaterialCommunityIcons'} name='home' style={styles.homeIcon} />
                         </TouchableOpacity>
                         <View style={{
                             borderTopLeftRadius: 20,
@@ -131,7 +131,7 @@ const CocktailDetails = props => {
                     </ScrollView>
                     {activeTab === 2 ?
                         <TouchableOpacity style={styles.addButton} onPress={() => setShowAddModal(true)}>
-                            <Icon type={'Ionicons'} name="add" style={{ fontSize: 42, color: 'white' }} />
+                            <Icon type={'Ionicons'} name="add" style={styles.addIcon} />
                         </TouchableOpacity>
                         : null}
                 </View>

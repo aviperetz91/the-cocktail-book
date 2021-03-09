@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, FlatList, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Icon, Header } from 'native-base';
-import CocktailItem from '../../components/CocktailItem/CocktailItem';
+import CocktailList from '../../components/CocktailList/CocktailList';
 import { SearchBar } from 'react-native-elements';
 import { getCocktailByName, clearData } from '../../store/actions/CocktailsActions';
 import styles from './style';
 
 const Search = props => {
 
-    const navigation = props.navigation;
+    const { navigation } = props;
     const [searchInput, setSearchInput] = useState('');
-    const searchResults = useSelector(state => state.cocktails.searchResults)
+    const { searchResults } = useSelector(state => state.cocktails)
     const searchBarRef = React.createRef();
 
     const dispatch = useDispatch();
@@ -28,13 +28,6 @@ const Search = props => {
         setSearchInput('');
         dispatch(clearData('searchResults'));
         navigation.goBack();
-    }
-
-    const navigate = (item) => {
-        navigation.navigate('CocktailDetails', {
-            id: item.idDrink,
-            name: item.strDrink
-        })
     }
 
     const changeTextHandler = (input) => {
@@ -64,21 +57,7 @@ const Search = props => {
                 containerStyle={styles.searchBar}
                 inputContainerStyle={styles.input}
             />
-            <FlatList
-                keyExtractor={(item) => item.idDrink}
-                data={searchResults}
-                renderItem={({ item }) => (
-                    <CocktailItem
-                        idDrink={item.idDrink}
-                        title={item.strDrink}
-                        image={item.strDrinkThumb}
-                        alcoholic={item.strAlcoholic}
-                        category={item.strCategory}
-                        glass={item.strGlass}
-                        onSelect={() => navigate(item)}
-                    />
-                )}
-            />
+            <CocktailList navigation={navigation} cocktails={searchResults} />
         </View >
     );
 }

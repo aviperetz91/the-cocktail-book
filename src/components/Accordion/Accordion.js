@@ -19,7 +19,7 @@ const Accordion = props => {
                 checkedColor={'white'}
                 checked={checked}
                 onPress={() => selectHandler(item)}
-                textStyle={{ color: checked ? 'white' : '#a7a7a7', letterSpacing: 1, fontWeight: 'normal' }}
+                textStyle={{...styles.checkboxText, color: checked ? 'white' : '#a7a7a7' }}
             />
         )
     }

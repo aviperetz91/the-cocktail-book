@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
     },
+    checkboxText: {
+        letterSpacing: 1, 
+        fontWeight: 'normal' 
+    },
     radioText: {
         color: '#a7a7a7',
         fontFamily: 'sans-serif',

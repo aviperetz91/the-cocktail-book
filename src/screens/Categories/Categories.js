@@ -12,10 +12,10 @@ import styles from './style';
 const Categories = props => {
 
     const navigation = props.navigation;
-    const { cocktails, categories, categoriesLength } = useSelector(state => state.cocktails)
+    const { cocktails, categories } = useSelector(state => state.cocktails)
 
     const navigate = (item, categoryCocktails) => {
-        navigation.navigate("CategoryCocktails", { title: item, categoryCocktails: categoryCocktails })
+        navigation.navigate("Cocktails", { title: item, cocktails: categoryCocktails })
     }
 
     if (!(categories && cocktails)) {
@@ -50,7 +50,7 @@ const Categories = props => {
                         return (
                             <CategoryBox
                                 title={item}
-                                subTitle={categoryCocktails.length}  // subTitle={categoriesLength[item]}
+                                subTitle={categoryCocktails.length}
                                 image={categoriesImages[categories.findIndex(el => el === item)]}
                                 onSelect={() => navigate(item, categoryCocktails)}
                             />

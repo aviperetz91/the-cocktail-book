@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
     },
     itemNote: {
         marginTop: 4,
-        // fontSize: 13,
-        // color: '#6c757d'
     },
 })
 

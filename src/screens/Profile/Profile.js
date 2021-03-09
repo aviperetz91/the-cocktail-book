@@ -10,7 +10,7 @@ import { API_URL } from '@env';
 import axios from 'axios';
 import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
-import CocktailCard from '../../components/CocktailCard/CocktailCard';
+import CocktailList from '../../components/CocktailList/CocktailList';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
@@ -18,10 +18,9 @@ import { updateName, updatePhoto } from '../../store/actions/UserActions';
 import avatar from '../../assets/images/avatar2.png';
 
 
-
 const Profile = props => {
 
-    const navigation = props.navigation;
+    const { navigation } = props;
     const { userId, userName, userPhoto, userFavoriteIds } = useSelector(state => state.user);
     const { reviews } = useSelector(state => state.cocktails)
     const [favorites, setFavorites] = useState();
@@ -97,12 +96,6 @@ const Profile = props => {
             return 0
         }
     }
-    const navigate = (item) => {
-        navigation.navigate('CocktailDetails', {
-            id: item.idDrink,
-            name: item.strDrink
-        })
-    }
 
     return (
         <Provider>
@@ -132,7 +125,7 @@ const Profile = props => {
                                 {editMode ?
                                     <Badge style={styles.badge}>
                                         <TouchableOpacity onPress={choosePhotoHandler}>
-                                            <Icon name="camera" style={{ fontSize: 18, color: "#fff" }} />
+                                            <Icon name="camera" style={styles.cameraIcon} />
                                         </TouchableOpacity>
                                     </Badge>
                                     : null}
@@ -208,19 +201,11 @@ const Profile = props => {
                         <View>
                             <Text style={styles.title}>My Favorites</Text>
                         </View>
-                        <FlatList
-                            keyExtractor={(item, index) => index.toString()}
-                            data={favorites}
+                        <CocktailList
+                            navigation={navigation}
+                            card
                             horizontal
-                            renderItem={({ item }) => (
-                                <CocktailCard
-                                    idDrink={item.idDrink}
-                                    title={item.strDrink}
-                                    image={item.strDrinkThumb}
-                                    category={item.strCategory}
-                                    selectHandler={() => navigate(item)}
-                                />
-                            )}
+                            cocktails={favorites}
                         />
 
                     </View>
@@ -231,16 +216,9 @@ const Profile = props => {
                             <Text style={styles.title}>My Last Reviews</Text>
                         </View>
                         <FlatList
-                            // keyExtractor={(item, index) => item.idDrink + item.date}
                             keyExtractor={(item, index) => index.toString()}
                             data={userReviews.slice(0, 5)}
-                            renderItem={({ item }) => (
-                                <ReviewItem
-                                    review={item}
-                                    selectHandler={() => navigate(item)}
-                                    profileFlag
-                                />
-                            )}
+                            renderItem={({ item }) => <ReviewItem navigation={navigation} review={item} profileFlag />}
                         />
                     </View>
                     : null}

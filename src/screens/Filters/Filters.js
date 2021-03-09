@@ -10,7 +10,7 @@ import Colors from '../../constants/Colors';
 
 const Filters = props => {
 
-    const navigation = props.navigation;
+    const { navigation } = props;
     const { cocktails, alcoholicList, categories, glassList } = useSelector(state => state.cocktails);
     const [selectedAlcoholic, setSelectedAlcoholic] = useState('');
     const [checkedCategories, setCheckedCategories] = useState([]);
@@ -56,7 +56,7 @@ const Filters = props => {
             }
         })
         console.log("filteredCocktails: ", filtered)
-        navigation.navigate('FilteredCocktails', { filteredCocktails: filtered })
+        navigation.navigate('Cocktails', { cocktails: filtered, title: `${filtered.length} Results` })
     }
 
     const clearFiltersHandler = () => {

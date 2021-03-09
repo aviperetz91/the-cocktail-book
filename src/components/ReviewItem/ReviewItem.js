@@ -10,7 +10,7 @@ import storage from '@react-native-firebase/storage';
 
 const ReviewItem = props => {
 
-    const { review, userId, profileFlag, selectHandler } = props;
+    const { navigation ,review, userId, profileFlag } = props;
     const [autorPhoto, setAutorPhoto] = useState();
 
     useEffect(() => {
@@ -24,9 +24,16 @@ const ReviewItem = props => {
         }
     }
 
+    const navigate = () => {
+        navigation.navigate('CocktailDetails', {
+            id: review.idDrink,
+            name: review.strDrink
+        })
+    }
+
     const selectItem = () => {
         if (profileFlag) {
-            selectHandler()
+            navigate()
         } else {
             return
         }

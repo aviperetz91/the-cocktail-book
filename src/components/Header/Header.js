@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header as NBHeader, Left, Text, Right, Button, Title, Icon } from 'native-base';
+import { Header as NBHeader, Left, Text, Right, Button, Icon } from 'native-base';
 import styles from './style';
 
 const Header = props => {

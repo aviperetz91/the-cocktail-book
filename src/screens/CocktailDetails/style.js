@@ -122,6 +122,22 @@ const styles = StyleSheet.create({
         top: '90%',
         right: 15
     },
+    heartIcon: {
+        fontSize: 26, 
+        color: 'red'
+    },
+    arrowBackIcon: {
+        fontSize: 29, 
+        color: 'white'
+    },
+    homeIcon: {
+        fontSize: 25, 
+        color: 'white'
+    },
+    addIcon: {
+        fontSize: 42, 
+        color: 'white'
+    }
 })
 
 export default styles;
