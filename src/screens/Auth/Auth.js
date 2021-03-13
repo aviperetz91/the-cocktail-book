@@ -6,7 +6,7 @@ import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
 
-const SignupLogin = props => {
+const Auth = props => {
 
     const dispatch = useDispatch();
     const error = useSelector(state => state.user.authError)
@@ -123,4 +123,4 @@ const SignupLogin = props => {
     );
 }
 
-export default SignupLogin;
+export default Auth;

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import DrawerContent from '../components/DrawerContent/DrawerContent';
 import StackNavigator from '../navigation/StackNavigator';
-import SignupLogin from '../screens/SignupLogin/SignupLogin';
+import Auth from '../screens/Auth/Auth';
 import auth from '@react-native-firebase/auth';
 import { setUserDetails } from '../store/actions/UserActions';
 
@@ -28,7 +28,7 @@ const DrawerNavigator = () => {
     }, []);
 
     if (!user) {
-        return <SignupLogin />
+        return <Auth />
     } else {
         return (
             <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
