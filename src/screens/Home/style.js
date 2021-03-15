@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         textAlign: 'center',
         letterSpacing: 10,
-        textShadowColor: 'rgba(0, 0, 0, 01)',
+        textShadowColor: 'rgba(0, 0, 0, 1)',
         textShadowOffset: { width: 2, height: 2 },
         textShadowRadius: 20,
     },

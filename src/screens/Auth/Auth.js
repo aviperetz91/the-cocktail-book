@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, StatusBar, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Content, Header, Left, Right, Button, Label, Input, Item, Icon, Footer, Spinner } from 'native-base';
+import { Container, Header, Button, Input, Item, Icon, Spinner } from 'native-base';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
+import backImg from '../../assets/images/categories/Shot.jpg'
 
 const Auth = props => {
 
@@ -31,6 +32,7 @@ const Auth = props => {
     }
 
     const authHandler = async () => {
+        dispatch(setAuthError(null));
         if (info.email === '' || info.password === '') {
             dispatch(setAuthError('Please enter the missing fields'))
         } else {
@@ -44,82 +46,91 @@ const Auth = props => {
         }
     }
 
+    const changeMode = (mode) => {
+        dispatch(setAuthError(null)); 
+        setMode(mode)
+    }
+
     return (
         <Container>
-            <Header style={styles.header} androidStatusBarColor={'white'} iosBarStyle={'dark-content'}>
-                <Left style={styles.row}>
-                    <TouchableOpacity style={styles.m_x} transparent onPress={() => setMode('login')}>
-                        <View style={mode === 'login' ? styles.headerTitleContainer : {}}>
-                            <Text style={styles.headerTitle}>Login</Text>
+            <StatusBar translucent />
+            <ImageBackground source={backImg} style={styles.backImg} blurRadius={Platform.OS === 'android' ? 6 : 16}>
+                <View style={styles.imageInnerContent}>
+                    <Header style={styles.header} androidStatusBarColor={'transparent'} iosBarStyle={'light-content'} />
+                    <View style={styles.container}>
+                        <View style={styles.colCenter}>
+                            <Icon type="FontAwesome5" name="cocktail" style={styles.mainIcon} />
+                            <Text style={styles.title}>The Cocktail Book</Text>
+                            <Text style={styles.subTitle}>Login or Create Your New Account</Text>
                         </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.m_x} transparent onPress={() => setMode('signup')}>
-                        <View style={mode === 'signup' ? styles.headerTitleContainer : {}}>
-                            <Text style={styles.headerTitle}>Sign Up</Text>
+                        <View style={styles.m_y}>
+                            {mode === 'signup' ?
+                                <Item style={styles.input} regular rounded >
+                                    <Icon active name='person-outline' style={styles.textboxIcon} />
+                                    <Input
+                                        style={styles.inputText}
+                                        value={info.fullName}
+                                        placeholder="Full Name"
+                                        placeholderTextColor={Colors.lightGrey}
+                                        onChangeText={(input) => changeTextHandler('fullName', input)}
+                                    />
+                                </Item>
+                                : null}
+                            <Item style={styles.input} regular rounded>
+                                <Icon active name='mail-outline' style={styles.textboxIcon} />
+                                <Input
+                                    style={styles.inputText}
+                                    value={info.email}
+                                    keyboardType="email-address"
+                                    placeholder="Email Address"
+                                    placeholderTextColor={Colors.lightGrey}
+                                    onChangeText={(input) => changeTextHandler('email', input)}
+                                />
+                            </Item>
+                            <Item style={styles.input} regular rounded>
+                                <Icon active name='lock-closed-outline' style={styles.textboxIcon} />
+                                <Input
+                                    style={styles.inputText}
+                                    value={info.password}
+                                    keyboardType="default"
+                                    secureTextEntry
+                                    placeholder="Password"
+                                    placeholderTextColor={Colors.lightGrey}
+                                    onChangeText={(input) => changeTextHandler('password', input)}
+                                />
+                            </Item>
                         </View>
-                    </TouchableOpacity>
-                </Left>
-                <Right />
-            </Header>
-            <View style={styles.container}>
-                {mode === 'signup' ?
-                    <View>
-                        <Text style={styles.title}>Create Account,</Text>
-                        <Text style={styles.subTitle}>Sign up to get started!</Text>
-                    </View>
-                    : null}
-                {mode === 'login' ?
-                    <View>
-                        <Text style={styles.title}>Welcome Back,</Text>
-                        <Text style={styles.subTitle}>Sign in to continue!</Text>
-                    </View>
-                    : null}
-                <View style={styles.m_y}>
-                    {mode === 'signup' ?
-                        <Item style={styles.input} floatingLabel>
-                            <Label style={styles.label}>Full Name</Label>
-                            <Input
-                                value={info.fullName}
-                                onChangeText={(input) => changeTextHandler('fullName', input)}
-                            />
-                        </Item>
-                        : null}
-                    <Item style={styles.input} floatingLabel>
-                        <Label style={styles.label}>Email Address</Label>
-                        <Input
-                            value={info.email}
-                            keyboardType="email-address"
-                            onChangeText={(input) => changeTextHandler('email', input)}
-                        />
-                    </Item>
-                    <Item style={styles.input} floatingLabel>
-                        <Label style={styles.label}>Password</Label>
-                        <Input
-                            value={info.password}
-                            keyboardType="default"
-                            secureTextEntry
-                            onChangeText={(input) => changeTextHandler('password', input)}
-                        />
-                    </Item>
-                </View>
-                {isLoading ? <Spinner color={'#343434'} /> : null}
-                {error ?
-                    <View style={styles.alertContainer}>
-                        <Text style={styles.alertText}>{error.toString()}</Text>
-                    </View>
-                    : null}
-            </View>
-            <Content />
-            <Footer style={styles.footer}>
-                <Button
-                    style={{ ...styles.nextButton, backgroundColor: mode === 'signup' ? Colors.danger : Colors.warning }}
-                    onPress={authHandler}
-                >
-                    <Icon type={"MaterialIcons"} name='trending-flat' style={styles.nextIcon} />
-                </Button>
-            </Footer>
-        </Container>
+                        <View>
+                            <Button
+                                full
+                                rounded
+                                danger
+                                onPress={authHandler}
+                            >
+                                <Text style={styles.buttonText}>
+                                    {mode === 'login' ? 'Login' : 'Sign up'}
+                                </Text>
+                            </Button>
+                            {mode === 'login' &&
+                                <Text style={styles.helperText}>Don't have an account?
+                                    <Text onPress={() => changeMode('signup')} style={{...styles.modeText, color: Colors.warning}}>  Sign Up</Text>
+                                </Text>}
+                            {mode === 'signup' &&
+                                <Text style={styles.helperText}>Already have an account?
+                                    <Text onPress={() => changeMode('login')} style={{...styles.modeText, color: Colors.warning}}>  Login</Text>
+                                </Text>}
+                        </View>
 
+                        {isLoading && <Spinner color={Colors.warning} style={{ marginTop: 28 }} />}
+                        {error &&
+                            <View style={styles.alertContainer}>
+                                <Text style={styles.alertText}>{error.toString()}</Text>
+                            </View>
+                        }
+                    </View>
+                </View>
+            </ImageBackground>
+        </Container>
     );
 }
 
