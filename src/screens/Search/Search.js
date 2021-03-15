@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Platform } from 'react-native';
 import { Icon, Header } from 'native-base';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import { SearchBar } from 'react-native-elements';
@@ -37,11 +37,8 @@ const Search = props => {
 
     return (
         <View style={styles.screen}>
-            <Header
-                style={styles.header}
-                androidStatusBarColor={"white"}
-                iosBarStyle={"dark-content"}
-            />
+            {Platform.OS === 'ios' && <Header style={styles.header} />}
+            {Platform.OS === 'android' && <View style={styles.m_t} ></View> }
             <SearchBar
                 ref={searchBarRef}
                 placeholder="Search cocktail..."
@@ -50,7 +47,7 @@ const Search = props => {
                 autoFocus
                 searchIcon={
                     <TouchableOpacity onPress={goBack}>
-                        <Icon name='arrow-back' style={styles.arrowBack} />
+                        <Icon name='arrow-back-outline' style={styles.arrowBack} />
                     </TouchableOpacity>
                 }
                 lightTheme

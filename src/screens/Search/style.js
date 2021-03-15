@@ -24,10 +24,13 @@ const styles = StyleSheet.create({
     },
     arrowBack: {
         fontSize: 23, 
-        color: Colors.primary
+        color: Colors.dark
     },
     input: {
         backgroundColor: 'white'
+    },
+    m_t: {
+        marginTop: 20
     }
 })
 

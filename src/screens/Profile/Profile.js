@@ -102,7 +102,7 @@ const Profile = props => {
             <ScrollView contentContainerStyle={styles.screen}>
                 <Header
                     headerBackground={Colors.dark}
-                    statusBarColor={Colors.dark}
+                    statusBarColor={'rgba(0,0,0,0.4)'}
                     iosBarStyle={'light-content'}
                     pressHandler={props.navigation.openDrawer}
                     iconType={'Ionicons'}

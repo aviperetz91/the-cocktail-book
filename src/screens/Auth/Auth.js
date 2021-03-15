@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, ImageBackground, StatusBar, Platform } from 'react-native';
+import { View, Text, ImageBackground, Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Header, Button, Input, Item, Icon, Spinner } from 'native-base';
+import { Container, Button, Input, Item, Icon, Spinner } from 'native-base';
+import Header from '../../components/Header/Header';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
@@ -47,16 +48,19 @@ const Auth = props => {
     }
 
     const changeMode = (mode) => {
-        dispatch(setAuthError(null)); 
+        dispatch(setAuthError(null));
         setMode(mode)
     }
 
     return (
         <Container>
-            <StatusBar translucent />
             <ImageBackground source={backImg} style={styles.backImg} blurRadius={Platform.OS === 'android' ? 6 : 16}>
                 <View style={styles.imageInnerContent}>
-                    <Header style={styles.header} androidStatusBarColor={'transparent'} iosBarStyle={'light-content'} />
+                    <Header
+                        headerBackground={'transparent'}
+                        statusBarColor={'rgba(0,0,0,0.4)'}
+                        iosBarStyle={'light-content'}
+                    />
                     <View style={styles.container}>
                         <View style={styles.colCenter}>
                             <Icon type="FontAwesome5" name="cocktail" style={styles.mainIcon} />
@@ -113,11 +117,11 @@ const Auth = props => {
                             </Button>
                             {mode === 'login' &&
                                 <Text style={styles.helperText}>Don't have an account?
-                                    <Text onPress={() => changeMode('signup')} style={{...styles.modeText, color: Colors.warning}}>  Sign Up</Text>
+                                    <Text onPress={() => changeMode('signup')} style={{ ...styles.modeText, color: Colors.warning }}>  Sign Up</Text>
                                 </Text>}
                             {mode === 'signup' &&
                                 <Text style={styles.helperText}>Already have an account?
-                                    <Text onPress={() => changeMode('login')} style={{...styles.modeText, color: Colors.warning}}>  Login</Text>
+                                    <Text onPress={() => changeMode('login')} style={{ ...styles.modeText, color: Colors.warning }}>  Login</Text>
                                 </Text>}
                         </View>
 

@@ -5,7 +5,12 @@ import styles from './style';
 const Header = props => {
     const { headerBackground, statusBarColor, iosBarStyle, pressHandler, iconType, iconName, iconColor, iconSize, title, titleColor, letterSpacing } = props;
     return (
-        <NBHeader style={{ ...styles.header, backgroundColor: headerBackground }} androidStatusBarColor={statusBarColor} iosBarStyle={iosBarStyle}>
+        <NBHeader 
+            style={{ ...styles.header, backgroundColor: headerBackground }} 
+            androidStatusBarColor={statusBarColor} 
+            iosBarStyle={iosBarStyle}
+            translucent
+        >
             <Left style={{ flex: 1 }}>
                 <Button transparent onPress={pressHandler}>
                     <Icon

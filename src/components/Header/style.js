@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
     header: {
+        marginTop: Platform.OS === 'android' ? 30 : 0,
         backgroundColor: 'white',
         elevation: 0,
         marginVertical: 6,
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     title: {
         color: 'black',
         fontSize: 20,
-        fontWeight: '600',
+        fontWeight: '400',
         textAlign: 'center',
         letterSpacing: 4,
         marginLeft: 15

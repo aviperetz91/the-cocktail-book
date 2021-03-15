@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.7)',
     },
     header: {
+        marginTop: Platform.OS === 'android' ? 20 : 0,
         backgroundColor: 'transparent',
         borderBottomWidth: 0,
         padding: 16,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: Colors.light,
-        fontSize: 31,
+        fontSize: Platform.OS === 'android' ? 26 : 31,
         fontWeight: Platform.OS === 'android' ? '100' : '300',
         letterSpacing: 3,
         textShadowColor: 'rgba(0, 0, 0, 1)',
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     subTitle: {
         marginTop: 6,
         color: Platform.OS === 'android' ? Colors.lightGrey : Colors.light,
-        fontSize: Platform.OS === 'android' ? 20 : 23,
+        fontSize: Platform.OS === 'android' ? 18 : 23,
         fontWeight: Platform.OS === 'android' ? '100' : '200',
         alignSelf: 'center',
         letterSpacing: 1
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: Colors.light,
-        fontSize: 25,
+        fontSize: Platform.OS === 'android' ? 21 : 25,
         fontWeight: '300',
         alignSelf: 'center',
         letterSpacing: 1
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
         marginTop: 12,
         color: Platform.OS === 'android' ? Colors.lightGrey : Colors.light,
         fontWeight: Platform.OS === 'android' ? '100' : '300',
-        fontSize: 20,
+        fontSize: Platform.OS === 'android' ? 16 : 20,
         alignSelf: 'center',
     },
     modeText: {

@@ -27,7 +27,7 @@ const Cocktails = props => {
             <Fragment>
                 <Header
                     headerBackground={'black'}
-                    statusBarColor={'black'}
+                    statusBarColor={'rgba(0,0,0,0.4)'}
                     iosBarStyle={'light-content'}
                     pressHandler={goBack}
                     iconType={'MaterialCommunityIcons'}

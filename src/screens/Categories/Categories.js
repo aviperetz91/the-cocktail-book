@@ -29,8 +29,7 @@ const Categories = props => {
             <Fragment>
                 <Header
                     headerBackground={'white'}
-                    statusBarColor={'white'}
-                    iosBarStyle={'dark-content'}
+                    statusBarColor={'rgba(0,0,0,0.4)'}
                     pressHandler={navigation.openDrawer}
                     iconType={'Ionicons'}
                     iconName={'menu-outline'}

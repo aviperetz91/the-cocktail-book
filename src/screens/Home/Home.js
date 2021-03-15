@@ -64,7 +64,7 @@ const Home = props => {
                         <View style={styles.imageInnerContent}>
                             <Header
                                 headerBackground={'transparent'}
-                                statusBarColor={"black"}
+                                statusBarColor={'rgba(0,0,0,0.4)'}
                                 iosBarStyle={'light-content'}
                                 pressHandler={props.navigation.openDrawer}
                                 iconType={'Ionicons'}
