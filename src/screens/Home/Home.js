@@ -1,56 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ScrollView, ImageBackground } from 'react-native';
 import { Spinner } from 'native-base';
 import { Text, Searchbar } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Header from '../../components/Header/Header';
 import styles from './style';
-import Colors from '../../constants/Colors';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import collage from '../../assets/images/collage.jpg';
-
+import {
+    getCocktails,
+    getLatestCocktails,
+    getPopularCocktails,
+    getRandomCocktails,
+    getReviews,
+    getCategories,
+    getAlcoholicList,
+    getGlassList,
+    getIngredientList
+} from '../../store/actions/CocktailsActions'
 
 const Home = props => {
 
     const { navigation } = props;
     const {
-        cocktails,
         latestCocktails,
         popularCocktails,
         randomCocktails,
-        cocktailRatingMap,
-        reviews
+        reviews,
+        // cocktailRatingMap
     } = useSelector(state => state.cocktails);
-    const [highestRated, setHighestRated] = useState();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        makeHighestRatedList()
-    }, [cocktailRatingMap])
+        loadData();
+        // makeHighestRatedList();
+    }, [])
 
-    const makeHighestRatedList = () => {
-        const drinkIdRating = [];
-        for (let id in cocktailRatingMap) {
-            drinkIdRating.push({
-                idDrink: id,
-                rating: cocktailRatingMap[id]
-            })
-        }
-        drinkIdRating.sort((a, b) => b.rating - a.rating);
-        const highestRated = [];
-        if (cocktails && drinkIdRating) {
-            drinkIdRating.forEach((el, index) => {
-                const found = cocktails.find(cocktail => cocktail.idDrink === el.idDrink)
-                highestRated.push(found);
-            })
-        }
-        setHighestRated(highestRated)
+    const loadData = () => {
+        dispatch(getLatestCocktails());
+        dispatch(getPopularCocktails());
+        dispatch(getRandomCocktails());
+        dispatch(getReviews());
+        dispatch(getCategories());
+        dispatch(getAlcoholicList());
+        dispatch(getGlassList());
+        dispatch(getIngredientList());
+        // dispatch(getCocktails());
     }
+
+    // const makeHighestRatedList = () => {
+    //     console.log("cocktailRatingMap: ", cocktailRatingMap)
+    //     let highestRated = [];
+    //     for (let cocktail in cocktailRatingMap) {
+    //         highestRated.push({
+    //             cocktail: cocktail,
+    //             rating: cocktailRatingMap[cocktail]
+    //         });
+    //     }
+    //     highestRated.sort((a, b) => {
+    //         return a.rating - b.rating;
+    //     });
+    //     console.log("highestRated: ", highestRated)
+    // }
 
     const goToSearch = () => {
         navigation.navigate('Search')
     }
 
-    if (!(reviews && reviews.length > 0) || !(highestRated && highestRated.length > 0)) {
+    const requiredData = latestCocktails && popularCocktails && randomCocktails && reviews;
+
+    if (!requiredData) {
         return (
             <View style={styles.spinnerContainer}>
                 <Spinner color={'#343434'} />
@@ -112,7 +132,7 @@ const Home = props => {
                             cocktails={popularCocktails}
                         />
                     </View>
-                    <View style={styles.horizontalListContainer}>
+                    {/* <View style={styles.horizontalListContainer}>
                         <View>
                             <Text style={styles.title}>Highest Rated</Text>
                         </View>
@@ -122,7 +142,7 @@ const Home = props => {
                             horizontal
                             cocktails={highestRated}
                         />
-                    </View>
+                    </View> */}
                     <View style={styles.horizontalListContainer}>
                         <View>
                             <Text style={styles.title}>Random Drinks</Text>

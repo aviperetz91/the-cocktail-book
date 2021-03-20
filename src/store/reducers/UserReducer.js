@@ -7,7 +7,6 @@ import {
     UPDATE_NAME,
     UPDATE_PHOTO,
     GET_USER_FAVORITES,
-    LEAVE_FEEDBACK,
 } from '../actions/UserActions';
 
 const initialState = {

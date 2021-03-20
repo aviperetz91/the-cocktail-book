@@ -106,8 +106,8 @@ const Auth = props => {
                         </View>
                         <View>
                             <Button
-                                full
-                                rounded
+                                style={styles.button}
+                                block                            
                                 danger
                                 onPress={authHandler}
                             >

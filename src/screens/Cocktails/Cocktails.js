@@ -1,20 +1,33 @@
 import React, { Fragment } from 'react';
 import { View, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Spinner, Card } from 'native-base';
 import Header from '../../components/Header/Header';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import Colors from '../../constants/Colors';
 import styles from './style';
+import { useEffect } from 'react';
+import { getCategoryCocktails, clearData } from '../../store/actions/CocktailsActions';
 
 
 const Cocktails = props => {
 
     const { navigation } = props;
-    const { title, cocktails  } = props.route.params;  
+    const { title, category, filteredCocktails } = props.route.params;
+    const { categoryCocktails } = useSelector(state => state.cocktails);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (category) dispatch(getCategoryCocktails(title))
+    }, [dispatch])
 
     const goBack = () => {
+        dispatch(clearData('categoryCocktails'))
         navigation.goBack()
     }
+
+    const cocktails = category ? categoryCocktails : filteredCocktails ? filteredCocktails : null;
 
     if (!cocktails) {
         return (
@@ -42,7 +55,7 @@ const Cocktails = props => {
                     <Card style={styles.card}>
                         <Text style={styles.cardText}>No results matched your filters</Text>
                     </Card>
-                :
+                    :
                     <CocktailList navigation={navigation} cocktails={cocktails} />
                 }
             </Fragment>

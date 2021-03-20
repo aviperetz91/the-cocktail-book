@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Button as Btn } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import styles from './style';
 import Header from '../../components/Header/Header';
 import Accordion from '../../components/Accordion/Accordion';
@@ -56,7 +56,7 @@ const Filters = props => {
             }
         })
         console.log("filteredCocktails: ", filtered)
-        navigation.navigate('Cocktails', { cocktails: filtered, title: `${filtered.length} Results` })
+        navigation.navigate("Cocktails", { title: `${filtered.length} Results`, filteredCocktails: filtered })
     }
 
     const clearFiltersHandler = () => {
@@ -112,14 +112,14 @@ const Filters = props => {
                             </View>
                         </View>
                         <View>
-                            <Btn
+                            <Button
                                 title="Clear filters"
                                 type="solid"
                                 buttonStyle={styles.clearButton}
                                 containerStyle={{ marginBottom: 10 }}
                                 onPress={clearFiltersHandler}
                             />
-                            <Btn
+                            <Button
                                 title="Show Results"
                                 type="solid"
                                 buttonStyle={styles.showButton}
