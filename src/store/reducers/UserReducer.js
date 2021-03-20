@@ -33,7 +33,7 @@ const AuthReducer = (state = initialState, action) => {
                 userName: action.userName,
                 userPhoto: action.userPhoto,
                 userFavoriteIds: action.userFavoriteIds,
-                userReviews: action.reviews,
+                userReviews: action.userReviews,
             }
         case SIGNOUT:
             return {

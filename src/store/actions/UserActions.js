@@ -51,13 +51,14 @@ export const login = (email, password, uid) => {
             const snapshot = await database().ref(`/users/${userId}`).once('value');
             const user = snapshot.val();
             const favoriteIds = user.favorites ? Object.keys(user.favorites) : null;
-            let reviews = []
+            const userReviews = []
             if (user.reviews) {
                 for (let index in user.reviews) {
-                    reviews.push(user.reviews[index])
+                    userReviews.push(user.reviews[index])
                 }
             }
-            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: reviews })
+            userReviews.sort((a,b) => new Date(b.date) - new Date(a.date))
+            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: userReviews })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is already in use!';
@@ -100,13 +101,14 @@ export const setUserDetails = (userId) => {
             if (user.favorites) {
                 favoriteIds = Object.keys(user.favorites);
             }
-            let reviews = []
+            let userReviews = []
             if (user.reviews) {
                 for (let index in user.reviews) {
-                    reviews.push(user.reviews[index])
+                    userReviews.push(user.reviews[index])
                 }
             }
-            dispatch({ type: SET_USER_DETAILS, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: reviews })
+            userReviews.sort((a,b) => new Date(b.date) - new Date(a.date))
+            dispatch({ type: SET_USER_DETAILS, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: userReviews })
         } catch (error) {
             dispatch({ type: SET_AUTH_ERROR, error: errorMessage })
         }

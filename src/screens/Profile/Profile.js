@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, Thumbnail, Text, Button, Icon, Badge, Spinner } from 'native-base';
+import { Thumbnail, Text, Button, Icon, Badge, Spinner } from 'native-base';
 import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
 import Header from '../../components/Header/Header';
 import styles from './style';
@@ -12,6 +12,7 @@ import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
+import Card from '../../components/Card/Card';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
 import { updateName, updatePhoto } from '../../store/actions/UserActions';
@@ -119,7 +120,7 @@ const Profile = props => {
                         letterSpacing={4}
                     />
                     <View style={styles.back}>
-                        <Card style={styles.card}>
+                        <Card>
                             <View style={styles.container}>
                                 <View style={styles.cardLeft} onPress={choosePhotoHandler}>
                                     <Thumbnail
