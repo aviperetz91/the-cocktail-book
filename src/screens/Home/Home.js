@@ -117,7 +117,6 @@ const Home = props => {
                         </View>
                         <CocktailList
                             navigation={navigation}
-                            card
                             horizontal
                             cocktails={latestCocktails}
                         />
@@ -128,7 +127,6 @@ const Home = props => {
                         </View>
                         <CocktailList
                             navigation={navigation}
-                            card
                             horizontal
                             cocktails={popularCocktails}
                         />
@@ -139,7 +137,6 @@ const Home = props => {
                         </View>
                         <CocktailList
                             navigation={navigation}
-                            card
                             horizontal
                             cocktails={highestRated}
                         />
@@ -150,7 +147,6 @@ const Home = props => {
                         </View>
                         <CocktailList
                             navigation={navigation}
-                            card
                             horizontal
                             cocktails={randomCocktails}
                         />

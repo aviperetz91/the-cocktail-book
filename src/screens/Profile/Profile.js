@@ -209,7 +209,6 @@ const Profile = props => {
                             </View>
                             <CocktailList
                                 navigation={navigation}
-                                card
                                 horizontal
                                 cocktails={favorites}
                             />

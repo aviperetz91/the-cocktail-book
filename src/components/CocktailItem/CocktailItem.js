@@ -3,15 +3,15 @@ import { Image, View, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Text } from 'native-base';
 import Rating from '../Rating/Rating';
-import cardStyle from './cardStyle';
-import itemStyle from './itemStyle';
+import colStyle from './colStyle';
+import rowStyle from './rowStyle';
 
 const CocktailItem = props => {
 
-    const { navigation, card, idDrink, image, title, alcoholic, category, glass } = props;
+    const { navigation, horizontal, idDrink, image, title, alcoholic, category, glass } = props;
     const { reviews, cocktailRatingMap } = useSelector(state => state.cocktails);
     const reviewsCounter = reviews.filter(rev => rev.idDrink === idDrink).length
-    const styles = card ? cardStyle : itemStyle;
+    const styles = horizontal ? colStyle : rowStyle;
 
     const navigate = () => {
         navigation.navigate('CocktailDetails', {
@@ -20,7 +20,7 @@ const CocktailItem = props => {
         })
     }
 
-    if (card) {
+    if (horizontal) {
         return (
             <TouchableOpacity style={styles.itemContainer} onPress={navigate}>
                 <View>

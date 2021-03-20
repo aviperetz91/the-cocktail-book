@@ -4,7 +4,7 @@ import CocktailItem from '../../components/CocktailItem/CocktailItem';
 
 const CocktailList = props => {
 
-    const { navigation, cocktails, card, horizontal } = props
+    const { navigation, cocktails, horizontal } = props
 
     return (
         <FlatList
@@ -15,7 +15,7 @@ const CocktailList = props => {
             renderItem={({ item }) => (
                 <CocktailItem
                     navigation={navigation}
-                    card={card}
+                    horizontal={horizontal}
                     idDrink={item.idDrink}
                     title={item.strDrink}
                     image={item.strDrinkThumb}
