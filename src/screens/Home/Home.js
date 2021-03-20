@@ -7,6 +7,7 @@ import Header from '../../components/Header/Header';
 import styles from './style';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import collage from '../../assets/images/collage.jpg';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
     getCocktails,
     getLatestCocktails,
@@ -73,7 +74,7 @@ const Home = props => {
     if (!requiredData) {
         return (
             <View style={styles.spinnerContainer}>
-                <Spinner color={'#343434'} />
+                <Spinner color={Colors.dark} />
             </View>
         )
     } else {

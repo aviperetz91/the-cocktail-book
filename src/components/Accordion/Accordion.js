@@ -43,7 +43,7 @@ const Accordion = props => {
                             renderItem={({ item }) => renderItem(item)}
                         />
                         :
-                        <Spinner color={Colors.darkPrimary} />
+                        <Spinner color={Colors.dark} />
                     }
                 </View>
                 : null}

@@ -21,7 +21,7 @@ const Categories = props => {
     if (!categories) {
         return (
             <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.darkPrimary} />
+                <Spinner color={Colors.dark} />
             </View>
         )
     } else {

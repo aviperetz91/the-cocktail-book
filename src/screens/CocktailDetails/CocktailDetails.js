@@ -49,7 +49,7 @@ const CocktailDetails = props => {
     if (!selectedCocktail) {
         return (
             <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.darkPrimary} />
+                <Spinner color={Colors.dark} />
             </View>
         )
     } else {
