@@ -15,6 +15,7 @@ const initialState = {
     userPhoto: null,
     authError: null,
     userFavoriteIds: null,
+    userReviews: null
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -32,6 +33,7 @@ const AuthReducer = (state = initialState, action) => {
                 userName: action.userName,
                 userPhoto: action.userPhoto,
                 userFavoriteIds: action.userFavoriteIds,
+                userReviews: action.reviews,
             }
         case SIGNOUT:
             return {

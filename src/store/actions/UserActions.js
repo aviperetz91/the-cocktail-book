@@ -51,7 +51,13 @@ export const login = (email, password, uid) => {
             const snapshot = await database().ref(`/users/${userId}`).once('value');
             const user = snapshot.val();
             const favoriteIds = user.favorites ? Object.keys(user.favorites) : null;
-            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds })
+            let reviews = []
+            if (user.reviews) {
+                for (let index in user.reviews) {
+                    reviews.push(user.reviews[index])
+                }
+            }
+            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: reviews })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is already in use!';
