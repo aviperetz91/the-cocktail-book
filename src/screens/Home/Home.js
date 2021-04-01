@@ -24,12 +24,13 @@ const Home = props => {
 
     const { navigation } = props;
     const {
+        cocktails,
         latestCocktails,
         popularCocktails,
         randomCocktails,
         reviews,
         categories,
-        // cocktailRatingMap
+        cocktailRatingMap
     } = useSelector(state => state.cocktails);
 
     const [searchInput, setSearchInput] = useState('');
@@ -53,7 +54,25 @@ const Home = props => {
         dispatch(getIngredientList());
     }
 
-    const requiredData = latestCocktails && popularCocktails && randomCocktails && reviews && categories;
+    const makeHighestRatedList = () => {
+        let cocktailRating = [];
+        for (let cocktail in cocktailRatingMap) {
+            cocktailRating.push({
+                cocktail: cocktail,
+                rating: cocktailRatingMap[cocktail]
+            });
+        }
+        cocktailRating.sort((a, b) => {
+            return b.rating - a.rating;
+        });
+        let highestRated = [];
+        for (let i = 0; i < cocktailRating.length; i++) {
+            highestRated.push(cocktails.find(el => el.idDrink === cocktailRating[i].cocktail))
+        }
+        return highestRated;
+    }
+
+    const requiredData = cocktails && latestCocktails && popularCocktails && randomCocktails && reviews && categories;
 
     if (!requiredData) {
         return (
@@ -62,6 +81,8 @@ const Home = props => {
             </View>
         )
     } else {
+        const highestRated = makeHighestRatedList();
+        console.log("highestRated: ", highestRated)
         return (
             <ScrollView contentContainerStyle={styles.screen}>
                 <View style={searchInput === '' ? styles.back : {flex: 1, backgroundColor: 'white'}}>
@@ -134,6 +155,15 @@ const Home = props => {
                         <Ingredients navigation={navigation} slice />
                     </View>
                     <View>
+                        <Text style={styles.sectionTitle}>Highest Rated</Text>
+                        <CocktailList
+                            navigation={navigation}
+                            cocktails={highestRated}
+                            card
+                            size={'large'}
+                        />
+                    </View>
+                    <View style={styles.sectionContainer}>
                         <Text style={styles.sectionTitle}>Random Drinks</Text>
                         <CocktailList
                             navigation={navigation}
