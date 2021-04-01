@@ -29,7 +29,6 @@ const Home = props => {
         randomCocktails,
         reviews,
         categories,
-        categoriesLength,
         // cocktailRatingMap
     } = useSelector(state => state.cocktails);
 
@@ -113,7 +112,6 @@ const Home = props => {
                         <CategoryList
                             navigation={navigation}
                             categories={categories}
-                            categoriesLength={categoriesLength}
                         />
                     </View>
                     <View style={styles.sectionContainer}>

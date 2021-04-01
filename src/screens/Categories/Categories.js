@@ -12,10 +12,10 @@ import styles from './style';
 const Categories = props => {
 
     const navigation = props.navigation;
-    const { categories, categoriesLength } = useSelector(state => state.cocktails)
+    const { categories } = useSelector(state => state.cocktails)
 
-    const navigate = (item) => {
-        navigation.navigate("Cocktails", { title: item, category: true })
+    const navigate = (name) => {
+        navigation.navigate("Cocktails", { title: name, category: true })
     }
 
     if (!categories) {
@@ -47,10 +47,10 @@ const Categories = props => {
                     renderItem={({ item }) => {
                         return (
                             <CategoryBox
-                                title={item}
-                                subTitle={categoriesLength[item]}
+                                title={item.name}
+                                subTitle={item.length}
                                 image={categoriesImages[categories.findIndex(el => el === item)]}
-                                onSelect={() => navigate(item)}
+                                onSelect={() => navigate(item.name)}
                             />
                         )
                     }}

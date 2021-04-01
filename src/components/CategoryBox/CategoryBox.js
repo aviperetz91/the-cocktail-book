@@ -3,26 +3,35 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import styles from './style';
 
 const CategoryBox = props => {
-    return (
-        <TouchableOpacity
-            activeOpacity={0.7}
-            style={props.title === '' ? { ...styles.gridItem, backgroundColor: 'white' } : styles.gridItem}
-            onPress={props.onSelect}>
-            <View>
-                <Image source={props.image} style={styles.bgImage} />
-            </View>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>
-                    {/* {props.title.length > 17 ? `${props.title.substring(0, 17)}...` : `${props.title}`} */}
-                    {props.title}
-                </Text>        
-                {props.title !== '' ?
-                <Text style={styles.subTitle}>
-                    {`${props.subTitle} ITEMS`}
-                </Text> : null }      
-            </View>
-        </TouchableOpacity>
-    )
+
+    const { title, subTitle, image, onSelect } = props;
+
+    console.log(props)
+
+    if (title) {
+        return (
+            <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.gridItem}
+                onPress={onSelect}>
+                <View>
+                    <Image source={image} style={styles.bgImage} />
+                </View>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>
+                        {title}
+                    </Text>
+                    <Text style={styles.subTitle}>
+                        {`${subTitle} ITEMS`}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        )
+    } else {
+        return (
+            <View style={{ ...styles.gridItem, backgroundColor: 'white' }}></View>
+        )
+    }
 }
 
 export default CategoryBox;

@@ -4,24 +4,24 @@ import CategoryItem from '../CategoryItem/CategoryItem';
 
 const CategoryList = props => {
 
-    const { navigation, categories, categoriesLength } = props
+    const { navigation, categories } = props
 
-    const navigate = (item) => {
-        navigation.navigate("Cocktails", { title: item, category: true })
+    const navigate = (name) => {
+        navigation.navigate("Cocktails", { title: name, category: true })
     }
 
     return (
         <FlatList
             keyExtractor={(item, index) => index.toString()}
-            data={categories.length % 2 !== 0 ? [...categories, ''] : categories}
+            data={categories}
             horizontal
             renderItem={({ item }) => {
                 return (
                     <CategoryItem
-                        title={item}
-                        subTitle={categoriesLength[item]}
+                        title={item.name}
+                        subTitle={item.length}
                         image={categoriesImages[categories.findIndex(el => el === item)]}
-                        onSelect={() => navigate(item)}
+                        onSelect={() => navigate(item.name)}
                     />
                 )
             }}

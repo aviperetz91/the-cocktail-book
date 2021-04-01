@@ -68,7 +68,7 @@ export const getReviews = () => {
                         cocktailRatingMap[idDrink] = ratingAvg
                     }
                 }
-                reviews.sort((a,b) => new Date(b.date) - new Date(a.date))
+                reviews.sort((a, b) => new Date(b.date) - new Date(a.date))
             }
             dispatch({ type: GET_REVIEWS, reviews, cocktailRatingMap })
         });
@@ -80,12 +80,12 @@ export const getCategories = () => {
         let categorylist = await axios.get(`${API_URL}/list.php?c=list`)
         categorylist = categorylist.data.drinks;
         const categories = categorylist && categorylist.length > 0 ? categorylist.map(category => category.strCategory) : null;
-        let categoriesLength = {};
-        categories.forEach(async category => {
-            const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${category}`)
-            categoriesLength[category] = categoryCocktails.data.drinks.length
-            dispatch({ type: GET_CATEGORIES, categories, categoriesLength })
-        })
+        const extendedCategories = [];
+        for (let i = 0; i < categories.length; i++) {
+            const categoryCocktails = await axios.get(`${API_URL}/filter.php?c=${categories[i]}`)
+            extendedCategories.push({ name: categories[i], length: categoryCocktails.data.drinks.length })
+        }
+        dispatch({ type: GET_CATEGORIES, categories: extendedCategories })
     }
 }
 
@@ -135,7 +135,7 @@ export const getGlassList = () => {
             glassList.forEach((glass, index) => {
                 if (index !== glassList.length - 1) {
                     glasses.push(glass.strGlass);
-                } 
+                }
             })
         }
         dispatch({ type: GET_GLASS_LIST, glassList: glasses })

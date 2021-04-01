@@ -23,7 +23,6 @@ const initialState = {
     reviews: null,
     cocktailRatingMap: null,
     categories: null,
-    categoriesLength: null,
     categoryCocktails: null,
     ingredientCocktails: null,
     selectedCocktail: null,
@@ -79,7 +78,6 @@ const CocktailsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categories: action.categories,
-                categoriesLength: action.categoriesLength
             }
         case GET_CATEGORY_COCKTAILS:
             return {
