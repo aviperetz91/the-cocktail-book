@@ -7,27 +7,29 @@ import CocktailList from '../../components/CocktailList/CocktailList';
 import Colors from '../../constants/Colors';
 import styles from './style';
 import { useEffect } from 'react';
-import { getCategoryCocktails, clearData } from '../../store/actions/CocktailsActions';
+import { getCategoryCocktails, getIngredientCocktails, clearData } from '../../store/actions/CocktailsActions';
 
 
 const Cocktails = props => {
 
     const { navigation } = props;
-    const { title, category, filteredCocktails } = props.route.params;
-    const { categoryCocktails } = useSelector(state => state.cocktails);
+    const { title, category, ingredient, filteredCocktails } = props.route.params;
+    const { categoryCocktails, ingredientCocktails } = useSelector(state => state.cocktails);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (category) dispatch(getCategoryCocktails(title))
+        if (category) dispatch(getCategoryCocktails(title));
+        if (ingredient) dispatch(getIngredientCocktails(title))
     }, [dispatch])
 
     const goBack = () => {
-        dispatch(clearData('categoryCocktails'))
+        if (category) dispatch(clearData('categoryCocktails'));
+        if (ingredient) dispatch(clearData('ingredientCocktails'));
         navigation.goBack()
     }
 
-    const cocktails = category ? categoryCocktails : filteredCocktails ? filteredCocktails : null;
+    const cocktails = category ? categoryCocktails : ingredient ? ingredientCocktails : filteredCocktails ? filteredCocktails : null;
 
     if (!cocktails) {
         return (

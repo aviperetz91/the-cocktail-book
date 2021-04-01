@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         alignItems: 'flex-start'
     },
+    reviewBody: {
+        paddingBottom: 7
+    },
     reviewRatingContainer: {
         position: 'absolute',
         right: 10,

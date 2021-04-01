@@ -11,6 +11,7 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const GET_CATEGORY_COCKTAILS = 'GET_CATEGORY_COCKTAILS';
 export const GET_COCKTAIL_DETAILS = 'GET_COCKTAIL_DETAILS';
 export const GET_SEARCH_RESULTS = 'GET_SEARCH_RESULTS';
+export const GET_INGREDIENT_COCKTAILS = 'GET_INGREDIENT_COCKTAILS';
 export const GET_INGREDIENT_LIST = 'GET_INGREDIENT_LIST';
 export const GET_GLASS_LIST = 'GET_GLASS_LIST';
 export const GET_ALCOHOLIC_LIST = 'GET_ALCOHOLIC_LIST';
@@ -67,7 +68,6 @@ export const getReviews = () => {
                         cocktailRatingMap[idDrink] = ratingAvg
                     }
                 }
-                console.log(cocktailRatingMap)
                 reviews.sort((a,b) => new Date(b.date) - new Date(a.date))
             }
             dispatch({ type: GET_REVIEWS, reviews, cocktailRatingMap })
@@ -107,6 +107,13 @@ export const getCocktailByName = name => {
     return async dispatch => {
         const results = await axios.get(`${API_URL}/search.php?s=${name}`)
         dispatch({ type: GET_SEARCH_RESULTS, searchResults: results.data.drinks })
+    }
+}
+
+export const getIngredientCocktails = ingredient => {
+    return async dispatch => {
+        const ingredientCocktails = await axios.get(`${API_URL}/filter.php?i=${ingredient}`)
+        dispatch({ type: GET_INGREDIENT_COCKTAILS, ingredientCocktails: ingredientCocktails.data.drinks })
     }
 }
 

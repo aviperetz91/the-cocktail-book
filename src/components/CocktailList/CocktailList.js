@@ -4,18 +4,19 @@ import CocktailItem from '../../components/CocktailItem/CocktailItem';
 
 const CocktailList = props => {
 
-    const { navigation, cocktails, horizontal } = props
+    const { navigation, cocktails, card, size } = props
 
     return (
         <FlatList
-            contentContainerStyle={{ backgroundColor: 'white' }}
+            contentContainerStyle={card ? {} : { backgroundColor: 'white' }}
             keyExtractor={(item, index) => index.toString()}
             data={cocktails}
-            horizontal={horizontal}
+            horizontal={card}
             renderItem={({ item }) => (
                 <CocktailItem
                     navigation={navigation}
-                    horizontal={horizontal}
+                    card={card}
+                    size={size}
                     idDrink={item.idDrink}
                     title={item.strDrink}
                     image={item.strDrinkThumb}

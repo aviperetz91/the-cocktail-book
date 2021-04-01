@@ -57,7 +57,7 @@ const ReviewItem = props => {
                     }
                 />
             </Left>
-            <Body>
+            <Body style={styles.reviewBody}>
                 <Text style={styles.reviewAutor}>{profileFlag ? review.strDrink : review.autor}</Text>
                 <Text style={styles.reviewContent}>{review.content}</Text>
                 <Text note style={styles.reviewTimeText}>{moment(review.date).fromNow()}</Text>

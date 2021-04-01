@@ -30,9 +30,9 @@ const Categories = props => {
                 <Header
                     headerBackground={'white'}
                     statusBarColor={'rgba(0,0,0,0.4)'}
-                    pressHandler={navigation.openDrawer}
-                    iconType={'Ionicons'}
-                    iconName={'menu-outline'}
+                    pressHandler={navigation.goBack}
+                    iconType={'MaterialCommunityIcons'}
+                    iconName={'keyboard-backspace'}
                     iconColor={'black'}
                     iconSize={32}
                     title={'Categories'}

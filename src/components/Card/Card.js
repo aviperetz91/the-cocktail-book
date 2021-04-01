@@ -4,7 +4,7 @@ import styles from './style';
 
 const Card = props => {
     return (
-        <NBCard style={styles.card}>
+        <NBCard style={{...styles.card, ...props.style}}>
             {props.children}
         </NBCard>
     )

@@ -56,7 +56,7 @@ const CocktailDetails = props => {
         return (
             <Provider>
                 <View style={styles.screen}>
-                    <StatusBar translucent hidden={true} />
+                    <StatusBar translucent hidden/>
                     <ScrollView>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
@@ -71,9 +71,9 @@ const CocktailDetails = props => {
                         <TouchableOpacity onPress={goBack} style={styles.backButton}>
                             <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={styles.arrowBackIcon} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={goHome} style={styles.homeButton}>
+                        {/* <TouchableOpacity onPress={goHome} style={styles.homeButton}>
                             <Icon type={'MaterialCommunityIcons'} name='home' style={styles.homeIcon} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <View style={{
                             borderTopLeftRadius: 20,
                             borderTopRightRadius: 20,
@@ -82,7 +82,13 @@ const CocktailDetails = props => {
                         }}>
                             <View style={styles.info}>
                                 <Text style={styles.title}>{name}</Text>
-                                <Text note>{`${selectedCocktail.strAlcoholic}, ${selectedCocktail.strCategory}, ${selectedCocktail.strGlass}`}</Text>
+                                <Text note>
+                                    {selectedCocktail.strAlcoholic}
+                                    <Icon type="MaterialCommunityIcons" name="circle-small" style={styles.itemNote}/>
+                                    {selectedCocktail.strCategory}
+                                    <Icon type="MaterialCommunityIcons" name="circle-small" style={styles.itemNote}/>
+                                    {selectedCocktail.strGlass}
+                                </Text>
                                 <Rating rating={cocktailRatingMap[id]} counter={reviewsCounter} large={true} />
                             </View>
                             <Tabs

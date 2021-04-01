@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     back: {
         width: '100%',
         height: 180,
-        backgroundColor: Colors.dark,
+        backgroundColor: 'black',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25
     },
@@ -68,6 +68,14 @@ const styles = StyleSheet.create({
     },
     statusVal: {
         fontSize: 20,
+    },
+    buttonsContainer: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between'
+    },
+    button: {
+        marginTop: 16, 
+        width: '48%' 
     },
     favoritsContainer: {
         padding: 12,

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -10,57 +10,135 @@ const styles = StyleSheet.create({
     },
     screen: {
         backgroundColor: 'white',
-        flexGrow: 1
+        flexGrow: 1,
+    },
+    imageContainer: {
+        width: '100%',
+        height: Platform.OS === "android" ? 250 : 280,
+        borderBottomLeftRadius: 40,
+        borderBottomRightRadius: 40,
+    },
+    back: {
+        width: '100%',
+        height: Platform.OS === "android" ? 300 : 330,
+        backgroundColor: 'black',
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25
     },
     image: {
-        width: '100%',
-        height: 320,
+        borderBottomRightRadius: 40,
+        borderBottomLeftRadius: 40,
     },
     imageInnerContent: {
-        flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
+        borderBottomRightRadius: 40,
+        borderBottomLeftRadius: 40,
+    },
+    searchBar: {
+        backgroundColor: 'black',
+        marginTop: Platform.OS === 'android' ? 28 : 0,
+    },
+    header: {
+        borderBottomWidth: 0,
+        elevation: 0,
+        backgroundColor: 'transparent',
+        marginTop: Platform.OS === 'android' ? 28 : 0
+    },
+    iconContainer: {
+        width: 40,
+        height: 40,
+        borderRadius: 50,
+        justifyContent: 'center',
+        backgroundColor: Colors.light,
+        marginHorizontal: 6
+    },
+    headerIcon: {
+        color: Colors.dark,
+        fontSize: 20,
+        alignSelf: 'center'
+    },
+    absolute: {
+        position: 'absolute',
+        top: Platform.OS === "android" ? 80 : 110,
+        paddingLeft: 10,
     },
     mainTitle: {
         color: 'white',
-        fontSize: 40,
-        textAlign: 'center',
-        letterSpacing: 10,
-        textShadowColor: 'rgba(0, 0, 0, 1)',
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 20,
+        fontSize: 24,
+        fontWeight: '500',
+        letterSpacing: 2,
+        // textShadowColor: 'rgba(0, 0, 0, 1)',
+        // textShadowOffset: { width: 2, height: 2 },
+        // textShadowRadius: 20,
+        textShadowColor: 'rgba(255, 255, 255, 0.6)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 5,
+        marginBottom: 16,
+        marginTop: 4
     },
-    searchBarContainer: {
-        paddingHorizontal: 44,
-        position: 'absolute',
-        top: -26,
-        width: '100%'
-    },
-    contentContainer: {
-        backgroundColor: 'white',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        marginTop: -15,
+    content: {
+        marginTop: 70,
+        paddingLeft: 10,
         marginBottom: 30
     },
-    rowSpaceBetween: {
+    sectionContainer: {
+        marginTop: 30
+    },
+    sectionTitle: {
+        fontSize: 20,
+        color: Colors.dark,
+        fontWeight: '400',
+        letterSpacing: 2,
+        marginBottom: 12,
+        textShadowColor: 'rgba(0, 0, 0, 0.6)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 5,
+    },
+    seconaryText: {
+        fontSize: 16,
+        color: '#888',
+        fontWeight: '400',
+        letterSpacing: 2,
+        marginBottom: 12,
+    },
+    seconaryIcon: {
+        fontSize: 16,
+        color: '#888',
+    },
+    rowStart: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'center'
     },
-    title: {
-        fontSize: 18,
-        fontWeight: '700',
-        letterSpacing: 2
+    rowCenter: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    horizontalListContainer: {
-        paddingHorizontal: 12,
-        paddingTop: 12
+    rowBetween: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    listContainer: {
-        padding: 12,
-        paddingRight: 0,
-        marginTop: 12
+    ingredientThumbnail: {
+        width: 90,
+        height: 90,
     },
+    ingredientText: {
+        marginTop: 8,
+        textAlign: 'center',
+        fontSize: 16,
+        color: Colors.dark,
+        fontWeight: 'bold',
+        letterSpacing: 2,
+    },
+    letters: {
+        alignItems: 'center'
+    },
+    letter: {
+        fontSize: 22,
+        margin: 6
+    }
 })
 
 export default styles;

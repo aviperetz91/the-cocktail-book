@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         marginLeft: 0,
         marginRight: 0,
         marginVertical: 0,
-        backgroundColor: Colors.dark,
+        backgroundColor: 'black',
     },
     radioContainer: {
         flexDirection: 'row',

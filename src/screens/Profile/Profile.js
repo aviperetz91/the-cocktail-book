@@ -15,7 +15,7 @@ import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import Card from '../../components/Card/Card';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
-import { updateName, updatePhoto } from '../../store/actions/UserActions';
+import { updateName, updatePhoto, signout } from '../../store/actions/UserActions';
 import avatar from '../../assets/images/avatar2.png';
 
 
@@ -108,14 +108,15 @@ const Profile = props => {
             <Provider>
                 <ScrollView contentContainerStyle={styles.screen}>
                     <Header
-                        headerBackground={Colors.dark}
+                        headerBackground={'black'}
                         statusBarColor={'rgba(0,0,0,0.4)'}
                         iosBarStyle={'light-content'}
-                        pressHandler={props.navigation.openDrawer}
-                        iconType={'Ionicons'}
-                        iconName={'menu-outline'}
+                        pressHandler={navigation.goBack}
+                        iconType={'MaterialCommunityIcons'}
+                        iconName={'keyboard-backspace'}
                         iconColor={'white'}
                         iconSize={32}
+                        title={'Profile'}
                         titleColor={'white'}
                         letterSpacing={4}
                     />
@@ -175,17 +176,27 @@ const Profile = props => {
                                     </View>
                                 </View>
                             </View>
-                            <Button
-                                bordered
-                                block
-                                dark
-                                style={{ marginTop: 16 }}
-                                onPress={buttonPressHandler}
-                            >
-                                {newPhoto !== userPhoto || newName !== userName ? <Text>Save</Text> :
-                                    editMode ? <Text>Cancel</Text> :
-                                        <Text>Edit</Text>}
-                            </Button>
+                            <View style={styles.buttonsContainer}>
+                                <Button
+                                    bordered
+                                    block
+                                    dark
+                                    style={styles.button}
+                                    onPress={buttonPressHandler}
+                                >
+                                    {newPhoto !== userPhoto || newName !== userName ? <Text>SAVE</Text> :
+                                        editMode ? <Text>CANCEL</Text> :
+                                            <Text>EDIT</Text>}
+                                </Button>
+                                <Button
+                                    dark
+                                    block
+                                    style={styles.button}
+                                    onPress={() => dispatch(signout())}
+                                >
+                                    <Text>SIGNOUT</Text>
+                                </Button>
+                            </View>
                         </Card>
                         <Portal>
                             <Dialog visible={isSavePressed} onDismiss={() => setIsSavePressed(false)}>
@@ -210,8 +221,9 @@ const Profile = props => {
                             </View>
                             <CocktailList
                                 navigation={navigation}
-                                horizontal
                                 cocktails={favorites}
+                                card
+                                size={'small'}
                             />
 
                         </View>

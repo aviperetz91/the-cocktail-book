@@ -8,6 +8,7 @@ import {
     GET_CATEGORY_COCKTAILS,
     GET_COCKTAIL_DETAILS,
     GET_SEARCH_RESULTS,
+    GET_INGREDIENT_COCKTAILS,
     GET_INGREDIENT_LIST,
     GET_GLASS_LIST,
     GET_ALCOHOLIC_LIST,
@@ -24,6 +25,7 @@ const initialState = {
     categories: null,
     categoriesLength: null,
     categoryCocktails: null,
+    ingredientCocktails: null,
     selectedCocktail: null,
     searchResults: null,
     ingredientList: null,
@@ -83,6 +85,11 @@ const CocktailsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 categoryCocktails: action.categoryCocktails
+            }
+        case GET_INGREDIENT_COCKTAILS:
+            return {
+                ...state,
+                ingredientCocktails: action.ingredientCocktails
             }
         case GET_COCKTAIL_DETAILS:
             const ingredientList = makeIngredientsArray(action.selectedCocktail);

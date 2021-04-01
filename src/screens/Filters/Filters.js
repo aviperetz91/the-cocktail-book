@@ -1,12 +1,10 @@
 import React, { useState, Fragment } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, TouchableOpacity } from 'react-native';
+import { Icon } from 'native-base';
 import { useSelector } from 'react-redux';
-import { Button } from 'react-native-elements';
 import styles from './style';
 import Header from '../../components/Header/Header';
 import Accordion from '../../components/Accordion/Accordion';
-import Colors from '../../constants/Colors';
-
 
 const Filters = props => {
 
@@ -72,12 +70,12 @@ const Filters = props => {
     return (
         <Fragment>
             <Header
-                headerBackground={Colors.dark}
+                headerBackground={'black'}
                 statusBarColor={'rgba(0,0,0,0.4)'}
                 iosBarStyle={'light-content'}
-                pressHandler={navigation.openDrawer}
-                iconType={'Ionicons'}
-                iconName={'menu-outline'}
+                pressHandler={navigation.goBack}
+                iconType={'MaterialCommunityIcons'}
+                iconName={'keyboard-backspace'}
                 iconColor={'white'}
                 iconSize={32}
                 title={'Filters'}
@@ -88,7 +86,7 @@ const Filters = props => {
                 <View style={styles.container}>
                     <ScrollView>
                         <View>
-                            <View style={{ marginBottom: 30 }}>
+                            <View>
                                 <Accordion
                                     title={'Alcoholic'}
                                     list={alcoholicList}
@@ -111,23 +109,14 @@ const Filters = props => {
                                 />
                             </View>
                         </View>
-                        <View>
-                            <Button
-                                title="Clear filters"
-                                type="solid"
-                                buttonStyle={styles.clearButton}
-                                containerStyle={{ marginBottom: 10 }}
-                                onPress={clearFiltersHandler}
-                            />
-                            <Button
-                                title="Show Results"
-                                type="solid"
-                                buttonStyle={styles.showButton}
-                                onPress={filterCocktails}
-                            />
-                        </View>
                     </ScrollView>
                 </View>
+                <TouchableOpacity style={styles.filterButton} onPress={filterCocktails}>
+                    <Icon name='checkmark-outline' style={styles.filterIcon} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.clearButton} onPress={clearFiltersHandler}>
+                    <Icon name='close-outline' style={styles.filterIcon} />
+                </TouchableOpacity>
             </View>
         </Fragment>
     );

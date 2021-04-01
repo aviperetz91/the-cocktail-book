@@ -1,13 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: 'white'
+        backgroundColor: 'transparent'
     },
     header: {
-        display: 'none'
+        backgroundColor: 'black',
+        marginTop: Platform.OS === 'android' ? 28 : 0,
+        borderBottomWidth: 0,
+        elevation: 0,
     },
     searchBar: {
         backgroundColor: 'white',

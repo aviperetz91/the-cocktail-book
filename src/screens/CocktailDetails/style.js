@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -12,13 +12,18 @@ const styles = StyleSheet.create({
     image: {
         width: "100%",
         height: 330,
-        opacity: 0.8
     },
     backButton: {
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        borderRadius: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 40,
+        height: 40,
         position: 'absolute',
         left: 6,
-        top: 25,
-        padding: 15,
+        top: Platform.OS === 'android' ? 30 : 40,
     },
     homeButton: {
         position: 'absolute',
@@ -137,7 +142,11 @@ const styles = StyleSheet.create({
     addIcon: {
         fontSize: 42, 
         color: 'white'
-    }
+    },
+    itemNote: {
+        fontSize: 14,
+        color: '#a7a7a7'
+    },
 })
 
 export default styles;
