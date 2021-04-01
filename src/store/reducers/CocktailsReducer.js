@@ -35,23 +35,16 @@ const initialState = {
 const CocktailsReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_COCKTAILS:
-            if (action.cocktails) {
-                const extendedCocktails = []
-                action.cocktails.forEach(cocktail => {
-                    const ingredientList = makeIngredientsArray(cocktail);
-                    const measureList = makeMeasureArray(cocktail);
-                    const extended = extendCocktailObject(cocktail, ingredientList, measureList);
-                    extendedCocktails.push(extended)
-                })
-                return {
-                    ...state,
-                    cocktails: state.cocktails ? [...state.cocktails, ...extendedCocktails] : extendedCocktails
-                }
-            } else {
-                return {
-                    ...state,
-                    cocktails: state.cocktails
-                }
+            const extendedCocktails = []
+            action.cocktails.forEach(cocktail => {
+                const ingredientList = makeIngredientsArray(cocktail);
+                const measureList = makeMeasureArray(cocktail);
+                const extended = extendCocktailObject(cocktail, ingredientList, measureList);
+                extendedCocktails.push(extended)
+            })
+            return {
+                ...state,
+                cocktails: extendedCocktails
             }
         case GET_LATEST_COCKTAILS:
             return {
