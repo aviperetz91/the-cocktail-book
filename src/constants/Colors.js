@@ -2,7 +2,7 @@ export default {
     // primary: "#1e3d59",
     // darkPrimary: '#183047',
     // accent: "#f5f0e1",
-
+    link: '#007aff',
     // success: "#28a745",
     success: "#5cb85c",
     // warning: "#ffc107",

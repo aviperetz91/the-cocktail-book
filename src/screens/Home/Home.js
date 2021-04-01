@@ -82,7 +82,6 @@ const Home = props => {
         )
     } else {
         const highestRated = makeHighestRatedList();
-        console.log("highestRated: ", highestRated)
         return (
             <ScrollView contentContainerStyle={styles.screen}>
                 <View style={searchInput === '' ? styles.back : {flex: 1, backgroundColor: 'white'}}>

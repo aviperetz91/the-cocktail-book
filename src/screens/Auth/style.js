@@ -70,12 +70,12 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 10, 
-        backgroundColor: Colors.danger, 
+        // backgroundColor: Colors.light, 
         marginHorizontal: 4,
         borderRadius: 30
     },
     buttonText: {
-        color: Colors.light,
+        // color: Colors.dark,
         // fontSize: Platform.OS === 'android' ? 21 : 25,
         fontSize: 19,
         fontWeight: '300',
@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     modeText: {
-        fontWeight: '400'
+        fontWeight: '400',
+        color: Colors.link
     },
     alertContainer: {
         marginTop: 36,
