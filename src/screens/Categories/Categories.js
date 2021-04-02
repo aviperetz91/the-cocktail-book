@@ -11,11 +11,14 @@ import styles from './style';
 
 const Categories = props => {
 
-    const navigation = props.navigation;
-    const { categories } = useSelector(state => state.cocktails)
+    const { navigation } = props;
+    const { categories, cocktails } = useSelector(state => state.cocktails);
 
     const navigate = (name) => {
-        navigation.navigate("Cocktails", { title: name, category: true })
+        navigation.navigate("Cocktails", {
+            title: name,
+            cocktails: cocktails.filter(cocktail => cocktail.strCategory === name)
+        })
     }
 
     if (!categories) {

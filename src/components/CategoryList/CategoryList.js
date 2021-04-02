@@ -1,13 +1,18 @@
 import React from 'react';
 import { FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 import CategoryItem from '../CategoryItem/CategoryItem';
 
 const CategoryList = props => {
 
-    const { navigation, categories } = props
+    const { navigation } = props;
+    const { categories, cocktails } = useSelector(state => state.cocktails);
 
     const navigate = (name) => {
-        navigation.navigate("Cocktails", { title: name, category: true })
+        navigation.navigate("Cocktails", {
+            title: name,
+            cocktails: cocktails.filter(cocktail => cocktail.strCategory === name)
+        })
     }
 
     return (

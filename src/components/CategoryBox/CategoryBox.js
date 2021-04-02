@@ -6,8 +6,6 @@ const CategoryBox = props => {
 
     const { title, subTitle, image, onSelect } = props;
 
-    console.log(props)
-
     if (title) {
         return (
             <TouchableOpacity

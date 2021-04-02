@@ -8,11 +8,20 @@ import styles from './style';
 const Ingredients = props => {
 
     const { navigation, slice } = props;
-    const { ingredientList } = useSelector(state => state.cocktails);
+    const { ingredientList, cocktails } = useSelector(state => state.cocktails);
     const [searchInput, setSearchInput] = useState('');
 
-    const goToCocktails = (ingredient) => {
-        navigation.navigate("Cocktails", { title: ingredient, ingredient: true })
+    const goToCocktails = async (ingredient) => {
+        const ingredientCocktails = [];
+        cocktails.forEach(cocktail => {
+            if (cocktail.ingredientList.some(ingr => ingr === ingredient)) {
+                ingredientCocktails.push(cocktail)
+            }
+        })
+        navigation.navigate("Cocktails", {
+            title: ingredient,
+            cocktails: ingredientCocktails
+        })
     }
 
     const goBack = () => {

@@ -1,35 +1,15 @@
 import React, { Fragment } from 'react';
 import { View, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Spinner, Card } from 'native-base';
 import Header from '../../components/Header/Header';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import Colors from '../../constants/Colors';
 import styles from './style';
-import { useEffect } from 'react';
-import { getCategoryCocktails, getIngredientCocktails, clearData } from '../../store/actions/CocktailsActions';
-
 
 const Cocktails = props => {
 
     const { navigation } = props;
-    const { title, category, ingredient, filteredCocktails } = props.route.params;
-    const { categoryCocktails, ingredientCocktails } = useSelector(state => state.cocktails);
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (category) dispatch(getCategoryCocktails(title));
-        if (ingredient) dispatch(getIngredientCocktails(title))
-    }, [dispatch])
-
-    const goBack = () => {
-        if (category) dispatch(clearData('categoryCocktails'));
-        if (ingredient) dispatch(clearData('ingredientCocktails'));
-        navigation.goBack()
-    }
-
-    const cocktails = category ? categoryCocktails : ingredient ? ingredientCocktails : filteredCocktails ? filteredCocktails : null;
+    const { title, cocktails } = props.route.params;
 
     if (!cocktails) {
         return (
@@ -44,7 +24,7 @@ const Cocktails = props => {
                     headerBackground={'black'}
                     statusBarColor={'rgba(0,0,0,0.4)'}
                     iosBarStyle={'light-content'}
-                    pressHandler={goBack}
+                    pressHandler={navigation.goBack}
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
                     iconColor={'white'}

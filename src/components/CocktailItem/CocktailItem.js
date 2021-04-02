@@ -64,7 +64,7 @@ const CocktailItem = props => {
                     </View>
                     <View style={styles.textContainer}>
                         <Text style={styles.itemTitle}>{title}</Text>
-                        {/* <Text note style={styles.itemNote}>{`${alcoholic}, ${category}, ${glass}`}</Text> */}
+                        <Text note style={styles.itemNote}>{`${alcoholic}, ${category}, ${glass}`}</Text>
                         <Rating rating={cocktailRatingMap[idDrink]} counter={reviewsCounter} />
                     </View>
                 </Card>

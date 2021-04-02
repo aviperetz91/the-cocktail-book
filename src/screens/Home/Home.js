@@ -129,9 +129,7 @@ const Home = props => {
                                 <Icon name="chevron-forward-outline" style={styles.seconaryText} />
                             </Text>
                         </TouchableOpacity>
-                        <CategoryList
-                            navigation={navigation}
-                            categories={categories}
+                        <CategoryList navigation={navigation}
                         />
                     </View>
                     <View style={styles.sectionContainer}>

@@ -54,7 +54,10 @@ const Filters = props => {
             }
         })
         console.log("filteredCocktails: ", filtered)
-        navigation.navigate("Cocktails", { title: `${filtered.length} Results`, filteredCocktails: filtered })
+        navigation.navigate("Cocktails", { 
+            title: `${filtered.length} Results`, 
+            cocktails: filtered 
+        })
     }
 
     const clearFiltersHandler = () => {
