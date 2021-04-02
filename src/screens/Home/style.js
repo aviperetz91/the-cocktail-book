@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
     back: {
         width: '100%',
-        height: Platform.OS === "android" ? 300 : 330,
+        height: Platform.OS === "android" ? 320 : 350,
         backgroundColor: 'black',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25

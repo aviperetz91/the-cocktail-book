@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
         height: '100%',  
     },
     image: {
-        borderRadius: 70,
+        // borderRadius: 70,
+        borderRadius: 20,
     },
     container: {
         flex: 1, 
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 6,
-        borderRadius: 70,
+        // borderRadius: 70,
+        borderRadius: 20,
     },
     title: {
         fontSize: 13,
