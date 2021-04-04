@@ -7,6 +7,7 @@ import CocktailList from '../../components/CocktailList/CocktailList';
 import CategoryList from '../../components/CategoryList/CategoryList';
 import Ingredients from '../Ingredients/Ingredients';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import BrowseByFirstLetter from '../../components/BrowseByFirstLetter/BrowseByFirstLetter';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
     getCocktails,
@@ -183,6 +184,10 @@ const Home = props => {
                                 card
                                 size={'large'}
                             />
+                        </View>
+                        <View style={styles.sectionContainer}>
+                            <Text style={styles.sectionTitle}>Browse By First Letter</Text>
+                            <BrowseByFirstLetter navigation={navigation}/>
                         </View>
                         <View style={styles.sectionContainer}>
                             <TouchableOpacity
