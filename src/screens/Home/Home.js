@@ -168,24 +168,26 @@ const Home = props => {
                             </TouchableOpacity>
                             <Ingredients navigation={navigation} slice />
                         </View>
-                        <View>
-                            <TouchableOpacity
-                                style={styles.rowBetween}
-                                onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: highestRated })}>
-                                <Text style={styles.sectionTitle}>Highest Rated</Text>
-                                <Text style={styles.seconaryText}>
-                                    list view
-                                    <Icon name="chevron-forward-outline" style={styles.seconaryText} />
-                                </Text>
-                            </TouchableOpacity>
-                            <CocktailList
-                                navigation={navigation}
-                                cocktails={highestRated}
-                                card
-                                size={'large'}
-                            />
-                        </View>
-                        <View style={styles.sectionContainer}>
+                        {highestRated && highestRated.length > 0 && 
+                            <View>
+                                <TouchableOpacity
+                                    style={styles.rowBetween}
+                                    onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: highestRated })}>
+                                    <Text style={styles.sectionTitle}>Highest Rated</Text>
+                                    <Text style={styles.seconaryText}>
+                                        list view
+                                        <Icon name="chevron-forward-outline" style={styles.seconaryText} />
+                                    </Text>
+                                </TouchableOpacity>
+                                <CocktailList
+                                    navigation={navigation}
+                                    cocktails={highestRated}
+                                    card
+                                    size={'large'}
+                                />
+                            </View>
+                        }
+                        <View style={highestRated && highestRated.length > 0 ? styles.sectionContainer : {} }>
                             <Text style={styles.sectionTitle}>Browse By First Letter</Text>
                             <BrowseByFirstLetter navigation={navigation}/>
                         </View>

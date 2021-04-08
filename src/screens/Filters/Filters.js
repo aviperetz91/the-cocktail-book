@@ -53,7 +53,6 @@ const Filters = props => {
                 filtered.push(drink)
             }
         })
-        console.log("filteredCocktails: ", filtered)
         navigation.navigate("Cocktails", { 
             title: `${filtered.length} Results`, 
             cocktails: filtered 
@@ -65,10 +64,6 @@ const Filters = props => {
         setCheckedCategories([]);
         setCheckedGlasses([]);
     }
-
-    console.log(selectedAlcoholic)
-    console.log(checkedCategories)
-    console.log(checkedGlasses)
 
     return (
         <Fragment>

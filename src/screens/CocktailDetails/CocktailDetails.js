@@ -13,7 +13,7 @@ import Rating from '../../components/Rating/Rating';
 
 const CocktailDetails = props => {
 
-    const navigation = props.navigation;
+    const { navigation } = props;
     const { id, name } = props.route.params;
     const { selectedCocktail, cocktailRatingMap, reviews } = useSelector(state => state.cocktails);
     const { userId, userFavoriteIds } = useSelector(state => state.user);
@@ -41,11 +41,6 @@ const CocktailDetails = props => {
         navigation.goBack()
     }
 
-    const goHome = () => {
-        dispatch(clearData('selectedCocktail'))
-        navigation.navigate("Home")
-    }
-
     if (!selectedCocktail) {
         return (
             <View style={styles.spinnerContainer}>
@@ -71,9 +66,6 @@ const CocktailDetails = props => {
                         <TouchableOpacity onPress={goBack} style={styles.backButton}>
                             <Icon type={'MaterialCommunityIcons'} name='keyboard-backspace' style={styles.arrowBackIcon} />
                         </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={goHome} style={styles.homeButton}>
-                            <Icon type={'MaterialCommunityIcons'} name='home' style={styles.homeIcon} />
-                        </TouchableOpacity> */}
                         <View style={{
                             borderTopLeftRadius: 20,
                             borderTopRightRadius: 20,

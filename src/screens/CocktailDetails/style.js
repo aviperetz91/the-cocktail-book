@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         top: 290,
-        left: 325,
+        left: Platform.OS === 'ios' ? 310 : 325,
         width: 45,
         height: 45,
         borderRadius: 50,
@@ -51,12 +51,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         zIndex: 100,
     },
-    // detailsContainer: {
-    //     borderTopLeftRadius: 20,
-    //     borderTopRightRadius: 20,
-    //     marginTop: -15,
-    //     backgroundColor: 'white'
-    // },
     info: {
         padding: 20,
     },

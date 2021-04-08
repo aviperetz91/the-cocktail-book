@@ -38,8 +38,6 @@ const styles = StyleSheet.create({
     },
     title: {
         color: Colors.light,
-        // fontSize: Platform.OS === 'android' ? 26 : 31,
-        // fontWeight: Platform.OS === 'android' ? '100' : '300',
         fontSize: 26,
         fontWeight: '300',
         letterSpacing: 3,
@@ -49,9 +47,6 @@ const styles = StyleSheet.create({
     },
     subTitle: {
         marginTop: 6,
-        // color: Platform.OS === 'android' ? Colors.lightGrey : Colors.light,
-        // fontSize: Platform.OS === 'android' ? 18 : 23,
-        // fontWeight: Platform.OS === 'android' ? '100' : '200',
         color: Colors.lightGrey,
         fontSize: 18,
         fontWeight: '100',
@@ -70,13 +65,10 @@ const styles = StyleSheet.create({
     },
     button: {
         padding: 10, 
-        // backgroundColor: Colors.light, 
         marginHorizontal: 4,
         borderRadius: 30
     },
     buttonText: {
-        // color: Colors.dark,
-        // fontSize: Platform.OS === 'android' ? 21 : 25,
         fontSize: 19,
         fontWeight: '300',
         alignSelf: 'center',
@@ -84,9 +76,6 @@ const styles = StyleSheet.create({
     },
     helperText: {
         marginTop: 12,
-        // color: Platform.OS === 'android' ? Colors.lightGrey : Colors.light,
-        // fontWeight: Platform.OS === 'android' ? '100' : '300',
-        // fontSize: Platform.OS === 'android' ? 16 : 20,
         color: Colors.lightGrey,
         fontWeight: '100',
         fontSize: 16,

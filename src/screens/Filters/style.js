@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     },
     filterButton: {
         position: 'absolute',
-        bottom: Platform.OS === 'ios' ? 80 : 0,
+        bottom: Platform.OS === 'ios' ? 80 : 20,
         right: 16,
         width: 60,
         height: 60,
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     clearButton: {
         position: 'absolute',
-        bottom: Platform.OS === 'ios' ? 80 : 0,
+        bottom: Platform.OS === 'ios' ? 80 : 20,
         left: 16,
         width: 60,
         height: 60,

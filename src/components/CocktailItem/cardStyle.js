@@ -37,12 +37,10 @@ const styles = StyleSheet.create({
         letterSpacing: 2,
         fontSize: 17,
         fontWeight: '600',
-        // letterSpacing: 0.5,å
     },
     itemNote: {
         fontSize: 14,
         color: Colors.lightGrey
-        // marginTop: 4,
     },
 
     // SMALL

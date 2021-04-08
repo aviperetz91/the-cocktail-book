@@ -15,7 +15,6 @@ const DrawerNavigator = () => {
     const dispatch = useDispatch();
 
     const onAuthStateChanged = user => {
-        console.log(user)
         if(user) {
             dispatch(setUserDetails(user.uid))
         }

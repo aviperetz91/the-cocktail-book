@@ -12,8 +12,6 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         color: Colors.lightGrey
-        // color: '#6c757d'
-        // color: '#f1c40f'
     }
 })
 

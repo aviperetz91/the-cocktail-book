@@ -6,7 +6,6 @@ import Header from '../../components/Header/Header';
 import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
-// import backImg from '../../assets/images/categories/Shot.jpg'
 import backImg from '../../assets/images/back.jpeg'
 
 const Auth = props => {

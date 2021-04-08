@@ -22,19 +22,15 @@ export const signup = (name, email, passowrd) => {
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
                 errorMessage = 'That email address is already in use!';
-                console.log(errorMessage);
             }
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is invalid!';
-                console.log(errorMessage);
             }
             if (error.code === 'auth/operation-not-allowed') {
                 errorMessage = 'That account is not enabled!';
-                console.log(errorMessage);
             }
             if (error.code === 'auth/weak-password') {
                 errorMessage = 'That password is not strong enough!';
-                console.log(errorMessage);
             }
             dispatch({ type: SET_AUTH_ERROR, error: errorMessage })
         }
@@ -57,24 +53,20 @@ export const login = (email, password, uid) => {
                     userReviews.push(user.reviews[index])
                 }
             }
-            userReviews.sort((a,b) => new Date(b.date) - new Date(a.date))
+            userReviews.sort((a, b) => new Date(b.date) - new Date(a.date))
             dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: userReviews })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is already in use!';
-                console.log(errorMessage);
             }
             if (error.code === 'auth/user-disabled') {
                 errorMessage = 'The user corresponding to the given email has been disabled!';
-                console.log(errorMessage);
             }
             if (error.code === 'auth/user-not-found') {
                 errorMessage = 'There is no user corresponding to the that email!';
-                console.log(errorMessage);
             }
             if (error.code === 'auth/wrong-password') {
                 errorMessage = 'That password is not valid!';
-                console.log(errorMessage);
             }
             dispatch({ type: SET_AUTH_ERROR, error: errorMessage })
         }
@@ -94,8 +86,7 @@ export const signout = () => {
 
 export const setUserDetails = (userId) => {
     return async dispatch => {
-        try {
-            const snapshot = await database().ref(`/users/${userId}`).once('value');
+        await database().ref(`/users/${userId}`).once('value', snapshot => {
             const user = snapshot.val();
             let favoriteIds;
             if (user.favorites) {
@@ -107,11 +98,9 @@ export const setUserDetails = (userId) => {
                     userReviews.push(user.reviews[index])
                 }
             }
-            userReviews.sort((a,b) => new Date(b.date) - new Date(a.date))
+            userReviews.sort((a, b) => new Date(b.date) - new Date(a.date))
             dispatch({ type: SET_USER_DETAILS, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: userReviews })
-        } catch (error) {
-            dispatch({ type: SET_AUTH_ERROR, error: errorMessage })
-        }
+        })
     }
 }
 
@@ -164,7 +153,6 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
             } else {
                 error = error.message;
             }
-            console.log(error)
         }
     }
 }
