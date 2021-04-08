@@ -18,9 +18,14 @@ const Search = props => {
     return (
         <View style={styles.screen}>
             <Header searchBar rounded androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.header}>
-                <Item>
+                <Item style={styles.searchBar}>
                     <Icon type="MaterialCommunityIcons" name="keyboard-backspace" onPress={handleClose} />
-                    <Input placeholder="Search Cocktail" onChangeText={(input) => setSearchInput(input)} value={searchInput} autoFocus />
+                    <Input 
+                        placeholder="Search Cocktail" 
+                        value={searchInput} 
+                        onChangeText={(input) => setSearchInput(input)} 
+                        autoFocus 
+                    />
                     {searchInput ? <Icon name="close-outline" onPress={(input) => setSearchInput(input)} /> : null}
                 </Item>
             </Header>
