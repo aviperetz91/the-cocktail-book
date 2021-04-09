@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-native';
-import { Text, Tabs, Tab, Icon, Spinner } from 'native-base';
+import { Text, Tabs, Tab, Icon } from 'native-base';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import { toggleFavorite } from '../../store/actions/UserActions';
 import styles from './style';
-import Colors from '../../constants/Colors';
 import IngredientList from './IngredientList/IngredientList';
 import Reviews from './Reviews/Reviews';
 import Rating from '../../components/Rating/Rating';
+import Spinner from '../../components/Spinner/Spinner';
 
 const CocktailDetails = props => {
 
@@ -43,9 +43,7 @@ const CocktailDetails = props => {
 
     if (!selectedCocktail) {
         return (
-            <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.dark} />
-            </View>
+            <Spinner />
         )
     } else {
         return (

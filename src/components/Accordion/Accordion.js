@@ -6,8 +6,8 @@ import styles from './style';
 import Colors from '../../constants/Colors';
 
 const Accordion = props => {
-    const { list, isMultiSelect, selected, checkedList, selectHandler } = props;
 
+    const { list, isMultiSelect, selected, checkedList, selectHandler } = props;
     const [isPressed, setIsPressed] = useState(false);
 
     const renderItem = (item) => {

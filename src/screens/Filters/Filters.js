@@ -93,7 +93,7 @@ const Filters = props => {
                                 />
                                 <Accordion
                                     title={'Category'}
-                                    list={categories}
+                                    list={categories.map(category => category.name)}
                                     checkedList={checkedCategories}
                                     isMultiSelect
                                     selectHandler={(item) => updateCheckedList('categories', item)}

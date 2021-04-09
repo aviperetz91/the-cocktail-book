@@ -1,13 +1,6 @@
 import { StyleSheet } from 'react-native';
-import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-    spinnerContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     screen: {
         backgroundColor: 'white',
         flexGrow: 1

@@ -103,11 +103,6 @@ const styles = StyleSheet.create({
     listItemTitle: {
         fontSize: 16,
     },
-    spinnerContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     addButton: {
         backgroundColor: Colors.success,
         flexDirection: 'row',

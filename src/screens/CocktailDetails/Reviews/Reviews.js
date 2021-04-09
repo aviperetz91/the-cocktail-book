@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View, FlatList } from 'react-native';
+import { StyleSheet, Platform, View, FlatList } from 'react-native';
 import { Textarea, List } from 'native-base';
 import { Dialog, Portal, Button as Btn } from 'react-native-paper';
 import { AirbnbRating } from 'react-native-elements';
 import ReviewItem from '../../../components/ReviewItem/ReviewItem';
-import styles from './style';
 import Colors from '../../../constants/Colors';
 import { leaveFeedback } from '../../../store/actions/UserActions';
 
@@ -42,7 +41,7 @@ const Reviews = props => {
                 />
             </List>
             <Portal>
-                <Dialog visible={showAddModal} onDismiss={cancelHandler} >
+                <Dialog visible={showAddModal} onDismiss={cancelHandler} style={styles.dialog}>
                     <Dialog.Content>
                         <View>
                             <AirbnbRating
@@ -71,5 +70,17 @@ const Reviews = props => {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+    },
+    dialog: {
+        marginBottom: Platform.OS === 'android' ? 100 : 170
+    },
+    textareaContainer: {
+        marginTop: 25,
+    },
+})
 
 export default Reviews;

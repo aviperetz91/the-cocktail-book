@@ -7,7 +7,6 @@ import avatar from '../../assets/images/avatar.jpg';
 import styles from './style';
 import storage from '@react-native-firebase/storage';
 
-
 const ReviewItem = props => {
 
     const { navigation ,review, userId, profileFlag } = props;

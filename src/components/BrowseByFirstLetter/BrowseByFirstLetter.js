@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 
-
 const BrowseByFirstLetter = props => {
 
     const { navigation } = props;
@@ -13,7 +12,7 @@ const BrowseByFirstLetter = props => {
     const selectHandler = (letter) => {
         navigation.navigate('Cocktails', {
             title: `Starts with -${letter}-`,
-            cocktails: cocktails.sort((a,b) => b.strDrink - a.strDrink).filter((drink, index) => drink.strDrink.startsWith(letter))
+            cocktails: cocktails.filter(drink => drink.strDrink.startsWith(letter))
         })
     }
 

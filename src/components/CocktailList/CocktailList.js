@@ -8,7 +8,6 @@ const CocktailList = props => {
 
     return (
         <FlatList
-            contentContainerStyle={card ? {} : { backgroundColor: 'white' }}
             keyExtractor={(item, index) => index.toString()}
             data={cocktails}
             horizontal={card}

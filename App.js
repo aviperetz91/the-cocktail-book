@@ -5,6 +5,8 @@ import { setUserDetails } from './src/store/actions/UserActions';
 import auth from '@react-native-firebase/auth';
 import Auth from './src/screens/Auth/Auth';
 import StackNavigator from './src/navigation/StackNavigator';
+import Spinner from './src/components/Spinner/Spinner';
+
 
 const App = () => {
 
@@ -23,15 +25,20 @@ const App = () => {
     return () => subscriber;
   }, []);
 
-  if (user) {
+  if (user === undefined) {
+    return (
+      <Spinner />
+    )
+  } else if (user) {
     return (
       <NavigationContainer>
-        <StackNavigator/>
+        <StackNavigator />
       </NavigationContainer>
     );
   } else {
     return <Auth />
   }
 };
+
 
 export default App;

@@ -2,16 +2,6 @@ import { StyleSheet, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-    header: {
-        backgroundColor: 'black',
-        marginTop: Platform.OS === 'android' ? 28 : 0
-    },
-    spinnerContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     rowCenter: {
         flexDirection: 'row',
         justifyContent: 'center',

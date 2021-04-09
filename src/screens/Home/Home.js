@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
-import { Spinner, Header, Text, Right, Icon } from 'native-base';
+import { Header, Text, Right, Icon } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import CategoryList from '../../components/CategoryList/CategoryList';
 import Ingredients from '../Ingredients/Ingredients';
 import SearchBar from '../../components/SearchBar/SearchBar';
+import Spinner from '../../components/Spinner/Spinner';
 import BrowseByFirstLetter from '../../components/BrowseByFirstLetter/BrowseByFirstLetter';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
     getCocktails,
     getLatestCocktails,
@@ -77,9 +77,7 @@ const Home = props => {
 
     if (!requiredData) {
         return (
-            <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.dark} />
-            </View>
+            <Spinner />
         )
     } else {
         const highestRated = makeHighestRatedList();
@@ -88,10 +86,11 @@ const Home = props => {
                 <View style={searchInput === '' ? styles.back : { flex: 1, backgroundColor: 'white' }}>
                     {displaySearchBar ?
                         <SearchBar
-                            navigation={navigation}
                             searchInput={searchInput}
                             setSearchInput={setSearchInput}
-                            closeSearch={() => setDisplaySearchBar(false)} />
+                            closeSearch={() => setDisplaySearchBar(false)}
+                            autoFocus
+                        />
                         :
                         <Header androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.header}>
                             <Right>
@@ -108,72 +107,14 @@ const Home = props => {
                         </Header>
                     }
                 </View>
-                { searchInput === '' &&
-                    <View style={styles.absolute}>
-                        <View>
-                            <TouchableOpacity
-                                style={styles.rowBetween}
-                                onPress={() => navigation.navigate('Cocktails', { title: 'Latest Drinks', cocktails: latestCocktails })}>
-                                <Text style={styles.mainTitle}>Latest Drinks</Text>
-                                <Text style={styles.seconaryText}>
-                                    list view
-                                    <Icon name="chevron-forward-outline" style={styles.seconaryText} />
-                                </Text>
-                            </TouchableOpacity>
-                            <CocktailList
-                                navigation={navigation}
-                                cocktails={latestCocktails}
-                                card
-                                size={'large'}
-                            />
-                        </View>
-                    </View>}
-                { searchInput === '' &&
-                    <View style={styles.content}>
-                        <View style={styles.sectionContainer}>
-                            <TouchableOpacity style={styles.rowBetween} onPress={() => navigation.navigate('Categories')}>
-                                <Text style={styles.sectionTitle}>Categories</Text>
-                                <Text style={styles.seconaryText}>
-                                    see all
-                                    <Icon name="chevron-forward-outline" style={styles.seconaryText} />
-                                </Text>
-                            </TouchableOpacity>
-                            <CategoryList navigation={navigation}
-                            />
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <TouchableOpacity
-                                style={styles.rowBetween}
-                                onPress={() => navigation.navigate('Cocktails', { title: 'Familar Drinks', cocktails: popularCocktails })}>
-                                <Text style={styles.sectionTitle}>Familar Drinks</Text>
-                                <Text style={styles.seconaryText}>
-                                    list view
-                                    <Icon name="chevron-forward-outline" style={styles.seconaryText} />
-                                </Text>
-                            </TouchableOpacity>
-                            <CocktailList
-                                navigation={navigation}
-                                cocktails={popularCocktails}
-                                card
-                                size={'large'}
-                            />
-                        </View>
-                        <View style={styles.sectionContainer}>
-                            <TouchableOpacity style={styles.rowBetween} onPress={() => navigation.navigate('Ingredients')}>
-                                <Text style={styles.sectionTitle}>Ingredients</Text>
-                                <Text style={styles.seconaryText}>
-                                    see all
-                                <Icon name="chevron-forward-outline" style={styles.seconaryText} />
-                                </Text>
-                            </TouchableOpacity>
-                            <Ingredients navigation={navigation} slice />
-                        </View>
-                        {highestRated && highestRated.length > 0 && 
+                { searchInput === '' ?
+                    <Fragment>
+                        <View style={styles.absolute}>
                             <View>
                                 <TouchableOpacity
                                     style={styles.rowBetween}
-                                    onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: highestRated })}>
-                                    <Text style={styles.sectionTitle}>Highest Rated</Text>
+                                    onPress={() => navigation.navigate('Cocktails', { title: 'Latest Drinks', cocktails: latestCocktails })}>
+                                    <Text style={styles.mainTitle}>Latest Drinks</Text>
                                     <Text style={styles.seconaryText}>
                                         list view
                                         <Icon name="chevron-forward-outline" style={styles.seconaryText} />
@@ -181,34 +122,99 @@ const Home = props => {
                                 </TouchableOpacity>
                                 <CocktailList
                                     navigation={navigation}
-                                    cocktails={highestRated}
+                                    cocktails={latestCocktails}
                                     card
                                     size={'large'}
                                 />
                             </View>
-                        }
-                        <View style={highestRated && highestRated.length > 0 ? styles.sectionContainer : {} }>
-                            <Text style={styles.sectionTitle}>Browse By First Letter</Text>
-                            <BrowseByFirstLetter navigation={navigation}/>
                         </View>
-                        <View style={styles.sectionContainer}>
-                            <TouchableOpacity
-                                style={styles.rowBetween}
-                                onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: randomCocktails })}>
-                                <Text style={styles.sectionTitle}>Random Drinks</Text>
-                                <Text style={styles.seconaryText}>
-                                    list view
+                        <View style={styles.content}>
+                            <View style={styles.sectionContainer}>
+                                <TouchableOpacity style={styles.rowBetween} onPress={() => navigation.navigate('Categories')}>
+                                    <Text style={styles.sectionTitle}>Categories</Text>
+                                    <Text style={styles.seconaryText}>
+                                        see all
+                                        <Icon name="chevron-forward-outline" style={styles.seconaryText} />
+                                    </Text>
+                                </TouchableOpacity>
+                                <CategoryList navigation={navigation}
+                                />
+                            </View>
+                            <View style={styles.sectionContainer}>
+                                <TouchableOpacity
+                                    style={styles.rowBetween}
+                                    onPress={() => navigation.navigate('Cocktails', { title: 'Familar Drinks', cocktails: popularCocktails })}>
+                                    <Text style={styles.sectionTitle}>Familar Drinks</Text>
+                                    <Text style={styles.seconaryText}>
+                                        list view
+                                        <Icon name="chevron-forward-outline" style={styles.seconaryText} />
+                                    </Text>
+                                </TouchableOpacity>
+                                <CocktailList
+                                    navigation={navigation}
+                                    cocktails={popularCocktails}
+                                    card
+                                    size={'large'}
+                                />
+                            </View>
+                            <View style={styles.sectionContainer}>
+                                <TouchableOpacity style={styles.rowBetween} onPress={() => navigation.navigate('Ingredients')}>
+                                    <Text style={styles.sectionTitle}>Ingredients</Text>
+                                    <Text style={styles.seconaryText}>
+                                        see all
                                     <Icon name="chevron-forward-outline" style={styles.seconaryText} />
-                                </Text>
-                            </TouchableOpacity>
-                            <CocktailList
-                                navigation={navigation}
-                                cocktails={randomCocktails}
-                                card
-                                size={'large'}
-                            />
+                                    </Text>
+                                </TouchableOpacity>
+                                <Ingredients navigation={navigation} slice />
+                            </View>
+                            {highestRated && highestRated.length > 0 &&
+                                <View>
+                                    <TouchableOpacity
+                                        style={styles.rowBetween}
+                                        onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: highestRated })}>
+                                        <Text style={styles.sectionTitle}>Highest Rated</Text>
+                                        <Text style={styles.seconaryText}>
+                                            list view
+                                            <Icon name="chevron-forward-outline" style={styles.seconaryText} />
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <CocktailList
+                                        navigation={navigation}
+                                        cocktails={highestRated}
+                                        card
+                                        size={'large'}
+                                    />
+                                </View>
+                            }
+                            <View style={highestRated && highestRated.length > 0 ? styles.sectionContainer : {}}>
+                                <Text style={styles.sectionTitle}>Browse By First Letter</Text>
+                                <BrowseByFirstLetter navigation={navigation} />
+                            </View>
+                            <View style={styles.sectionContainer}>
+                                <TouchableOpacity
+                                    style={styles.rowBetween}
+                                    onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: randomCocktails })}>
+                                    <Text style={styles.sectionTitle}>Random Drinks</Text>
+                                    <Text style={styles.seconaryText}>
+                                        list view
+                                        <Icon name="chevron-forward-outline" style={styles.seconaryText} />
+                                    </Text>
+                                </TouchableOpacity>
+                                <CocktailList
+                                    navigation={navigation}
+                                    cocktails={randomCocktails}
+                                    card
+                                    size={'large'}
+                                />
+                            </View>
                         </View>
-                    </View>}
+                    </Fragment>
+                    :
+                    <CocktailList
+                        navigation={navigation}
+                        cocktails={cocktails.filter(drink => drink.strDrink.toLowerCase().includes(searchInput.toLowerCase()))}
+                    />
+                }
             </ScrollView >
         );
     }

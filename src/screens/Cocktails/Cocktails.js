@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
-import { View, Text } from 'react-native';
-import { Spinner, Card } from 'native-base';
+import { StyleSheet, Text } from 'react-native';
 import Header from '../../components/Header/Header';
+import Card from '../../components/Card/Card';
 import CocktailList from '../../components/CocktailList/CocktailList';
-import Colors from '../../constants/Colors';
-import styles from './style';
+import Spinner from '../../components/Spinner/Spinner';
+
 
 const Cocktails = props => {
 
@@ -13,9 +13,7 @@ const Cocktails = props => {
 
     if (!cocktails) {
         return (
-            <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.dark} />
-            </View>
+            <Spinner />
         )
     } else {
         return (
@@ -45,5 +43,19 @@ const Cocktails = props => {
     }
 }
 
+const styles = StyleSheet.create({
+    card: {
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        marginTop: 25, 
+        marginLeft: 15, 
+        marginRight: 15, 
+        padding: 15 
+    },
+    cardText: {
+        fontSize: 22, 
+        color: '#dc3545' 
+    }
+})
 
 export default Cocktails

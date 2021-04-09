@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { Rating as RNERating } from 'react-native-elements';
-import styles from './style';
 import Colors from '../../constants/Colors';
 
 const Rating = props => {
@@ -14,7 +13,6 @@ const Rating = props => {
             <RNERating
                 readonly
                 type="custom"                
-                ratingBackgroundColor={Colors.lightGrey}
                 startingValue={rating ? rating : 0}
                 showRating={false}
                 imageSize={large ? 17 : 14}
@@ -24,5 +22,20 @@ const Rating = props => {
 
     );
 }
+
+const styles = StyleSheet.create({
+    ratingContainer: {
+        marginTop: 6,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    ratingValue: {
+        fontSize: 13,
+        fontWeight: 'bold',
+        color: Colors.lightGrey
+    }
+})
+
 
 export default Rating;

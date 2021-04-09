@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react';
-import { View, FlatList } from 'react-native';
-import { Spinner } from 'native-base';
+import { StyleSheet, FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 import categoriesImages from '../../constants/categoriesImages';
-import Colors from '../../constants/Colors';
 import Header from '../../components/Header/Header';
 import CategoryBox from '../../components/CategoryBox/CategoryBox';
-import styles from './style';
+import Spinner from '../../components/Spinner/Spinner';
 
 
 const Categories = props => {
@@ -23,9 +21,7 @@ const Categories = props => {
 
     if (!categories) {
         return (
-            <View style={styles.spinnerContainer}>
-                <Spinner color={Colors.dark} />
-            </View>
+            <Spinner />
         )
     } else {
         return (
@@ -62,5 +58,13 @@ const Categories = props => {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    screen: {
+        paddingVertical: 6,
+        paddingHorizontal: 12, 
+        backgroundColor: 'white'
+    }
+})
 
 export default Categories;
