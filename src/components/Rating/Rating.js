@@ -9,7 +9,7 @@ const Rating = props => {
 
     return (
         <View style={styles.ratingContainer}>
-            <Text style={styles.ratingValue}>{`${rating ? rating : 0}  `}</Text>
+            <Text style={styles.ratingValue}>{`${rating ? rating.toFixed(1) : 0}  `}</Text>
             <RNERating
                 readonly
                 type="custom"                

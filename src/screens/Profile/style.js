@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
     favoritsContainer: {
         padding: 12,
-        marginTop: 52
+        marginTop: 38
     },
     reviewsContainer: {
         padding: 12,

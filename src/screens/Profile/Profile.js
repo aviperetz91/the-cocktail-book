@@ -5,7 +5,6 @@ import { Thumbnail, Text, Button, Icon, Badge } from 'native-base';
 import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
 import Header from '../../components/Header/Header';
 import styles from './style';
-import Colors from '../../constants/Colors';
 import { API_URL } from '@env';
 import axios from 'axios';
 import database from '@react-native-firebase/database';
@@ -23,6 +22,7 @@ const Profile = props => {
 
     const { navigation } = props;
     const { userId, userName, userPhoto, userFavoriteIds, userReviews } = useSelector(state => state.user);
+    const [render, setRender] = useState(false);
     const [favorites, setFavorites] = useState();
     const [newName, setNewName] = useState(userName);
     const [newPhoto, setNewPhoto] = useState(userPhoto);
@@ -34,6 +34,9 @@ const Profile = props => {
 
     useEffect(() => {
         getFavoritesByIds()
+        setTimeout(() => {
+            setRender(true)
+        }, 1500)
     }, [userFavoriteIds])
 
     getFavoritesByIds = async () => {
@@ -44,6 +47,8 @@ const Profile = props => {
                 favorites.push(favItem.data.drinks[0])
             }
             setFavorites(favorites)
+        } else {
+            setFavorites(null)
         }
     }
 
@@ -95,9 +100,7 @@ const Profile = props => {
         }
     }
 
-    const requiredData = favorites && userReviews;
-
-    if (!requiredData) {
+    if (!render) {
         return (
             <Spinner />
         )
@@ -227,7 +230,7 @@ const Profile = props => {
                         </View>
                         : null}
                     {userReviews && userReviews.length > 0 ?
-                        <View style={userFavoriteIds ? styles.reviewsContainer : { ...styles.reviewsContainer, marginTop: 52 }}>
+                        <View style={userFavoriteIds && userFavoriteIds.length > 0 ? styles.reviewsContainer : { ...styles.reviewsContainer, marginTop: 38 }}>
                             <View>
                                 <Text style={styles.title}>My Last Reviews</Text>
                             </View>

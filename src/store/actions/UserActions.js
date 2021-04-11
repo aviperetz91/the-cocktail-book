@@ -141,7 +141,7 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
             autor: userName,
             rating: rating,
             content: content,
-            date: new Date(dateNow)
+            date: dateNow
         }
         try {
             await database().ref(`/reviews/${idDrink}/${dateNow}`).set(review)

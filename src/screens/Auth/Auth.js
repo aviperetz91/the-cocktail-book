@@ -21,6 +21,7 @@ const Auth = props => {
         // password: '',
         fullName: 'Avi Peretz',
         email: 'pavi@gmail.com',
+        // email: 'hrefael@gmail.com',
         password: '123456',
     });
 

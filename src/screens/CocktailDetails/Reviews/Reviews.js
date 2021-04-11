@@ -34,11 +34,7 @@ const Reviews = props => {
     return (
         <View style={styles.screen}>
             <List>
-                <FlatList
-                    keyExtractor={(item, index) => index.toString()}
-                    data={cocktailReviews}
-                    renderItem={({ item }) => <ReviewItem review={item} userId={userId} />}
-                />
+                {cocktailReviews.map((item, index) => <ReviewItem key={index.toString()} review={item} />)}
             </List>
             <Portal>
                 <Dialog visible={showAddModal} onDismiss={cancelHandler} style={styles.dialog}>

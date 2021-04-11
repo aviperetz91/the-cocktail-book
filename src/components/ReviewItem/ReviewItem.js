@@ -9,16 +9,16 @@ import storage from '@react-native-firebase/storage';
 
 const ReviewItem = props => {
 
-    const { navigation ,review, userId, profileFlag } = props;
+    const { navigation ,review, profileFlag } = props;
     const [autorPhoto, setAutorPhoto] = useState();
 
     useEffect(() => {
         getAutorPhoto()
-    }, [])
+    }, [review])
 
     const getAutorPhoto = async () => {
         if (!profileFlag) {
-            const url = await storage().ref(`/images/users/${userId}`).getDownloadURL();
+            const url = await storage().ref(`/images/users/${review.userId}`).getDownloadURL();
             setAutorPhoto(url);
         }
     }
