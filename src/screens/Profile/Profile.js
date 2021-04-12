@@ -66,6 +66,10 @@ const Profile = props => {
         });
     }
 
+    const clearPhoto = () => {
+        setNewPhoto(null);
+    }
+
     const buttonPressHandler = () => {
         if (newPhoto !== userPhoto || newName !== userName) {
             saveHandler()
@@ -76,18 +80,29 @@ const Profile = props => {
     const saveHandler = async () => {
         setIsSavePressed(true);
         setIsLoading(true)
-        if (newPhoto !== userPhoto) {
-            await storage().ref(`/images/users/${userId}`).putFile(newPhoto);
-            const url = await storage().ref(`/images/users/${userId}`).getDownloadURL();
-            await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: url });
-            setNewPhoto(url)
-            dispatch(updatePhoto(url))
-            dispatch(updateName(newName))
-        } else {
-            await database().ref(`users/${userId}`).update({ userName: newName });
-            dispatch(updateName(newName))
+        try {
+            if (newPhoto !== userPhoto) {
+                if (!newPhoto) {
+                    await storage().ref(`/images/users/${userId}`).delete();
+                    await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto });
+                    dispatch(updatePhoto(newPhoto))
+                } else {
+                    await storage().ref(`/images/users/${userId}`).putFile(newPhoto);
+                    const url = await storage().ref(`/images/users/${userId}`).getDownloadURL();
+                    await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: url });
+                    dispatch(updatePhoto(url))
+                    setNewPhoto(url)
+                }
+                dispatch(updateName(newName))
+            } else {
+                await database().ref(`users/${userId}`).update({ userName: newName });
+                dispatch(updateName(newName))
+            }
+            setIsLoading(false)
+        } catch (err) {
+            console.log(err)
+            setIsLoading(false)
         }
-        setIsLoading(false)
     }
 
     const getUserRatingAvg = () => {
@@ -131,13 +146,21 @@ const Profile = props => {
                                         large
                                         source={newPhoto ? { uri: newPhoto } : avatar}
                                     />
-                                    {editMode ?
-                                        <Badge style={styles.badge}>
-                                            <TouchableOpacity onPress={choosePhotoHandler}>
-                                                <Icon name="camera" style={styles.cameraIcon} />
-                                            </TouchableOpacity>
-                                        </Badge>
-                                        : null}
+                                    {editMode &&
+                                        <View>
+                                            <Badge style={styles.badgeRight}>
+                                                <TouchableOpacity onPress={choosePhotoHandler}>
+                                                    <Icon name="camera" style={styles.cameraIcon} />
+                                                </TouchableOpacity>
+                                            </Badge>
+                                            {userPhoto &&
+                                                <Badge style={styles.badgeLeft}>
+                                                    <TouchableOpacity onPress={clearPhoto}>
+                                                        <Icon name="trash" style={styles.cameraIcon} />
+                                                    </TouchableOpacity>
+                                                </Badge>}
+                                        </View>
+                                    }
                                 </View>
                                 <View style={styles.cardRight}>
                                     <View style={styles.rowSpaceBetween}>

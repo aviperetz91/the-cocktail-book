@@ -27,11 +27,20 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 10
     },
-    badge: {
+    badgeRight: {
         backgroundColor: 'black',
         position: 'absolute',
         bottom: -5,
-        right: 0,
+        right: -10,
+        width: 32,
+        height: 32,
+        alignItems: 'center'
+    },
+    badgeLeft: {
+        backgroundColor: 'black',
+        position: 'absolute',
+        bottom: -5,
+        left: -10,
         width: 32,
         height: 32,
         alignItems: 'center'
