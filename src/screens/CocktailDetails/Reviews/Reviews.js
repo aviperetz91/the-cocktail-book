@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Platform, View, FlatList } from 'react-native';
+import { StyleSheet, Platform, View } from 'react-native';
 import { Textarea, List } from 'native-base';
-import { Dialog, Portal, Button as Btn } from 'react-native-paper';
+import { Dialog, Portal, Title, Button as Btn } from 'react-native-paper';
 import { AirbnbRating } from 'react-native-elements';
 import ReviewItem from '../../../components/ReviewItem/ReviewItem';
 import Colors from '../../../constants/Colors';
-import { leaveFeedback } from '../../../store/actions/UserActions';
+import { leaveFeedback, editFeedback, deleteFeedback } from '../../../store/actions/UserActions';
 
 const Reviews = props => {
 
@@ -15,18 +15,36 @@ const Reviews = props => {
     const { reviews } = useSelector(state => state.cocktails);
     const [content, setContent] = useState('');
     const [rating, setRating] = useState(3);
-    
+    const [editMode, setEditMode] = useState(false);
+    const [editReviewIndex, setEditReviewIndex] = useState();
+    const [deleteMode, setDeleteMode] = useState(false);
+    const [deletedReviewIndex, setDeletedReviewIndex] = useState();
+
     const cocktailReviews = reviews.filter(rev => rev.idDrink === idDrink);
-    
+
     const dispatch = useDispatch();
 
-    const leaveFeedbackHandler = () => {
-        dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
-        setShowAddModal(false);
+    const feedbackHandler = () => {
+        let date;
+        if (editMode) {
+            date = cocktailReviews[editReviewIndex].date;
+            dispatch(editFeedback(idDrink, date, content, userId))
+            setEditMode(false);
+        } else if (deleteMode) {
+            date = cocktailReviews[deletedReviewIndex].date;
+            dispatch(deleteFeedback(idDrink, date, userId))
+            setDeleteMode(false);
+        } else {
+            dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
+            setShowAddModal(false);
+        }
     }
 
     const cancelHandler = () => {
         setShowAddModal(false);
+        setEditMode(false);
+        setDeleteMode(false)
+        setEditReviewIndex(null)
         setContent('');
         setRating(3);
     }
@@ -34,15 +52,26 @@ const Reviews = props => {
     return (
         <View style={styles.screen}>
             <List>
-                {cocktailReviews.map((item, index) => <ReviewItem key={index.toString()} review={item} />)}
+                {cocktailReviews.map((item, index) => (
+                    <ReviewItem
+                        key={index.toString()}
+                        review={item}
+                        index={index}
+                        setEditMode={setEditMode}
+                        setEditReviewIndex={setEditReviewIndex}
+                        setDeleteMode={setDeleteMode}
+                        setDeletedReviewIndex={setDeletedReviewIndex}
+                    />
+                ))}
             </List>
             <Portal>
-                <Dialog visible={showAddModal} onDismiss={cancelHandler} style={styles.dialog}>
+                <Dialog visible={showAddModal || editMode} onDismiss={cancelHandler} style={styles.dialog}>
                     <Dialog.Content>
                         <View>
                             <AirbnbRating
                                 showRating
-                                reviews={['Terrible', 'Bad', 'Okay', 'Good', 'Great']}
+                                defaultRating={editMode ? cocktailReviews[editReviewIndex].rating : 3}
+                                reviews={['Bad', 'Okay', 'Good', 'Great', 'Awesome']}
                                 count={5}
                                 size={45}
                                 onFinishRating={(value) => setRating(value)}
@@ -52,14 +81,26 @@ const Reviews = props => {
                             <Textarea
                                 rowSpan={4}
                                 bordered
-                                placeholder="Leave your feedback here...."
+                                placeholder={"Leave your feedback here...."}
+                                defaultValue={editMode ? cocktailReviews[editReviewIndex].content : content}
                                 onChangeText={input => setContent(input)}
                             />
                         </View>
                     </Dialog.Content>
                     <Dialog.Actions>
-                        <Btn color={Colors.success} onPress={leaveFeedbackHandler}>Done</Btn>
+                        <Btn color={Colors.success} onPress={feedbackHandler}>Done</Btn>
                         <Btn color={Colors.danger} onPress={cancelHandler}>Cancel</Btn>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
+            <Portal>
+                <Dialog visible={deleteMode} onDismiss={cancelHandler} style={styles.dialog}>
+                    <Dialog.Content>
+                        <Title>Are you sure you want to delete the review?</Title>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Btn color={Colors.success} onPress={feedbackHandler}>Yes</Btn>
+                        <Btn color={Colors.danger} onPress={cancelHandler}>No</Btn>
                     </Dialog.Actions>
                 </Dialog>
             </Portal>

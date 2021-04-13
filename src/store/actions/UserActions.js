@@ -157,6 +157,28 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
     }
 }
 
+export const editFeedback = (idDrink, date, content, userId) => {
+    return async dispatch => {
+        try {
+            await database().ref(`/reviews/${idDrink}/${date}`).update({content: content})
+            await database().ref(`/users/${userId}/reviews/${date}`).update({content: content})
+        } catch(err) {
+            console.log(err)
+        }
+    }
+}
+
+export const deleteFeedback = (idDrink, date, userId) => {
+    return async dispatch => {
+        try {
+            await database().ref(`/reviews/${idDrink}/${date}`).remove()
+            await database().ref(`/users/${userId}/reviews/${date}`).remove()
+        } catch(err) {
+            console.log(err)
+        }
+    }
+}
+
 export const updateName = (name) => {
     return { type: UPDATE_NAME, name: name }
 }
