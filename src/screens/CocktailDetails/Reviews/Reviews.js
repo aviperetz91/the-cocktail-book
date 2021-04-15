@@ -10,7 +10,7 @@ import { leaveFeedback, editFeedback, deleteFeedback } from '../../../store/acti
 
 const Reviews = props => {
 
-    const { idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal } = props;
+    const { navigation, idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal } = props;
     const { userId, userName } = useSelector(state => state.user);
     const { reviews } = useSelector(state => state.cocktails);
     const [content, setContent] = useState('');
@@ -19,7 +19,6 @@ const Reviews = props => {
     const [editReviewIndex, setEditReviewIndex] = useState();
     const [deleteMode, setDeleteMode] = useState(false);
     const [deletedReviewIndex, setDeletedReviewIndex] = useState();
-
     const cocktailReviews = reviews.filter(rev => rev.idDrink === idDrink);
 
     const dispatch = useDispatch();
@@ -38,13 +37,15 @@ const Reviews = props => {
             dispatch(leaveFeedback(idDrink, strDrink, strDrinkThumb, userId, userName, rating, content))
             setShowAddModal(false);
         }
+        cancelHandler()
     }
 
     const cancelHandler = () => {
         setShowAddModal(false);
         setEditMode(false);
-        setDeleteMode(false)
-        setEditReviewIndex(null)
+        setEditReviewIndex(null);
+        setDeleteMode(false);
+        setDeletedReviewIndex(null);
         setContent('');
         setRating(3);
     }
@@ -55,6 +56,7 @@ const Reviews = props => {
                 {cocktailReviews.map((item, index) => (
                     <ReviewItem
                         key={index.toString()}
+                        navigation={navigation}
                         review={item}
                         index={index}
                         setEditMode={setEditMode}

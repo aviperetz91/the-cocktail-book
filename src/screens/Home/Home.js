@@ -33,6 +33,7 @@ const Home = props => {
         categories,
         cocktailRatingMap
     } = useSelector(state => state.cocktails);
+    const { userId } = useSelector(state => state.user);
 
     const [searchInput, setSearchInput] = useState('');
     const [displaySearchBar, setDisplaySearchBar] = useState(false);
@@ -100,7 +101,7 @@ const Home = props => {
                                 <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate('Filters')}>
                                     <Icon type={"FontAwesome5"} name="sort-amount-down" style={styles.headerIcon} />
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate('Profile')} >
+                                <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate('Profile', { userId: userId })} >
                                     <Icon name='person' style={styles.headerIcon} />
                                 </TouchableOpacity>
                             </Right>

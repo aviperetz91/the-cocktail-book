@@ -21,34 +21,55 @@ import avatar from '../../assets/images/avatar2.png';
 const Profile = props => {
 
     const { navigation } = props;
-    const { userId, userName, userPhoto, userFavoriteIds, userReviews } = useSelector(state => state.user);
-    const [render, setRender] = useState(false);
-    const [favorites, setFavorites] = useState();
-    const [newName, setNewName] = useState(userName);
-    const [newPhoto, setNewPhoto] = useState(userPhoto);
+    const { userId } = props.route.params;
+    const myId = useSelector(state => state.user.userId);
+    const allReviews = useSelector(state => state.cocktails.reviews);
+    const userReviews = allReviews.filter(rev => rev.userId === userId)
+    const [user, setUser] = useState({ name: undefined, photo: undefined, favoritesIds: undefined })
+    const [newName, setNewName] = useState();
+    const [newPhoto, setNewPhoto] = useState();
+    const [expandPhoto, setExpandPhoto] = useState(false);
+    const [userFavorites, setUserFavorites] = useState();
     const [editMode, setEditMode] = useState(false);
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
+    const [render, setRender] = useState(false);
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        getFavoritesByIds()
+        getUserDetails();
         setTimeout(() => {
             setRender(true)
         }, 1500)
-    }, [userFavoriteIds])
+    }, [])
 
-    getFavoritesByIds = async () => {
-        const favorites = [];
-        if (userFavoriteIds && userFavoriteIds.length > 0) {
-            for (let i = 0; i < userFavoriteIds.length; i++) {
-                const favItem = await axios.get(`${API_URL}/lookup.php?i=${userFavoriteIds[i]}`)
-                favorites.push(favItem.data.drinks[0])
+    const getUserDetails = () => {
+        database().ref(`users/${userId}`).on('value', userData => {
+            const user = userData.val();
+            const favoritesIds = user.favoritesIds ? Object.keys(user.favoritesIds) : null;
+            setUser({
+                name: user.userName,
+                photo: user.userPhoto,
+                favoritesIds: favoritesIds,
+            })
+            setNewName(user.userName);
+            setNewPhoto(user.userPhoto);
+
+            getFavoriteCocktailsByIds(favoritesIds);
+        })
+    }
+
+    const getFavoriteCocktailsByIds = async (favoritesIds) => {
+        const userFavorites = [];
+        if (favoritesIds && favoritesIds.length > 0) {
+            for (let i = 0; i < favoritesIds.length; i++) {
+                const favItem = await axios.get(`${API_URL}/lookup.php?i=${favoritesIds[i]}`)
+                userFavorites.push(favItem.data.drinks[0])
             }
-            setFavorites(favorites)
+            setUserFavorites(userFavorites)
         } else {
-            setFavorites(null)
+            setUserFavorites(null)
         }
     }
 
@@ -71,7 +92,7 @@ const Profile = props => {
     }
 
     const buttonPressHandler = () => {
-        if (newPhoto !== userPhoto || newName !== userName) {
+        if (newPhoto !== user.photo || newName !== user.name) {
             saveHandler()
         }
         setEditMode(!editMode)
@@ -81,7 +102,7 @@ const Profile = props => {
         setIsSavePressed(true);
         setIsLoading(true)
         try {
-            if (newPhoto !== userPhoto) {
+            if (newPhoto !== user.photo) {
                 if (!newPhoto) {
                     await storage().ref(`/images/users/${userId}`).delete();
                     await database().ref(`users/${userId}`).update({ userName: newName, userPhoto: newPhoto });
@@ -132,14 +153,13 @@ const Profile = props => {
                         iconName={'keyboard-backspace'}
                         iconColor={'white'}
                         iconSize={32}
-                        title={'Profile'}
                         titleColor={'white'}
                         letterSpacing={4}
                     />
                     <View style={styles.back}>
                         <Card>
                             <View style={styles.container}>
-                                <View style={styles.cardLeft} onPress={choosePhotoHandler}>
+                                <TouchableOpacity style={styles.cardLeft} onPress={() => setExpandPhoto(true)}>
                                     <Thumbnail
                                         style={styles.thumbnail}
                                         square
@@ -153,7 +173,7 @@ const Profile = props => {
                                                     <Icon name="camera" style={styles.cameraIcon} />
                                                 </TouchableOpacity>
                                             </Badge>
-                                            {userPhoto &&
+                                            {user.photo &&
                                                 <Badge style={styles.badgeLeft}>
                                                     <TouchableOpacity onPress={clearPhoto}>
                                                         <Icon name="trash" style={styles.cameraIcon} />
@@ -161,7 +181,19 @@ const Profile = props => {
                                                 </Badge>}
                                         </View>
                                     }
-                                </View>
+                                </TouchableOpacity>
+                                <Portal>        
+                                    <Dialog visible={expandPhoto} onDismiss={() => setExpandPhoto(false)}>
+                                        <Dialog.Content style={styles.expandedThumbnailContainer}>
+                                            <Thumbnail
+                                                style={styles.expandedThumbnail}
+                                                square
+                                                large
+                                                source={newPhoto ? { uri: newPhoto } : avatar}
+                                            />
+                                        </Dialog.Content>
+                                    </Dialog>
+                                </Portal>
                                 <View style={styles.cardRight}>
                                     <View style={styles.rowSpaceBetween}>
                                         {editMode ?
@@ -194,33 +226,34 @@ const Profile = props => {
                                         <View>
                                             <Text style={styles.statusNote}>Favorites</Text>
                                             <Text style={styles.statusVal}>
-                                                {favorites && favorites.length ? favorites.length : 0}
+                                                {userFavorites && userFavorites.length ? userFavorites.length : 0}
                                             </Text>
                                         </View>
                                     </View>
                                 </View>
                             </View>
-                            <View style={styles.buttonsContainer}>
-                                <Button
-                                    bordered
-                                    block
-                                    dark
-                                    style={styles.button}
-                                    onPress={buttonPressHandler}
-                                >
-                                    {newPhoto !== userPhoto || newName !== userName ? <Text>SAVE</Text> :
-                                        editMode ? <Text>CANCEL</Text> :
-                                            <Text>EDIT</Text>}
-                                </Button>
-                                <Button
-                                    dark
-                                    block
-                                    style={styles.button}
-                                    onPress={() => dispatch(signout())}
-                                >
-                                    <Text>SIGNOUT</Text>
-                                </Button>
-                            </View>
+                            {userId === myId &&
+                                <View style={styles.buttonsContainer}>
+                                    <Button
+                                        bordered
+                                        block
+                                        dark
+                                        style={styles.button}
+                                        onPress={buttonPressHandler}
+                                    >
+                                        {newPhoto !== user.photo || newName !== user.name ? <Text>SAVE</Text> :
+                                            editMode ? <Text>CANCEL</Text> :
+                                                <Text>EDIT</Text>}
+                                    </Button>
+                                    <Button
+                                        dark
+                                        block
+                                        style={styles.button}
+                                        onPress={() => dispatch(signout())}
+                                    >
+                                        <Text>SIGNOUT</Text>
+                                    </Button>
+                                </View>}
                         </Card>
                         <Portal>
                             <Dialog visible={isSavePressed} onDismiss={() => setIsSavePressed(false)}>
@@ -238,14 +271,15 @@ const Profile = props => {
                             </Dialog>
                         </Portal>
                     </View>
-                    {favorites && favorites.length > 0 ?
+
+                    {userFavorites && userFavorites.length > 0 ?
                         <View style={styles.favoritsContainer}>
                             <View>
-                                <Text style={styles.title}>My Favorites</Text>
+                                <Text style={styles.title}>{userId === myId ? 'My Favorites' : 'Favorites'}</Text>
                             </View>
                             <CocktailList
                                 navigation={navigation}
-                                cocktails={favorites}
+                                cocktails={userFavorites}
                                 card
                                 size={'small'}
                             />
@@ -253,9 +287,9 @@ const Profile = props => {
                         </View>
                         : null}
                     {userReviews && userReviews.length > 0 ?
-                        <View style={userFavoriteIds && userFavoriteIds.length > 0 ? styles.reviewsContainer : { ...styles.reviewsContainer, marginTop: 38 }}>
+                        <View style={userFavorites && userFavorites.length > 0 ? styles.reviewsContainer : { ...styles.reviewsContainer, marginTop: 38 }}>
                             <View>
-                                <Text style={styles.title}>My Last Reviews</Text>
+                                <Text style={styles.title}>{userId === myId ? 'My Last Reviews' : 'Last Reviews'}</Text>
                             </View>
                             <FlatList
                                 keyExtractor={(item, index) => index.toString()}

@@ -3,6 +3,7 @@ import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-nati
 import { Text, Tabs, Tab, Icon } from 'native-base';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
+import database from '@react-native-firebase/database';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import { toggleFavorite } from '../../store/actions/UserActions';
 import styles from './style';
@@ -16,19 +17,29 @@ const CocktailDetails = props => {
     const { navigation } = props;
     const { id, name } = props.route.params;
     const { selectedCocktail, cocktailRatingMap, reviews } = useSelector(state => state.cocktails);
-    const { userId, userFavoriteIds } = useSelector(state => state.user);
+    const { userId } = useSelector(state => state.user);
     const [activeTab, setActiveTab] = useState(0);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [userFavoritesIds, setUserFavoritesIds] = useState();
     const reviewsCounter = reviews.filter(rev => rev.idDrink === id).length
 
     const dispatch = useDispatch();
 
     useEffect(() => {
+        getUserFavoritesIds();
         dispatch(getCocktailById(id))
     }, [dispatch])
 
+    const getUserFavoritesIds = () => {
+        database().ref(`users/${userId}/favoritesIds`).on('value', favIds => {
+            const favoritesIds = favIds.val() ? Object.keys(favIds.val()) : null;
+            setUserFavoritesIds(favoritesIds)
+        })
+    }
+
     const toggleFavoriteHandler = () => {
-        dispatch(toggleFavorite(userFavoriteIds, selectedCocktail.idDrink, userId))
+        console.log(userFavoritesIds)
+        dispatch(toggleFavorite(userFavoritesIds, selectedCocktail.idDrink, userId))
     }
 
     const changeTabHandler = (tabIndex) => {
@@ -49,7 +60,7 @@ const CocktailDetails = props => {
         return (
             <Provider>
                 <View style={styles.screen}>
-                    <StatusBar translucent hidden/>
+                    <StatusBar translucent hidden />
                     <ScrollView>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
@@ -57,7 +68,7 @@ const CocktailDetails = props => {
                         <TouchableOpacity onPress={toggleFavoriteHandler} style={styles.favoriteButton}>
                             <Icon
                                 type={'MaterialCommunityIcons'}
-                                name={userFavoriteIds && userFavoriteIds.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
+                                name={userFavoritesIds && userFavoritesIds.some(fav => fav === selectedCocktail.idDrink) ? 'heart' : 'heart-outline'}
                                 style={styles.heartIcon}
                             />
                         </TouchableOpacity>
@@ -74,9 +85,9 @@ const CocktailDetails = props => {
                                 <Text style={styles.title}>{name}</Text>
                                 <Text note>
                                     {selectedCocktail.strAlcoholic}
-                                    <Icon type="MaterialCommunityIcons" name="circle-small" style={styles.itemNote}/>
+                                    <Icon type="MaterialCommunityIcons" name="circle-small" style={styles.itemNote} />
                                     {selectedCocktail.strCategory}
-                                    <Icon type="MaterialCommunityIcons" name="circle-small" style={styles.itemNote}/>
+                                    <Icon type="MaterialCommunityIcons" name="circle-small" style={styles.itemNote} />
                                     {selectedCocktail.strGlass}
                                 </Text>
                                 <Rating rating={cocktailRatingMap[id]} counter={reviewsCounter} large={true} />
@@ -115,6 +126,7 @@ const CocktailDetails = props => {
                                     activeTextStyle={styles.activeTabText}
                                 >
                                     <Reviews
+                                        navigation={navigation}
                                         idDrink={selectedCocktail.idDrink}
                                         strDrink={selectedCocktail.strDrink}
                                         strDrinkThumb={selectedCocktail.strDrinkThumb}

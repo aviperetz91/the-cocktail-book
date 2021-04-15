@@ -6,7 +6,6 @@ import {
     SET_USER_DETAILS,
     UPDATE_NAME,
     UPDATE_PHOTO,
-    GET_USER_FAVORITES,
 } from '../actions/UserActions';
 
 const initialState = {
@@ -14,8 +13,6 @@ const initialState = {
     userName: null,
     userPhoto: null,
     authError: null,
-    userFavoriteIds: null,
-    userReviews: null
 }
 
 const AuthReducer = (state = initialState, action) => {
@@ -32,8 +29,6 @@ const AuthReducer = (state = initialState, action) => {
                 userId: action.userId,
                 userName: action.userName,
                 userPhoto: action.userPhoto,
-                userFavoriteIds: action.userFavoriteIds,
-                userReviews: action.userReviews,
             }
         case SIGNOUT:
             return {
@@ -41,8 +36,6 @@ const AuthReducer = (state = initialState, action) => {
                 userId: null,
                 userName: null,
                 userPhoto: null,
-                userFavoriteIds: null,
-                userReviews: null,
             }
         case SET_AUTH_ERROR:
             return {
@@ -55,8 +48,6 @@ const AuthReducer = (state = initialState, action) => {
                 userId: action.userId,
                 userName: action.userName,
                 userPhoto: action.userPhoto,
-                userFavoriteIds: action.userFavoriteIds,
-                userReviews: action.userReviews
             }
         case UPDATE_NAME:
             return {
@@ -67,11 +58,6 @@ const AuthReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userPhoto: action.photo
-            }
-        case GET_USER_FAVORITES:
-            return {
-                ...state,
-                userFavoriteIds: action.favorites
             }
         default:
             return state;

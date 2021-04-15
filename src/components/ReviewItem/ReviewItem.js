@@ -11,7 +11,16 @@ import Colors from '../../constants/Colors';
 
 const ReviewItem = props => {
 
-    const { navigation, review, profileFlag, index, setEditMode, setEditReviewIndex, setDeleteMode, setDeletedReviewIndex } = props;
+    const { 
+        navigation, 
+        review, 
+        profileFlag, 
+        index, 
+        setEditMode, 
+        setEditReviewIndex, 
+        setDeleteMode, 
+        setDeletedReviewIndex,
+    } = props;
     const { userId } = useSelector(state => state.user);
     const [autorPhoto, setAutorPhoto] = useState();
 
@@ -26,19 +35,23 @@ const ReviewItem = props => {
         }
     }
 
-    const navigate = () => {
+    const navigateToCocktail = () => {
         navigation.navigate('CocktailDetails', {
             id: review.idDrink,
             name: review.strDrink
         })
     }
 
+    const navigateToProfile = () => {
+        if (!profileFlag) {
+            navigation.navigate('Profile', { userId: review.userId })
+        }
+    }
+
     const selectItem = () => {
         if (profileFlag) {
-            navigate()
-        } else {
-            return
-        }
+            navigateToCocktail()
+        } 
     }
 
     const handleEdit = () => {
@@ -61,19 +74,18 @@ const ReviewItem = props => {
     return (
         <ListItem onPress={selectItem} style={styles.listItem} thumbnail>
             <Left style={styles.avatarContainer}>
-                <Thumbnail
-                    style={thumbnailStyles}
-                    source={
-                        profileFlag ? { uri: review.strDrinkThumb } :
-                            autorPhoto ? { uri: autorPhoto } : avatar
-                    }
-                />
+                <TouchableOpacity onPress={navigateToProfile}>
+                    <Thumbnail
+                        style={thumbnailStyles}
+                        source={profileFlag ? { uri: review.strDrinkThumb } :autorPhoto ? { uri: autorPhoto } : avatar}
+                    />
+                </TouchableOpacity>
             </Left>
             <Body style={styles.reviewBody}>
-                <Text style={styles.reviewAutor}>{profileFlag ? review.strDrink : review.autor}</Text>
+                <Text onPress={navigateToProfile} style={styles.reviewAutor}>{profileFlag ? review.strDrink : review.autor}</Text>
                 <Text style={styles.reviewContent}>{review.content}</Text>
                 <View style={styles.bottomLine}>
-                    {userId === review.userId ?
+                    {userId === review.userId && !profileFlag ?
                         <View style={styles.actionsContainer}>
                             <TouchableOpacity style={{...styles.action, backgroundColor: Colors.warning }} onPress={handleEdit}>
                                 <Icon type="MaterialCommunityIcons" name={'pencil'} style={styles.actionIcon} />

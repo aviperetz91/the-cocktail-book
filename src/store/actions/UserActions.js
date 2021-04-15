@@ -8,7 +8,6 @@ export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
 export const SET_USER_DETAILS = 'SET_USER_DETAILS';
 export const UPDATE_NAME = 'UPDATE_NAME';
 export const UPDATE_PHOTO = 'UPDATE_PHOTO';
-export const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
 
 export const signup = (name, email, passowrd) => {
     return async dispatch => {
@@ -46,15 +45,7 @@ export const login = (email, password, uid) => {
             const userId = idTokenResult.claims.user_id;
             const snapshot = await database().ref(`/users/${userId}`).once('value');
             const user = snapshot.val();
-            const favoriteIds = user.favorites ? Object.keys(user.favorites) : null;
-            const userReviews = []
-            if (user.reviews) {
-                for (let index in user.reviews) {
-                    userReviews.push(user.reviews[index])
-                }
-            }
-            userReviews.sort((a, b) => new Date(b.date) - new Date(a.date))
-            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: userReviews })
+            dispatch({ type: LOGIN, userId: userId, userName: user.userName, userPhoto: user.userPhoto })
         } catch (error) {
             if (error.code === 'auth/invalid-email') {
                 errorMessage = 'That email address is already in use!';
@@ -73,10 +64,6 @@ export const login = (email, password, uid) => {
     }
 }
 
-export const setAuthError = (value) => {
-    return { type: SET_AUTH_ERROR, error: value }
-}
-
 export const signout = () => {
     return async dispatch => {
         await auth().signOut()
@@ -84,34 +71,16 @@ export const signout = () => {
     }
 }
 
+export const setAuthError = (value) => {
+    return { type: SET_AUTH_ERROR, error: value }
+}
+
 export const setUserDetails = (userId) => {
     return async dispatch => {
         await database().ref(`/users/${userId}`).once('value', snapshot => {
             const user = snapshot.val();
-            let favoriteIds;
-            if (user.favorites) {
-                favoriteIds = Object.keys(user.favorites);
-            }
-            let userReviews = []
-            if (user.reviews) {
-                for (let index in user.reviews) {
-                    userReviews.push(user.reviews[index])
-                }
-            }
-            userReviews.sort((a, b) => new Date(b.date) - new Date(a.date))
-            dispatch({ type: SET_USER_DETAILS, userId: userId, userName: user.userName, userPhoto: user.userPhoto, userFavoriteIds: favoriteIds, userReviews: userReviews })
+            dispatch({ type: SET_USER_DETAILS, userId: userId, userName: user.userName, userPhoto: user.userPhoto })
         })
-    }
-}
-
-export const getUserFavoriteIds = (userId) => {
-    return async dispatch => {
-        const snapshot = await database().ref(`users/${userId}/favorites`).once('value')
-        const favoriteObj = snapshot.val()
-        if (favoriteObj) {
-            const favoriteIds = Object.keys(favoriteObj);
-            dispatch({ type: GET_USER_FAVORITES, favorites: favoriteIds })
-        }
     }
 }
 
@@ -121,12 +90,11 @@ export const toggleFavorite = (favorites, idDrink, userId) => {
         const isExist = updatedFavorites.some(fav => fav === idDrink);
         if (isExist) {
             updatedFavorites = favorites.filter(fav => fav !== idDrink)
-            await database().ref(`users/${userId}/favorites/${idDrink}`).remove()
+            await database().ref(`users/${userId}/favoritesIds/${idDrink}`).remove()
         } else {
             updatedFavorites.push(idDrink)
-            await database().ref(`users/${userId}/favorites/${idDrink}`).set({ idDrink: idDrink })
+            await database().ref(`users/${userId}/favoritesIds/${idDrink}`).set({ idDrink: idDrink })
         }
-        dispatch({ type: GET_USER_FAVORITES, favorites: updatedFavorites })
     }
 }
 
@@ -134,6 +102,7 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
     return async dispatch => {
         const dateNow = Date.now()
         const review = {
+            reviewId: `${userId}_${dateNow}`,
             idDrink: idDrink,
             strDrink: strDrink,
             strDrinkThumb: strDrinkThumb,
@@ -144,8 +113,8 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
             date: dateNow
         }
         try {
-            await database().ref(`/reviews/${idDrink}/${dateNow}`).set(review)
-            await database().ref(`/users/${userId}/reviews/${dateNow}`).set(review)
+            await database().ref(`/reviews/${idDrink}/${userId}_${dateNow}`).set(review)
+            await database().ref(`/users/${userId}/reviewsIds/${userId}_${dateNow}`).set({ reviewId: review.reviewId })
         } catch (err) {
             let error;
             if (err.code === 'database/permission-denied') {
@@ -160,8 +129,7 @@ export const leaveFeedback = (idDrink, strDrink, strDrinkThumb, userId, userName
 export const editFeedback = (idDrink, date, content, userId) => {
     return async dispatch => {
         try {
-            await database().ref(`/reviews/${idDrink}/${date}`).update({content: content})
-            await database().ref(`/users/${userId}/reviews/${date}`).update({content: content})
+            await database().ref(`/reviews/${idDrink}/${userId}_${date}`).update({content: content})
         } catch(err) {
             console.log(err)
         }
@@ -171,8 +139,8 @@ export const editFeedback = (idDrink, date, content, userId) => {
 export const deleteFeedback = (idDrink, date, userId) => {
     return async dispatch => {
         try {
-            await database().ref(`/reviews/${idDrink}/${date}`).remove()
-            await database().ref(`/users/${userId}/reviews/${date}`).remove()
+            await database().ref(`/reviews/${idDrink}/${userId}_${date}`).remove()
+            await database().ref(`/users/${userId}/reviewsIds/${userId}_${date}`).remove()
         } catch(err) {
             console.log(err)
         }

@@ -27,6 +27,16 @@ const styles = StyleSheet.create({
         height: 100,
         borderRadius: 10
     },
+    expandedThumbnailContainer: {
+        paddingBottom: 0, 
+        paddingTop: 0, 
+        paddingLeft: 0, 
+        paddingRight: 0
+    },
+    expandedThumbnail: {
+        width: '100%',
+        height: 350,
+    },
     badgeRight: {
         backgroundColor: 'black',
         position: 'absolute',
