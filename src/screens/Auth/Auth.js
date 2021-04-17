@@ -7,6 +7,7 @@ import styles from './style';
 import Colors from '../../constants/Colors';
 import { signup, login, setAuthError } from '../../store/actions/UserActions';
 import backImg from '../../assets/images/back.jpeg'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const Auth = props => {
 
@@ -57,83 +58,85 @@ const Auth = props => {
         <Container>
             <ImageBackground source={backImg} style={styles.backImg} blurRadius={Platform.OS === 'android' ? 6 : 16}>
                 <View style={styles.imageInnerContent}>
-                    <Header
-                        headerBackground={'transparent'}
-                        statusBarColor={'rgba(0,0,0,0.4)'}
-                        iosBarStyle={'light-content'}
-                    />
-                    <View style={styles.container}>
-                        <View style={styles.colCenter}>
-                            <Icon type="FontAwesome5" name="cocktail" style={styles.mainIcon} />
-                            <Text style={styles.title}>The Cocktail Book</Text>
-                            <Text style={styles.subTitle}>Login or Create Your New Account</Text>
-                        </View>
-                        <View style={styles.m_y}>
-                            {mode === 'signup' ?
-                                <Item style={styles.input} regular rounded >
-                                    <Icon active name='person-outline' style={styles.textboxIcon} />
+                    <KeyboardAwareScrollView extraHeight={300} enableOnAndroid={true}>
+                        <Header
+                            headerBackground={'transparent'}
+                            statusBarColor={'rgba(0,0,0,0.4)'}
+                            iosBarStyle={'light-content'}
+                        />
+                        <View style={styles.container}>
+                            <View style={styles.colCenter}>
+                                <Icon type="FontAwesome5" name="cocktail" style={styles.mainIcon} />
+                                <Text style={styles.title}>The Cocktail Book</Text>
+                                <Text style={styles.subTitle}>Login or Create Your New Account</Text>
+                            </View>
+                            <View style={styles.m_y}>
+                                {mode === 'signup' ?
+                                    <Item style={styles.input} regular rounded >
+                                        <Icon active name='person-outline' style={styles.textboxIcon} />
+                                        <Input
+                                            style={styles.inputText}
+                                            value={info.fullName}
+                                            placeholder="Full Name"
+                                            placeholderTextColor={Colors.lightGrey}
+                                            onChangeText={(input) => changeTextHandler('fullName', input)}
+                                        />
+                                    </Item>
+                                    : null}
+                                <Item style={styles.input} regular rounded>
+                                    <Icon active name='mail-outline' style={styles.textboxIcon} />
                                     <Input
                                         style={styles.inputText}
-                                        value={info.fullName}
-                                        placeholder="Full Name"
+                                        value={info.email}
+                                        keyboardType="email-address"
+                                        placeholder="Email Address"
                                         placeholderTextColor={Colors.lightGrey}
-                                        onChangeText={(input) => changeTextHandler('fullName', input)}
+                                        onChangeText={(input) => changeTextHandler('email', input)}
                                     />
                                 </Item>
-                                : null}
-                            <Item style={styles.input} regular rounded>
-                                <Icon active name='mail-outline' style={styles.textboxIcon} />
-                                <Input
-                                    style={styles.inputText}
-                                    value={info.email}
-                                    keyboardType="email-address"
-                                    placeholder="Email Address"
-                                    placeholderTextColor={Colors.lightGrey}
-                                    onChangeText={(input) => changeTextHandler('email', input)}
-                                />
-                            </Item>
-                            <Item style={styles.input} regular rounded>
-                                <Icon active name='lock-closed-outline' style={styles.textboxIcon} />
-                                <Input
-                                    style={styles.inputText}
-                                    value={info.password}
-                                    keyboardType="default"
-                                    secureTextEntry
-                                    placeholder="Password"
-                                    placeholderTextColor={Colors.lightGrey}
-                                    onChangeText={(input) => changeTextHandler('password', input)}
-                                />
-                            </Item>
-                        </View>
-                        <View>
-                            <Button
-                                style={styles.button}
-                                light
-                                block
-                                onPress={authHandler}
-                            >
-                                <Text style={styles.buttonText}>
-                                    {mode === 'login' ? 'LOGIN' : 'SIGN UP'}
-                                </Text>
-                            </Button>
-                            {mode === 'login' &&
-                                <Text style={styles.helperText}>Don't have an account?
-                                    <Text onPress={() => changeMode('signup')} style={styles.modeText}>  Sign Up</Text>
-                                </Text>
-                            }
-                            {mode === 'signup' &&
-                                <Text style={styles.helperText}>Already have an account?
-                                    <Text onPress={() => changeMode('login')} style={styles.modeText}>  Login</Text>
-                                </Text>}
-                        </View>
-
-                        {isLoading && <Spinner color={Colors.light} style={{ marginTop: 28 }} />}
-                        {error &&
-                            <View style={styles.alertContainer}>
-                                <Text style={styles.alertText}>{error.toString()}</Text>
+                                <Item style={styles.input} regular rounded>
+                                    <Icon active name='lock-closed-outline' style={styles.textboxIcon} />
+                                    <Input
+                                        style={styles.inputText}
+                                        value={info.password}
+                                        keyboardType="default"
+                                        secureTextEntry
+                                        placeholder="Password"
+                                        placeholderTextColor={Colors.lightGrey}
+                                        onChangeText={(input) => changeTextHandler('password', input)}
+                                    />
+                                </Item>
                             </View>
-                        }
-                    </View>
+                            <View>
+                                <Button
+                                    style={styles.button}
+                                    light
+                                    block
+                                    onPress={authHandler}
+                                >
+                                    <Text style={styles.buttonText}>
+                                        {mode === 'login' ? 'LOGIN' : 'SIGN UP'}
+                                    </Text>
+                                </Button>
+                                {mode === 'login' &&
+                                    <Text style={styles.helperText}>Don't have an account?
+                                    <Text onPress={() => changeMode('signup')} style={styles.modeText}>  Sign Up</Text>
+                                    </Text>
+                                }
+                                {mode === 'signup' &&
+                                    <Text style={styles.helperText}>Already have an account?
+                                    <Text onPress={() => changeMode('login')} style={styles.modeText}>  Login</Text>
+                                    </Text>}
+                            </View>
+
+                            {isLoading && <Spinner color={Colors.light} style={{ marginTop: 28 }} />}
+                            {error &&
+                                <View style={styles.alertContainer}>
+                                    <Text style={styles.alertText}>{error.toString()}</Text>
+                                </View>
+                            }
+                        </View>
+                    </KeyboardAwareScrollView>
                 </View>
             </ImageBackground>
         </Container>
