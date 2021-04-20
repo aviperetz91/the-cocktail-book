@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Thumbnail, Text, Button, Icon, Badge } from 'native-base';
+import { Thumbnail, Text, Button, Icon, Badge, List, ListItem } from 'native-base';
 import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
 import Header from '../../components/Header/Header';
 import styles from './style';
@@ -28,9 +28,9 @@ const Profile = props => {
     const [user, setUser] = useState({ name: undefined, photo: undefined, favoritesIds: undefined })
     const [newName, setNewName] = useState();
     const [newPhoto, setNewPhoto] = useState();
-    const [expandPhoto, setExpandPhoto] = useState(false);
     const [userFavorites, setUserFavorites] = useState();
     const [editMode, setEditMode] = useState(false);
+    const [photoPopup, setPhotoPopup] = useState(false)
     const [isSavePressed, setIsSavePressed] = useState(false);
     const [isLoadiing, setIsLoading] = useState(false);
     const [render, setRender] = useState(false);
@@ -38,11 +38,12 @@ const Profile = props => {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        setRender(false)
         getUserDetails();
         setTimeout(() => {
             setRender(true)
-        }, 1500)
-    }, [])
+        }, 1000)
+    }, [userId])
 
     const getUserDetails = () => {
         database().ref(`users/${userId}`).on('value', userData => {
@@ -73,6 +74,21 @@ const Profile = props => {
         }
     }
 
+    const takePhotoHandler = () => {
+        const options = {};
+        ImagePicker.launchCamera(options, response => {
+            if (response.uri) {
+                ImageCropper.openCropper({
+                    path: response.uri,
+                    includeBase64: true
+                }).then(image => {
+                    setNewPhoto(image.path)
+                    setPhotoPopup(false)
+                })
+            }
+        });
+    }
+
     const choosePhotoHandler = () => {
         const options = {};
         ImagePicker.launchImageLibrary(options, response => {
@@ -82,13 +98,15 @@ const Profile = props => {
                     includeBase64: true
                 }).then(image => {
                     setNewPhoto(image.path)
+                    setPhotoPopup(false)
                 })
             }
         });
     }
 
-    const clearPhoto = () => {
+    const clearPhotoHandler = () => {
         setNewPhoto(null);
+        setPhotoPopup(false)
     }
 
     const buttonPressHandler = () => {
@@ -136,6 +154,17 @@ const Profile = props => {
         }
     }
 
+    const goToPhotoView = () => {
+        if (user.photo) {
+            navigation.navigate('PhotoView', {
+                photoUri: newPhoto,
+                choosePhotoHandler: choosePhotoHandler,
+                saveHandler: saveHandler,
+                clearPhotoHandler: clearPhotoHandler
+            })
+        }
+    }
+
     if (!render) {
         return (
             <Spinner />
@@ -159,7 +188,7 @@ const Profile = props => {
                     <View style={styles.back}>
                         <Card>
                             <View style={styles.container}>
-                                <TouchableOpacity style={styles.cardLeft} onPress={() => setExpandPhoto(true)}>
+                                <TouchableOpacity style={styles.cardLeft} onPress={goToPhotoView}>
                                     <Thumbnail
                                         style={styles.thumbnail}
                                         square
@@ -169,31 +198,13 @@ const Profile = props => {
                                     {editMode &&
                                         <View>
                                             <Badge style={styles.badgeRight}>
-                                                <TouchableOpacity onPress={choosePhotoHandler}>
+                                                <TouchableOpacity onPress={() => setPhotoPopup(true)}>
                                                     <Icon name="camera" style={styles.cameraIcon} />
                                                 </TouchableOpacity>
                                             </Badge>
-                                            {user.photo &&
-                                                <Badge style={styles.badgeLeft}>
-                                                    <TouchableOpacity onPress={clearPhoto}>
-                                                        <Icon name="trash" style={styles.cameraIcon} />
-                                                    </TouchableOpacity>
-                                                </Badge>}
                                         </View>
                                     }
                                 </TouchableOpacity>
-                                <Portal>        
-                                    <Dialog visible={expandPhoto} onDismiss={() => setExpandPhoto(false)}>
-                                        <Dialog.Content style={styles.expandedThumbnailContainer}>
-                                            <Thumbnail
-                                                style={styles.expandedThumbnail}
-                                                square
-                                                large
-                                                source={newPhoto ? { uri: newPhoto } : avatar}
-                                            />
-                                        </Dialog.Content>
-                                    </Dialog>
-                                </Portal>
                                 <View style={styles.cardRight}>
                                     <View style={styles.rowSpaceBetween}>
                                         {editMode ?
@@ -268,6 +279,27 @@ const Profile = props => {
                                     <Dialog.Actions>
                                         <Btn onPress={() => setIsSavePressed(false)}>Great!</Btn>
                                     </Dialog.Actions> : null}
+                            </Dialog>
+                        </Portal>
+                        <Portal>
+                            <Dialog visible={photoPopup} onDismiss={() => setPhotoPopup(false)}>
+                                <Dialog.Title>Choose an option</Dialog.Title>
+                                <Dialog.Content style={{paddingLeft: 10,}}>
+                                    <List>
+                                        <ListItem onPress={takePhotoHandler}>
+                                            <Text>Take Photo...</Text>
+                                        </ListItem>
+                                        <ListItem onPress={choosePhotoHandler}>
+                                            <Text>Choose from Library...</Text>
+                                        </ListItem>
+                                        <ListItem onPress={clearPhotoHandler}>
+                                            <Text>Remove photo...</Text>
+                                        </ListItem>
+                                    </List>
+                                </Dialog.Content>
+                                <Dialog.Actions>
+                                    <Btn onPress={() => setPhotoPopup(false)}>Cancel</Btn>
+                                </Dialog.Actions>
                             </Dialog>
                         </Portal>
                     </View>

@@ -5,6 +5,7 @@ import Cocktails from '../screens/Cocktails/Cocktails';
 import CocktailDetails from '../screens/CocktailDetails/CocktailDetails';
 import Filters from '../screens/Filters/Filters';
 import Profile from '../screens/Profile/Profile';
+import PhotoView from '../screens/PhotoView/PhotoView';
 import Ingredients from '../screens/Ingredients/Ingredients';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -20,6 +21,7 @@ const StackNavigator = () => {
       <Stack.Screen name="Filters" component={Filters} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Ingredients" component={Ingredients} />
+      <Stack.Screen name="PhotoView" component={PhotoView} />
     </Stack.Navigator>
   );
 }

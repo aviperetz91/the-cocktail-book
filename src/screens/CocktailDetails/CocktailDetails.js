@@ -60,7 +60,6 @@ const CocktailDetails = props => {
         return (
             <Provider>
                 <View style={styles.screen}>
-                    <StatusBar translucent hidden />
                     <ScrollView>
                         <View style={styles.imageContainer}>
                             <Image style={styles.image} source={{ uri: selectedCocktail.strDrinkThumb }} />
