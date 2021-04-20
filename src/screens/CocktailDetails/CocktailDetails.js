@@ -7,8 +7,8 @@ import database from '@react-native-firebase/database';
 import { getCocktailById, clearData } from '../../store/actions/CocktailsActions';
 import { toggleFavorite } from '../../store/actions/UserActions';
 import styles from './style';
-import IngredientList from './IngredientList/IngredientList';
-import Reviews from './Reviews/Reviews';
+import IngredientList from '../../components/IngredientList/IngredientList';
+import ReviewList from '../../components/ReviewList/ReviewList';
 import Rating from '../../components/Rating/Rating';
 import Spinner from '../../components/Spinner/Spinner';
 
@@ -125,7 +125,7 @@ const CocktailDetails = props => {
                                     activeTabStyle={styles.whiteBack}
                                     activeTextStyle={styles.activeTabText}
                                 >
-                                    <Reviews
+                                    <ReviewList
                                         navigation={navigation}
                                         idDrink={selectedCocktail.idDrink}
                                         strDrink={selectedCocktail.strDrink}

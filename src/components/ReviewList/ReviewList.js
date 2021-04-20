@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Platform, View } from 'react-native';
-import { Textarea, List } from 'native-base';
+import { Textarea, List, Text } from 'native-base';
 import { Dialog, Portal, Title, Button as Btn } from 'react-native-paper';
 import { AirbnbRating } from 'react-native-elements';
-import ReviewItem from '../../../components/ReviewItem/ReviewItem';
-import Colors from '../../../constants/Colors';
-import { leaveFeedback, editFeedback, deleteFeedback } from '../../../store/actions/UserActions';
+import ReviewItem from '../ReviewItem/ReviewItem';
+import Colors from '../../constants/Colors';
+import { leaveFeedback, editFeedback, deleteFeedback } from '../../store/actions/UserActions';
 
-const Reviews = props => {
+const ReviewList = props => {
 
-    const { navigation, idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal } = props;
+    const { navigation, idDrink, strDrink, strDrinkThumb, showAddModal, setShowAddModal, slice } = props;
     const { userId, userName } = useSelector(state => state.user);
     const { reviews } = useSelector(state => state.cocktails);
     const [content, setContent] = useState('');
@@ -19,7 +19,7 @@ const Reviews = props => {
     const [editReviewIndex, setEditReviewIndex] = useState();
     const [deleteMode, setDeleteMode] = useState(false);
     const [deletedReviewIndex, setDeletedReviewIndex] = useState();
-    const cocktailReviews = reviews.filter(rev => rev.idDrink === idDrink);
+    const cocktailReviews = slice ? reviews.filter(rev => rev.idDrink === idDrink).slice(0,4) : reviews.filter(rev => rev.idDrink === idDrink);
 
     const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ const Reviews = props => {
     }
 
     return (
-        <View style={styles.screen}>
+        <Fragment>
             <List>
                 {cocktailReviews.map((item, index) => (
                     <ReviewItem
@@ -106,20 +106,18 @@ const Reviews = props => {
                     </Dialog.Actions>
                 </Dialog>
             </Portal>
-        </View>
+        </Fragment>
     )
 }
 
 const styles = StyleSheet.create({
-    screen: {
-        flex: 1,
-    },
     dialog: {
-        marginBottom: Platform.OS === 'android' ? 100 : 170
+        marginBottom: Platform.OS === 'android' ? 150 : 200,
     },
     textareaContainer: {
         marginTop: 25,
     },
 })
 
-export default Reviews;
+
+export default ReviewList;
