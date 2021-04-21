@@ -185,7 +185,7 @@ const Profile = props => {
                         titleColor={'white'}
                         letterSpacing={4}
                     />
-                    <View style={styles.back}>
+                    <View style={{...styles.back, height: userId === myId ? 180 : 120 }}>
                         <Card>
                             <View style={styles.container}>
                                 <TouchableOpacity style={styles.cardLeft} onPress={goToPhotoView}>

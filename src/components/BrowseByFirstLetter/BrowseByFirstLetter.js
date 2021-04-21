@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Platform } from 'react-native';
+import { StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 
 const BrowseByFirstLetter = props => {
@@ -17,17 +17,42 @@ const BrowseByFirstLetter = props => {
     }
 
     return (
-        <Text style={{paddingHorizontal: 2}}>
+        <View style={styles.container}>
             {letters.map((letter, index) => (
-                <Text 
-                    key={index.toString()}
-                    onPress={() => selectHandler(letter)}
-                    style={{ fontSize: Platform.OS === 'android' ? 25 : 28 }}>{`${index === 0 ? '' : ' '}${letter} /` }
-                </Text>
+                <TouchableOpacity key={index.toString()} style={styles.letterCube} onPress={() => selectHandler(letter)}>
+                    <Text style={styles.letterText}>{`${letter}`}
+                    </Text>
+                </TouchableOpacity>
             ))}
-        </Text>
-
+        </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        flexDirection: 'row', 
+        flexWrap: 'wrap', 
+        justifyContent: 'center', 
+        paddingRight: 10
+    },
+    letterCube: {
+        backgroundColor: '#e7e7e7', 
+        width: 35, 
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        margin: 2, 
+        padding: 5,
+        borderRadius: 8
+    },
+    letterText: {
+        color: '#565656',
+        fontSize: Platform.OS === 'android' ? 25 : 27,
+        textShadowColor: 'rgba(0, 0, 0, 0.6)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2, 
+    }
+})
 
 export default BrowseByFirstLetter

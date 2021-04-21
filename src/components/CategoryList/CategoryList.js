@@ -18,6 +18,7 @@ const CategoryList = props => {
     return (
         <FlatList
             keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={{ marginLeft: -5 }}
             data={categories}
             horizontal
             renderItem={({ item }) => {

@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
         marginTop: 4
     },
     content: {
-        marginTop: 70,
+        marginTop: 60,
         paddingLeft: 10,
         marginBottom: 30
     },
@@ -80,9 +80,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         letterSpacing: 2,
         marginBottom: 12,
-        textShadowColor: 'rgba(0, 0, 0, 0.6)',
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 5,
+        fontWeight: 'bold'
     },
     seconaryText: {
         fontSize: 16,

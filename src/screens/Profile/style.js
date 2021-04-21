@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     },
     back: {
         width: '100%',
-        height: 180,
         backgroundColor: 'black',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 18,
-        fontWeight: '700',
+        fontWeight: 'bold',
         letterSpacing: 2
     },
     status: {
