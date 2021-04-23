@@ -23,13 +23,17 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 16
     },
     itemTitle: { 
-        fontSize: 17, 
+        fontSize: 17 , 
         marginBottom: 2,
         fontWeight: '700',
         letterSpacing: 0.5
     },
+    itemNote: {
+        fontSize: 13,
+    },
     textContainer: {
-        marginLeft: 15,
+        paddingRight: 10,
+        marginLeft: 10,
         width: '75%'
     },
 })

@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 import Auth from './src/screens/Auth/Auth';
 import StackNavigator from './src/navigation/StackNavigator';
 import Spinner from './src/components/Spinner/Spinner';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
 
@@ -34,6 +35,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    SplashScreen.hide()
     const subscriber = auth().onAuthStateChanged(authStateChanged);
     return () => subscriber;
   }, []);
@@ -42,7 +44,7 @@ const App = () => {
     return (
       <Spinner />
     )
-  } else if (userData) {
+    } else if (userData) {
     return (
       <NavigationContainer>
         <StackNavigator />
