@@ -252,9 +252,9 @@ const Profile = props => {
                                         style={styles.button}
                                         onPress={buttonPressHandler}
                                     >
-                                        {newPhoto !== user.photo || newName !== user.name ? <Text>SAVE</Text> :
-                                            editMode ? <Text>CANCEL</Text> :
-                                                <Text>EDIT</Text>}
+                                        {newPhoto !== user.photo || newName !== user.name ? <Text style={styles.buttonText}>SAVE</Text> :
+                                            editMode ? <Text style={styles.buttonText}>CANCEL</Text> :
+                                                <Text style={styles.buttonText}>EDIT</Text>}
                                     </Button>
                                     <Button
                                         dark
@@ -262,7 +262,7 @@ const Profile = props => {
                                         style={styles.button}
                                         onPress={() => dispatch(signout())}
                                     >
-                                        <Text>SIGNOUT</Text>
+                                        <Text style={styles.buttonText}>SIGNOUT</Text>
                                     </Button>
                                 </View>}
                         </Card>

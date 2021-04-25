@@ -2,6 +2,10 @@ import { StyleSheet, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
+    blackScreen: {
+        flex: 1,
+        backgroundColor: 'black',
+    },
     screen: {
         backgroundColor: 'white',
     },
@@ -31,7 +35,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         marginTop: Platform.OS === 'android' ? 28 : 0,
     },
-    header: {
+    buttonsHeader: {
         borderBottomWidth: 0,
         elevation: 0,
         backgroundColor: 'transparent',

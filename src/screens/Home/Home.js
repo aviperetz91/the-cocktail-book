@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
-import { Header, Text, Right, Icon } from 'native-base';
+import { Header as ButtonsHeader, Text, Right, Icon } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style';
 import CocktailList from '../../components/CocktailList/CocktailList';
@@ -8,6 +8,7 @@ import CategoryList from '../../components/CategoryList/CategoryList';
 import Ingredients from '../Ingredients/Ingredients';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import Spinner from '../../components/Spinner/Spinner';
+import Header from '../../components/Header/Header';
 import BrowseByFirstLetter from '../../components/BrowseByFirstLetter/BrowseByFirstLetter';
 import {
     getCocktails,
@@ -78,7 +79,14 @@ const Home = props => {
 
     if (!requiredData) {
         return (
-            <Spinner />
+            <View style={styles.blackScreen}>
+                <Header
+                    headerBackground={'transparent'}
+                    statusBarColor={'rgba(0,0,0,0.4)'}
+                    iosBarStyle={'light-content'}
+                />
+                <Spinner color={'white'} />
+            </View>
         )
     } else {
         const highestRated = makeHighestRatedList();
@@ -93,7 +101,7 @@ const Home = props => {
                             autoFocus
                         />
                         :
-                        <Header androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.header}>
+                        <ButtonsHeader androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.buttonsHeader}>
                             <Right>
                                 <TouchableOpacity style={styles.iconContainer} onPress={() => setDisplaySearchBar(true)}>
                                     <Icon name='search' style={styles.headerIcon} />
@@ -105,7 +113,7 @@ const Home = props => {
                                     <Icon name='person' style={styles.headerIcon} />
                                 </TouchableOpacity>
                             </Right>
-                        </Header>
+                        </ButtonsHeader>
                     }
                 </View>
                 { searchInput === '' ?

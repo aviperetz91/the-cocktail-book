@@ -88,6 +88,9 @@ const styles = StyleSheet.create({
         marginTop: 16, 
         width: '48%' 
     },
+    buttonText: {
+        textTransform: 'capitalize'
+    },
     favoritsContainer: {
         padding: 12,
         marginTop: 38

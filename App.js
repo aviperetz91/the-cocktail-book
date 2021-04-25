@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+// import { Header } from 'native-base';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { setUserDetails, signout } from './src/store/actions/UserActions';
+import Header from './src/components/Header/Header';
 import auth from '@react-native-firebase/auth';
 import Auth from './src/screens/Auth/Auth';
 import StackNavigator from './src/navigation/StackNavigator';
-import Spinner from './src/components/Spinner/Spinner';
 import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
@@ -27,7 +29,7 @@ const App = () => {
         const expirationInMilliseconds = sessionDurationInMilliseconds - (Date.now() - authTime);
         userSessionTimeout = setTimeout(() => dispatch(signout()), expirationInMilliseconds);
         dispatch(setUserDetails(user.uid))
-      } catch(err) {
+      } catch (err) {
         console.log(err)
       }
     }
@@ -42,9 +44,15 @@ const App = () => {
 
   if (userData === undefined) {
     return (
-      <Spinner />
+      <View style={styles.blackScreen}>
+        <Header
+          headerBackground={'transparent'}
+          statusBarColor={'rgba(0,0,0,0.4)'}
+          iosBarStyle={'light-content'}
+        />
+      </View>
     )
-    } else if (userData) {
+  } else if (userData) {
     return (
       <NavigationContainer>
         <StackNavigator />
@@ -54,6 +62,17 @@ const App = () => {
     return <Auth />
   }
 };
+
+const styles = StyleSheet.create({
+  blackScreen: {
+    flex: 1,
+    backgroundColor: 'black'
+  },
+  header: {
+    backgroundColor: 'black',
+    borderBottomWidth: 0
+  }
+})
 
 
 export default App;

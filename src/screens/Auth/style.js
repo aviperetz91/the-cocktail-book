@@ -59,13 +59,14 @@ const styles = StyleSheet.create({
     button: {
         padding: 10, 
         marginHorizontal: 4,
-        borderRadius: 30
+        borderRadius: 30,
     },
     buttonText: {
         fontSize: 19,
         fontWeight: '300',
         alignSelf: 'center',
-        letterSpacing: 1
+        letterSpacing: 1,
+        textTransform: 'capitalize'
     },
     helperText: {
         marginTop: 12,
@@ -82,12 +83,14 @@ const styles = StyleSheet.create({
         marginTop: 36,
         padding: 15,
         backgroundColor: '#f8d7da',
-        opacity: 0.5,
+        opacity: 0.6,
         borderColor: '#f5c6cb',
+        borderRadius: 10
     },
     alertText: {
-        color: '#721c24',
-        fontWeight: '600'
+        // color: '#721c24',
+        color: '#3a1d20',
+        fontWeight: 'bold'
     },
 })
 

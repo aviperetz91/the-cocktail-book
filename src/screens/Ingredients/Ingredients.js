@@ -31,6 +31,19 @@ const Ingredients = props => {
         navigation.goBack();
     }
 
+    const setDataToRender = () => {
+        let data;
+        if (slice) {
+            data = ingredientList.slice(0, 4);
+        } else {
+            data = ingredientList.filter(ingredient => {
+                return ingredient.toLowerCase().includes(searchInput.toLowerCase()) && 
+                cocktails.some(cocktail => cocktail.ingredientList.some(ingr => ingr === ingredient))
+            })
+        }
+        return data;
+    }
+
     const renderIngredient = (item) => {
         const str = item.replace('-', ' ').split(' ');
         const firstWord = str[0];
@@ -66,7 +79,7 @@ const Ingredients = props => {
                 <FlatList
                     contentContainerStyle={styles.list}
                     keyExtractor={(item, index) => index.toString()}
-                    data={slice ? ingredientList.slice(0, 4) : ingredientList.filter(ingredient => ingredient.toLowerCase().includes(searchInput.toLowerCase()))}
+                    data={setDataToRender()}
                     numColumns={4}
                     renderItem={({ item }) => renderIngredient(item)}
                 />
