@@ -3,7 +3,7 @@ import { FlatList, Text, TouchableOpacity } from 'react-native';
 import { Thumbnail } from 'native-base';
 import { IMAGES_URL } from '@env';
 import { useSelector } from 'react-redux';
-import Spinner from '../../components/Spinner/Spinner';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import styles from './style';
 
@@ -64,7 +64,7 @@ const Ingredients = props => {
 
     if (!ingredientList) {
         return (
-            <Spinner />
+            <LoadingScreen />
         )
     } else {
         return (
@@ -74,6 +74,7 @@ const Ingredients = props => {
                         searchInput={searchInput}
                         setSearchInput={setSearchInput}
                         closeSearch={goBack}
+                        placeholder="Search Ingredient..."
                     />
                 }
                 <FlatList

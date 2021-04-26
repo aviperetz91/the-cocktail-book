@@ -3,7 +3,7 @@ import { StyleSheet, Text } from 'react-native';
 import Header from '../../components/Header/Header';
 import Card from '../../components/Card/Card';
 import CocktailList from '../../components/CocktailList/CocktailList';
-import Spinner from '../../components/Spinner/Spinner';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 
 
 const Cocktails = props => {
@@ -13,7 +13,7 @@ const Cocktails = props => {
 
     if (!cocktails) {
         return (
-            <Spinner />
+            <LoadingScreen />
         )
     } else {
         return (

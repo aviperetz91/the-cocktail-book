@@ -2,10 +2,6 @@ import { StyleSheet, Platform } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
-    blackScreen: {
-        flex: 1,
-        backgroundColor: 'black',
-    },
     screen: {
         backgroundColor: 'white',
     },

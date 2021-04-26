@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Thumbnail, Text, Button, Icon, Badge, List, ListItem } from 'native-base';
+import { Thumbnail, Text, Button, Icon, Badge, List, ListItem, Spinner } from 'native-base';
 import { Provider, Paragraph, Dialog, Portal, Button as Btn } from 'react-native-paper';
 import Header from '../../components/Header/Header';
 import styles from './style';
@@ -12,11 +12,12 @@ import storage from '@react-native-firebase/storage';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import ReviewItem from '../../components/ReviewItem/ReviewItem';
 import Card from '../../components/Card/Card';
-import Spinner from '../../components/Spinner/Spinner';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 import ImagePicker from 'react-native-image-picker';
 import ImageCropper from 'react-native-image-crop-picker';
 import { updateName, updatePhoto, signout } from '../../store/actions/UserActions';
 import avatar from '../../assets/images/avatar2.png';
+import Colors from '../../constants/Colors';
 
 const Profile = props => {
 
@@ -167,7 +168,7 @@ const Profile = props => {
 
     if (!render) {
         return (
-            <Spinner />
+            <LoadingScreen />
         )
     } else {
         return (
@@ -270,7 +271,7 @@ const Profile = props => {
                             <Dialog visible={isSavePressed} onDismiss={() => setIsSavePressed(false)}>
                                 <Dialog.Content>
                                     {isLoadiing ?
-                                        <Spinner />
+                                        <Spinner color={Colors.dark}/>
                                         :
                                         <Paragraph>Your info was saved successfully</Paragraph>
                                     }

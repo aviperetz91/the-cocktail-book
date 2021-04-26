@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import categoriesImages from '../../constants/categoriesImages';
 import Header from '../../components/Header/Header';
 import CategoryBox from '../../components/CategoryBox/CategoryBox';
-import Spinner from '../../components/Spinner/Spinner';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 
 
 const Categories = props => {
@@ -21,21 +21,22 @@ const Categories = props => {
 
     if (!categories) {
         return (
-            <Spinner />
+            <LoadingScreen />
         )
     } else {
         return (
             <Fragment>
                 <Header
-                    headerBackground={'white'}
+                    headerBackground={'black'}
                     statusBarColor={'rgba(0,0,0,0.4)'}
                     pressHandler={navigation.goBack}
+                    iosBarStyle="light-content"
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
-                    iconColor={'black'}
+                    iconColor={'white'}
                     iconSize={32}
                     title={'Categories'}
-                    titleColor={'black'}
+                    titleColor={'white'}
                     letterSpacing={4}
                 />
                 <FlatList

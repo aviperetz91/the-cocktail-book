@@ -1,14 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity} from 'react-native';
 import { Header as ButtonsHeader, Text, Right, Icon } from 'native-base';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './style';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 import CocktailList from '../../components/CocktailList/CocktailList';
 import CategoryList from '../../components/CategoryList/CategoryList';
 import Ingredients from '../Ingredients/Ingredients';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import Spinner from '../../components/Spinner/Spinner';
-import Header from '../../components/Header/Header';
 import BrowseByFirstLetter from '../../components/BrowseByFirstLetter/BrowseByFirstLetter';
 import {
     getCocktails,
@@ -79,14 +78,7 @@ const Home = props => {
 
     if (!requiredData) {
         return (
-            <View style={styles.blackScreen}>
-                <Header
-                    headerBackground={'transparent'}
-                    statusBarColor={'rgba(0,0,0,0.4)'}
-                    iosBarStyle={'light-content'}
-                />
-                <Spinner color={'white'} />
-            </View>
+            <LoadingScreen />
         )
     } else {
         const highestRated = makeHighestRatedList();
@@ -99,6 +91,7 @@ const Home = props => {
                             setSearchInput={setSearchInput}
                             closeSearch={() => setDisplaySearchBar(false)}
                             autoFocus
+                            placeholder="Search Cocktail..."
                         />
                         :
                         <ButtonsHeader androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.buttonsHeader}>
@@ -180,7 +173,7 @@ const Home = props => {
                                 <View>
                                     <TouchableOpacity
                                         style={styles.rowBetween}
-                                        onPress={() => navigation.navigate('Cocktails', { title: 'Random Drinks', cocktails: highestRated })}>
+                                        onPress={() => navigation.navigate('Cocktails', { title: 'Highest Rated', cocktails: highestRated })}>
                                         <Text style={styles.sectionTitle}>Highest Rated</Text>
                                         <Text style={styles.seconaryText}>
                                             list view

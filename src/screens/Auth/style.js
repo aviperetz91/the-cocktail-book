@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     alertText: {
-        // color: '#721c24',
         color: '#3a1d20',
         fontWeight: 'bold'
     },

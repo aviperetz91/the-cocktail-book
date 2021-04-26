@@ -5,7 +5,7 @@ import Colors from '../../constants/Colors';
 
 const Search = props => {
 
-    const { closeSearch, searchInput, setSearchInput, autoFocus } = props;
+    const { closeSearch, searchInput, setSearchInput, autoFocus, placeholder } = props;
 
     const handleClose = () => {
         setSearchInput('');
@@ -17,7 +17,7 @@ const Search = props => {
             <Item style={styles.searchBar}>
                 <Icon type="MaterialCommunityIcons" name="keyboard-backspace" onPress={handleClose} />
                 <Input
-                    placeholder="Search Cocktail"
+                    placeholder={placeholder}
                     value={searchInput}
                     onChangeText={(input) => setSearchInput(input)}
                     autoFocus={autoFocus}

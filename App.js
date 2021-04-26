@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-// import { Header } from 'native-base';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { setUserDetails, signout } from './src/store/actions/UserActions';

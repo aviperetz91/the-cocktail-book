@@ -10,7 +10,7 @@ import styles from './style';
 import IngredientList from '../../components/IngredientList/IngredientList';
 import ReviewList from '../../components/ReviewList/ReviewList';
 import Rating from '../../components/Rating/Rating';
-import Spinner from '../../components/Spinner/Spinner';
+import LoadingScreen from '../../components/LoadingScreen/LoadingScreen';
 
 const CocktailDetails = props => {
 
@@ -38,7 +38,6 @@ const CocktailDetails = props => {
     }
 
     const toggleFavoriteHandler = () => {
-        console.log(userFavoritesIds)
         dispatch(toggleFavorite(userFavoritesIds, selectedCocktail.idDrink, userId))
     }
 
@@ -54,7 +53,7 @@ const CocktailDetails = props => {
 
     if (!selectedCocktail) {
         return (
-            <Spinner />
+            <LoadingScreen />
         )
     } else {
         return (
