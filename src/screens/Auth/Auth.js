@@ -63,7 +63,7 @@ const Auth = props => {
                         <View style={styles.container}>
                             <View style={styles.colCenter}>
                                 <Icon type="FontAwesome5" name="glass-martini-alt" style={styles.mainIcon} />
-                                <Text style={styles.title}>The Cocktail Book</Text>
+                                <Text style={styles.title}>MixDrinks</Text>
                                 <Text style={styles.subTitle}>Login or Create Your New Account</Text>
                             </View>
                             <View style={styles.m_y}>

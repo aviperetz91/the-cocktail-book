@@ -27,16 +27,16 @@ const Categories = props => {
         return (
             <Fragment>
                 <Header
-                    headerBackground={'black'}
+                    headerBackground={'white'}
                     statusBarColor={'rgba(0,0,0,0.4)'}
                     pressHandler={navigation.goBack}
-                    iosBarStyle="light-content"
+                    iosBarStyle="dark-content"
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
-                    iconColor={'white'}
+                    iconColor={'black'}
                     iconSize={32}
                     title={'Categories'}
-                    titleColor={'white'}
+                    titleColor={'black'}
                     letterSpacing={4}
                 />
                 <FlatList
