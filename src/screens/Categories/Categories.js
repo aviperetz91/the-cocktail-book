@@ -30,7 +30,7 @@ const Categories = props => {
                     headerBackground={'white'}
                     statusBarColor={'rgba(0,0,0,0.4)'}
                     pressHandler={navigation.goBack}
-                    iosBarStyle="dark-content"
+                    iosBarStyle="light-content"
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
                     iconColor={'black'}
