@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { setUserDetails, signout } from './src/store/actions/UserActions';
@@ -36,7 +36,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    SplashScreen.hide()
+    if (Platform.OS === 'android') {
+      SplashScreen.hide()
+    }
     const subscriber = auth().onAuthStateChanged(authStateChanged);
     return () => subscriber;
   }, []);
