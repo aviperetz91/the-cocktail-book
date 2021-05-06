@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, Platform } from 'react-native';
 import { useSelector } from 'react-redux';
 import categoriesImages from '../../constants/categoriesImages';
 import Header from '../../components/Header/Header';
@@ -30,7 +30,7 @@ const Categories = props => {
                     headerBackground={'white'}
                     statusBarColor={'rgba(0,0,0,0.4)'}
                     pressHandler={navigation.goBack}
-                    iosBarStyle="light-content"
+                    iosBarStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
                     iconColor={'black'}

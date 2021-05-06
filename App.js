@@ -14,25 +14,33 @@ const App = () => {
   const [userData, setUserData] = useState();
   const dispatch = useDispatch();
 
-  let userSessionTimeout = null;
+  // AUTO-LOGOUT:
+  // let userSessionTimeout = null;
+  // const authStateChanged = async (user) => {
+  //   if (user === null && userSessionTimeout) {
+  //     clearTimeout(userSessionTimeout);
+  //     userSessionTimeout = null;
+  //   } else {
+  //     try {
+  //       const idTokenResult = await auth().currentUser.getIdTokenResult();
+  //       const authTime = idTokenResult.claims.auth_time * 1000;
+  //       const sessionDurationInMilliseconds = 60 * 60 * 1000;
+  //       const expirationInMilliseconds = sessionDurationInMilliseconds - (Date.now() - authTime);
+  //       userSessionTimeout = setTimeout(() => dispatch(signout()), expirationInMilliseconds);
+  //       dispatch(setUserDetails(user.uid))
+  //     } catch (err) {
+  //       console.log(err)
+  //     }
+  //   }
+  //   setUserData(user)
+  // }
 
-  const authStateChanged = async (user) => {
-    if (user === null && userSessionTimeout) {
-      clearTimeout(userSessionTimeout);
-      userSessionTimeout = null;
-    } else {
-      try {
-        const idTokenResult = await auth().currentUser.getIdTokenResult();
-        const authTime = idTokenResult.claims.auth_time * 1000;
-        const sessionDurationInMilliseconds = 60 * 60 * 1000;
-        const expirationInMilliseconds = sessionDurationInMilliseconds - (Date.now() - authTime);
-        userSessionTimeout = setTimeout(() => dispatch(signout()), expirationInMilliseconds);
-        dispatch(setUserDetails(user.uid))
-      } catch (err) {
-        console.log(err)
-      }
+  // NO AUTO-LOGOUT:
+  const authStateChanged = user => {
+    if (user) {
+      dispatch(setUserDetails(user.uid))
     }
-    setUserData(user)
+    setUserData(user);
   }
 
   useEffect(() => {
