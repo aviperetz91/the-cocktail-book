@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, Image, StatusBar, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Text, Tabs, Tab, Icon } from 'native-base';
 import { Provider } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';

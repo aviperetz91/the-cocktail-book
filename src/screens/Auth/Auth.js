@@ -57,7 +57,7 @@ const Auth = props => {
                     <KeyboardAwareScrollView extraHeight={300} enableOnAndroid={true}>
                         <Header
                             headerBackground={'transparent'}
-                            statusBarColor={'rgba(0,0,0,0.4)'}
+                            statusBarColor={'transparent'}
                             iosBarStyle={'light-content'}
                         />
                         <View style={styles.container}>

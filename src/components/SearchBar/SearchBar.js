@@ -13,7 +13,7 @@ const Search = props => {
     }
 
     return (
-        <Header searchBar rounded androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.header}>
+        <Header searchBar rounded androidStatusBarColor={'transparent'} iosBarStyle={'light-content'} translucent style={styles.header}>
             <Item style={styles.searchBar}>
                 <Icon type="MaterialCommunityIcons" name="keyboard-backspace" onPress={handleClose} />
                 <Input
@@ -31,7 +31,7 @@ const Search = props => {
 const styles = StyleSheet.create({
     header: {
         backgroundColor: 'black',
-        marginTop: Platform.OS === 'android' ? 28 : 0,
+        marginTop: Platform.OS === 'android' ? 36 : 0,
         borderBottomWidth: 0,
         elevation: 0,
     },

@@ -69,7 +69,7 @@ const Filters = props => {
         <Fragment>
             <Header
                 headerBackground={'black'}
-                statusBarColor={'rgba(0,0,0,0.4)'}
+                statusBarColor={'transparent'}
                 iosBarStyle={'light-content'}
                 pressHandler={navigation.goBack}
                 iconType={'MaterialCommunityIcons'}

@@ -28,9 +28,9 @@ const Categories = props => {
             <Fragment>
                 <Header
                     headerBackground={'white'}
-                    statusBarColor={'rgba(0,0,0,0.4)'}
+                    statusBarColor={'transparent'}
                     pressHandler={navigation.goBack}
-                    iosBarStyle={Platform.OS === 'android' ? 'light-content' : 'dark-content'}
+                    iosBarStyle={'dark-content'}
                     iconType={'MaterialCommunityIcons'}
                     iconName={'keyboard-backspace'}
                     iconColor={'black'}

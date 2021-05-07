@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { Header as NBHeader, Left, Text, Right, Button, Icon } from 'native-base';
 
 const Header = props => {
@@ -27,7 +27,7 @@ const Header = props => {
 
 const styles = StyleSheet.create({
     header: {
-        marginTop: Platform.OS === 'android' ? 30 : 0,
+        marginTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         backgroundColor: 'white',
         elevation: 0,
         marginVertical: 6,

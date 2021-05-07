@@ -11,7 +11,7 @@ const LoadingScreen = () => {
                 :
                 <Header
                     headerBackground={'transparent'}
-                    statusBarColor={'rgba(0,0,0,0.4)'}
+                    statusBarColor={'transparent'}
                     iosBarStyle={'light-content'}
                 />
             }

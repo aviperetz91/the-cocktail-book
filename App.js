@@ -56,7 +56,7 @@ const App = () => {
       <View style={styles.blackScreen}>
         <Header
           headerBackground={'transparent'}
-          statusBarColor={'rgba(0,0,0,0.4)'}
+          statusBarColor={'transparent'}
           iosBarStyle={'light-content'}
         />
       </View>

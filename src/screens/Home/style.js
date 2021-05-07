@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     },
     back: {
         width: '100%',
-        height: Platform.OS === "android" ? 320 : 350,
+        height: Platform.OS === "android" ? 329 : 350,
         backgroundColor: 'black',
         borderBottomLeftRadius: 25,
         borderBottomRightRadius: 25
@@ -27,15 +27,11 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 40,
         borderBottomLeftRadius: 40,
     },
-    searchBar: {
-        backgroundColor: 'black',
-        marginTop: Platform.OS === 'android' ? 28 : 0,
-    },
     buttonsHeader: {
         borderBottomWidth: 0,
         elevation: 0,
         backgroundColor: 'transparent',
-        marginTop: Platform.OS === 'android' ? 28 : 0
+        marginTop: Platform.OS === 'android' ? 36 : 0
     },
     iconContainer: {
         width: 40,
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
     },
     absolute: {
         position: 'absolute',
-        top: Platform.OS === "android" ? 80 : 110,
+        top: Platform.OS === "android" ? 90 : 110,
         paddingLeft: 10,
     },
     mainTitle: {

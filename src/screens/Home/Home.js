@@ -94,7 +94,7 @@ const Home = props => {
                             placeholder="Search Cocktail..."
                         />
                         :
-                        <ButtonsHeader androidStatusBarColor={'rgba(0,0,0,0.4)'} iosBarStyle={'light-content'} translucent style={styles.buttonsHeader}>
+                        <ButtonsHeader androidStatusBarColor={'transparent'} iosBarStyle={'light-content'} translucent style={styles.buttonsHeader}>
                             <Right>
                                 <TouchableOpacity style={styles.iconContainer} onPress={() => setDisplaySearchBar(true)}>
                                     <Icon name='search' style={styles.headerIcon} />

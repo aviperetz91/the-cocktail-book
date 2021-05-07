@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import Colors from '../../constants/Colors';
 
 const styles = StyleSheet.create({
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height: 40,
         position: 'absolute',
         left: 6,
-        top: Platform.OS === 'android' ? 30 : 40,
+        top: Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 46,
     },
     homeButton: {
         position: 'absolute',
